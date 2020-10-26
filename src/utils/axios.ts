@@ -4,8 +4,15 @@
  */
 import axios from "axios";
 import errorHandle from "./errorHandle";
+import config from "@/config";
 
-const instance = axios.create();
+const instance = axios.create({
+  baseURL: process.env.NODE_ENV === "development" ?config.baseUrl.dev :config.baseUrl.pro,
+  headers: {
+    "Content-Type": "application/json;charset=utf-8"
+  },
+  timeout: 10000
+});
 
 // 请求拦截器
 instance.interceptors.request.use((config) => {
