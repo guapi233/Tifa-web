@@ -4,7 +4,8 @@ import router from "./router";
 import store from "./store";
 import { Button } from "view-design";
 
-import 'view-design/dist/styles/iview.css';
+import "view-design/dist/styles/iview.css";
+import "@/config/theme.less";
 
 Vue.component("Button", Button);
 
