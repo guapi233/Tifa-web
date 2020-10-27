@@ -18,6 +18,14 @@
             password
           />
         </FormItem>
+
+        <FormItem>
+          <div class="flex">
+            <Input size="large" placeholder="验证码" />
+            <div class="captcha" v-html="captcha" @click="changeCaptcha"></div>
+          </div>
+        </FormItem>
+
         <FormItem>
           <Button type="primary" long @click="login('loginForm')">登录</Button>
         </FormItem>
@@ -26,25 +34,28 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 // import { FormValidateHandle } from "@/utils/decorator";
-import { getSid } from "@/utils/index";
+import { newCaptcha } from "@/utils/index";
 
 @Component
 export default class Login extends Vue {
+  private captcha = "";
   private formData = {
     usernumber: "",
     password: ""
   };
-
   private validateRules = {
     usernumber: [
       { required: true, message: "请输入手机号或邮箱", trigger: "blur" }
     ],
     password: [{ required: true, message: "请输入密码", trigger: "blur" }]
   };
+
+  private async created() {
+    this.captcha = await newCaptcha();
+  }
 
   // @FormValidateHandle("A")
   private login(formRef: string) {
@@ -56,9 +67,11 @@ export default class Login extends Vue {
       }
     });
   }
+  private async changeCaptcha() {
+    this.captcha = await newCaptcha();
+  }
 }
 </script>
-
 
 <style lang="scss" scope>
 .outermost {
@@ -74,6 +87,18 @@ export default class Login extends Vue {
     box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24), 0 0 2px rgba(10, 16, 20, 0.12);
     margin: 300px auto;
     padding: 25px;
+  }
+
+  .flex {
+    display: flex;
+    width: 100%;
+  }
+
+  .captcha {
+    height: 40px;
+    width: 150px;
+    margin-left: 50px;
+    cursor: pointer;
   }
 }
 </style>
