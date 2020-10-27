@@ -30,6 +30,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 // import { FormValidateHandle } from "@/utils/decorator";
+import { getSid } from "@/utils/index";
 
 @Component
 export default class Login extends Vue {
