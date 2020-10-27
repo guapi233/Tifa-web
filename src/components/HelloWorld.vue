@@ -1,9 +1,6 @@
 <template>
   <div class="hello">
-    <Button @click="acc">hahaha</Button>
-    {{ content }}
-    <div ref="add">aa</div>
-    <button @click="infoR = 'aaa'">修改Provide</button>
+    <Button>我靠</Button>
   </div>
 </template>
 
@@ -17,11 +14,8 @@ import {
   Provide,
   ProvideReactive
 } from "vue-property-decorator";
-import Button from "./Button.vue";
 
-@Component({
-  components: { Button }
-})
+@Component
 export default class HelloWorld extends Vue {
   private content = "12";
   @Ref() private add!: HTMLButtonElement;
