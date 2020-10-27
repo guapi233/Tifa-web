@@ -7,16 +7,3 @@ import { getCaptcha } from "@/api/public";
 export const getSid = (): string => {
   return uuidv4();
 }
-
-/**
- * 新建验证码
- */
-export const newCaptcha = async () => {
-  const result = await getCaptcha();
-
-  if (result.status === 200) {
-    return result.data;
-  } else {
-    throw new Error("生成验证码失败");
-  } 
-}

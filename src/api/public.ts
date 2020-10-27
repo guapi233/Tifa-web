@@ -6,7 +6,13 @@ let sid = "";
 /**
  * 获取验证码
  */
-export const getCaptcha = () => {
+export const getCaptcha = async () => {
   !sid && (sid = getSid());
-  return axios.get(`/public/getCaptcha?sid=${sid}`);
+  const result = await axios.get(`/public/getCaptcha?sid=${sid}`);
+
+  if (result.status === 200) {
+    return result.data;
+  } else {
+    throw new Error("生成验证码失败");
+  } 
 }

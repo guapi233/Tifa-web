@@ -37,7 +37,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 // import { FormValidateHandle } from "@/utils/decorator";
-import { newCaptcha } from "@/utils/index";
+import { getCaptcha } from "@/api/public";
 
 @Component
 export default class Login extends Vue {
@@ -54,7 +54,7 @@ export default class Login extends Vue {
   };
 
   private async created() {
-    this.captcha = await newCaptcha();
+    this.captcha = await getCaptcha();
   }
 
   // @FormValidateHandle("A")
@@ -68,7 +68,7 @@ export default class Login extends Vue {
     });
   }
   private async changeCaptcha() {
-    this.captcha = await newCaptcha();
+    this.captcha = await getCaptcha();
   }
 }
 </script>
