@@ -29,6 +29,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+// import { FormValidateHandle } from "@/utils/decorator";
 
 @Component
 export default class Login extends Vue {
@@ -44,6 +45,7 @@ export default class Login extends Vue {
     password: [{ required: true, message: "请输入密码", trigger: "blur" }]
   };
 
+  // @FormValidateHandle("A")
   private login(formRef: string) {
     (this.$refs[formRef] as any).validate((valid: boolean) => {
       if (!valid) {
