@@ -37,7 +37,15 @@
         </FormItem>
 
         <FormItem>
-          <Button type="primary" long @click="login('loginForm')">登录</Button>
+          <Button
+            type="primary"
+            long
+            @click="login('loginForm')"
+            :loading="btnLoading"
+          >
+            <span v-if="!btnLoading">登录</span>
+            <span v-else>登录中...</span>
+          </Button>
         </FormItem>
       </Form>
     </div>
@@ -53,6 +61,7 @@ import { getStorage } from "@/utils/index";
 
 @Component
 export default class Login extends Vue {
+  private btnLoading = false;
   private captcha = "";
   private formData = {
     usernumber: "",
@@ -75,12 +84,14 @@ export default class Login extends Vue {
   private login(formRef: string) {
     (this.$refs[formRef] as any).validate(async (valid: boolean) => {
       if (valid) {
+        this.btnLoading = true;
         // 执行 登录
         const res = await login({
           ...this.formData,
           sid: getStorage("sid")
         });
 
+        this.btnLoading = false;
         if (res) {
           this.$router.replace("/");
         }
