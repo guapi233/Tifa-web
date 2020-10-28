@@ -21,7 +21,11 @@
 
         <FormItem prop="captcha">
           <div class="flex">
-            <Input size="large" placeholder="验证码" />
+            <Input
+              size="large"
+              placeholder="验证码"
+              v-model="formData.captcha"
+            />
             <Tooltip content="看不清楚？换一张" placement="right">
               <div
                 class="captcha"
@@ -44,6 +48,8 @@
 import { Component, Vue } from "vue-property-decorator";
 // import { FormValidateHandle } from "@/utils/decorator";
 import { getCaptcha } from "@/api/public";
+import { login } from "@/api/login";
+import { getStorage } from "@/utils/index";
 
 @Component
 export default class Login extends Vue {
@@ -67,11 +73,17 @@ export default class Login extends Vue {
 
   // @FormValidateHandle("A")
   private login(formRef: string) {
-    (this.$refs[formRef] as any).validate((valid: boolean) => {
-      if (!valid) {
-        console.log("校验出错");
-      } else {
-        console.log("success");
+    (this.$refs[formRef] as any).validate(async (valid: boolean) => {
+      if (valid) {
+        // 执行 登录
+        const res = await login({
+          ...this.formData,
+          sid: getStorage("sid")
+        });
+
+        if (res) {
+          this.$router.replace("/");
+        }
       }
     });
   }
