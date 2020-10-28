@@ -96,6 +96,9 @@ export default class Login extends Vue {
           setStorage("userInfo", JSON.stringify(res.data));
           setStorage("token", (res as any).token);
           this.$router.replace("/");
+        } else {
+          // 登陆失败后重置验证码
+          await this.changeCaptcha();
         }
       }
     });
