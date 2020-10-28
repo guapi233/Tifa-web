@@ -1,13 +1,17 @@
 import axios from "@/utils/axios";
-import { getSid } from "@/utils/index";
+import { getSid, setStorage, getStorage } from "@/utils/index";
 
-let sid = "";
+let sid = getStorage("sid");
 
 /**
  * 获取验证码
  */
 export const getCaptcha = async () => {
-  !sid && (sid = getSid());
+  if (!sid) {
+    sid = getSid();
+    setStorage("sid", sid);
+  }
+
   const result = await axios.get(`/public/getCaptcha?sid=${sid}`);
 
   if (result.status === 200) {
