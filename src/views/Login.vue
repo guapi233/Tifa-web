@@ -22,7 +22,13 @@
         <FormItem prop="captcha">
           <div class="flex">
             <Input size="large" placeholder="验证码" />
-            <div class="captcha" v-html="captcha" @click="changeCaptcha"></div>
+            <Tooltip content="看不清楚？换一张" placement="right">
+              <div
+                class="captcha"
+                v-html="captcha"
+                @click="changeCaptcha"
+              ></div>
+            </Tooltip>
           </div>
         </FormItem>
 
