@@ -58,6 +58,11 @@
           </Button>
         </FormItem>
       </Form>
+      <div class="toolsBar">
+        <Button type="text">
+          <router-link to="/login">已有账号？前往登陆</router-link>
+        </Button>
+      </div>
     </div>
   </div>
 </template>
@@ -143,7 +148,7 @@ export default class Register extends Vue {
     background: #f2f2f2;
     border-radius: 10px;
     box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24), 0 0 2px rgba(10, 16, 20, 0.12);
-    margin: 300px auto;
+    margin: 200px auto;
     padding: 25px;
   }
 
@@ -157,6 +162,11 @@ export default class Register extends Vue {
     width: 150px;
     margin-left: 50px;
     cursor: pointer;
+  }
+
+  .toolsBar {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 </style>
