@@ -50,9 +50,11 @@
       </Form>
       <div class="toolsBar">
         <Button type="text">忘记密码？</Button>
-        <Button type="text">
-          <router-link to="/register">还没账号？前往注册</router-link>
-        </Button>
+        <router-link to="/register"
+          ><Button type="text">
+            还没账号？前往注册
+          </Button></router-link
+        >
       </div>
     </div>
   </div>

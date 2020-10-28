@@ -59,9 +59,11 @@
         </FormItem>
       </Form>
       <div class="toolsBar">
-        <Button type="text">
-          <router-link to="/login">已有账号？前往登陆</router-link>
-        </Button>
+        <router-link to="/login"
+          ><Button type="text">
+            已有账号？前往登陆
+          </Button></router-link
+        >
       </div>
     </div>
   </div>
