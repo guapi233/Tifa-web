@@ -57,7 +57,7 @@ import { Component, Vue } from "vue-property-decorator";
 // import { FormValidateHandle } from "@/utils/decorator";
 import { getCaptcha } from "@/api/public";
 import { login } from "@/api/login";
-import { getStorage } from "@/utils/index";
+import { getStorage, setStorage } from "@/utils/index";
 
 @Component
 export default class Login extends Vue {
@@ -93,6 +93,8 @@ export default class Login extends Vue {
 
         this.btnLoading = false;
         if (res) {
+          setStorage("userInfo", JSON.stringify(res.data));
+          setStorage("token", (res as any).token);
           this.$router.replace("/");
         }
       }
