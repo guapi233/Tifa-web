@@ -154,6 +154,19 @@
         </div>
       </Footer>
     </Layout>
+
+    <div class="fixed">
+      <div class="write-fixed">
+        <div class="writer">
+          <Icon type="md-create" size="24" />
+        </div>
+      </div>
+      <div class="top-fixed">
+        <div class="toper">
+          <Icon type="md-arrow-up" size="24" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -345,6 +358,66 @@ export default class Home extends Vue {}
         .footer-txt-pc {
           font-size: 10px;
           text-align: right;
+        }
+      }
+    }
+  }
+
+  .fixed {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+
+    .write-fixed {
+      margin: 10px 0;
+
+      .writer {
+        border: 1px solid #f5f5f5;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        background-color: #fff;
+        transition: 0.3s;
+        color: $primaryColor;
+
+        box-shadow: 0 1px 1px rgba(10, 16, 20, 0.24),
+          0 0 1px rgba(10, 16, 20, 0.12);
+
+        &:hover {
+          background-color: $primaryColor;
+          color: #fff;
+        }
+      }
+    }
+
+    .top-fixed {
+      margin: 10px 0;
+
+      .toper {
+        border: 1px solid #f5f5f5;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        background-color: #fff;
+        transition: 0.3s;
+        color: $contentColor;
+        opacity: 0.7;
+
+        box-shadow: 0 1px 1px rgba(10, 16, 20, 0.24),
+          0 0 1px rgba(10, 16, 20, 0.12);
+
+        &:hover {
+          opacity: 1;
+          color: $primaryColor;
         }
       }
     }
