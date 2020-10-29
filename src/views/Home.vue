@@ -55,6 +55,11 @@
                         <ArticleItem />
                         <ArticleItem />
                       </div>
+                      <div class="load-more">
+                        <Button shape="circle" type="primary">
+                          加载更多
+                        </Button>
+                      </div>
                     </div>
                   </Content>
                   <Sider hide-trigger class="aside" :width="372">
@@ -66,7 +71,88 @@
           </Content>
         </div>
       </Layout>
-      <Footer>我是底部</Footer>
+      <Footer>
+        <div class="footer-container">
+          <div class="logo">
+            <img src="@/assets/logo.png" alt="" />
+          </div>
+          <div class="official">
+            <a href="/"><Icon class="search" type="logo-github" size="24"/></a>
+            <a href="/"
+              ><Icon class="search" type="logo-javascript" size="24"
+            /></a>
+            <a href="/"><Icon class="search" type="logo-html5" size="24"/></a>
+            <a href="/"><Icon class="search" type="logo-nodejs" size="24"/></a>
+          </div>
+          <div class="websit-info">
+            <div data-v-0908746e="" class="link">
+              <span data-v-0908746e=""
+                ><a
+                  data-v-0908746e=""
+                  target="_blank"
+                  href="https://sspai.com/page/client"
+                >
+                  下载App
+                </a></span
+              ><span data-v-0908746e=""
+                ><a data-v-0908746e="" href="mailto:contact@sspai.com">
+                  联系我们
+                </a></span
+              ><span data-v-0908746e=""
+                ><a
+                  data-v-0908746e=""
+                  target="_blank"
+                  href="https://sspai.com/page/bussiness"
+                >
+                  商务合作
+                </a></span
+              ><span data-v-0908746e=""
+                ><a
+                  data-v-0908746e=""
+                  target="_blank"
+                  href="https://sspai.com/apply/writing"
+                >
+                  成为作者
+                </a></span
+              ><span data-v-0908746e=""
+                ><a
+                  data-v-0908746e=""
+                  target="_blank"
+                  href="https://sspai.com/page/support"
+                >
+                  关于我们
+                </a></span
+              ><span data-v-0908746e=""
+                ><a
+                  data-v-0908746e=""
+                  target="_blank"
+                  href="https://sspai.com/post/37739"
+                >
+                  用户协议
+                </a></span
+              ><span data-v-0908746e=""
+                ><a
+                  data-v-0908746e=""
+                  target="_blank"
+                  href="https://sspai.com/post/37793"
+                >
+                  常见问题
+                </a></span
+              >
+            </div>
+            <div data-v-0908746e="" class="footer-txt-pc">
+              © 2013-2020 少数派 |
+              <a
+                data-v-0908746e=""
+                href="http://www.beian.miit.gov.cn/"
+                target="_blank"
+                >粤ICP备09128966号-4</a
+              >
+              | CC BY-NC 4.0
+            </div>
+          </div>
+        </div>
+      </Footer>
     </Layout>
   </div>
 </template>
@@ -209,6 +295,10 @@ export default class Home extends Vue {}
                   }
                 }
               }
+
+              .load-more {
+                margin: 36px 0;
+              }
             }
           }
 
@@ -218,6 +308,43 @@ export default class Home extends Vue {}
             background: #fff;
             margin-top: 40px;
           }
+        }
+      }
+    }
+
+    .footer-container {
+      max-width: 1164px;
+      padding: 0 12px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+
+      .logo {
+        margin-right: 40px;
+        img {
+          width: 42px;
+          height: 42px;
+        }
+      }
+
+      .official {
+        flex: 1;
+        text-align: left;
+
+        a {
+          margin-right: 24px;
+        }
+      }
+
+      .websit-info {
+        span {
+          margin-left: 24px;
+          font-size: 12px;
+        }
+
+        .footer-txt-pc {
+          font-size: 10px;
+          text-align: right;
         }
       }
     }
