@@ -14,7 +14,7 @@
         </div>
       </Header>
       <Layout>
-        <div class="main-container">
+        <div class="page-container">
           <Content>
             <div class="top-container">
               <div class="top-show">
@@ -29,10 +29,18 @@
                 </ul>
               </div>
             </div>
-            <Layout>
-              <Content>我是内容哪</Content>
-              <Sider hide-trigger>我是侧边</Sider>
-            </Layout>
+            <div class="main-container">
+              <Layout>
+                <div class="wrapper">
+                  <Content class="main">
+                    <div style="height: 158px;background:red;"></div>
+                  </Content>
+                  <Sider hide-trigger class="aside" :width="372">
+                    <div style="height: 158px;background:blue;"></div>
+                  </Sider>
+                </div>
+              </Layout>
+            </div>
           </Content>
         </div>
       </Layout>
@@ -64,7 +72,7 @@ export default class Home extends Vue {}
     }
 
     .header-container {
-      max-width: 1140px;
+      max-width: 1164px;
       height: 60px;
       padding: 0 12px;
       display: flex;
@@ -89,13 +97,13 @@ export default class Home extends Vue {}
       }
     }
 
-    .main-container {
+    .page-container {
       .top-container {
         padding: 0 50px;
         background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.03));
 
         .top-show {
-          max-width: 1140px;
+          max-width: 1164px;
           padding: 0 12px;
           margin: auto;
 
@@ -140,6 +148,28 @@ export default class Home extends Vue {}
                 background: $primaryColor;
               }
             }
+          }
+        }
+      }
+
+      .main-container {
+        .wrapper {
+          max-width: 1164px;
+          padding: 0 12px;
+          margin: auto;
+          display: flex;
+
+          .main {
+            width: 752px;
+            padding: 0 24px;
+            margin-top: 24px;
+          }
+
+          .aside {
+            max-width: 372px;
+            padding: 0 24px;
+            background: #fff;
+            margin-top: 40px;
           }
         }
       }
