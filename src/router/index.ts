@@ -3,10 +3,16 @@ import VueRouter, { RouteConfig } from "vue-router";
 
 const Login = () => import(/* webpackChunkName: "Login" */ "@/views/Login.vue");
 const Register = () => import(/* webpackChunkName: "Register" */ "@/views/Register.vue");
+const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
+  {
+    path: "/",
+    name: "Home",
+    component: Home
+  },
   {
     path: "/login",
     name: "Login",
