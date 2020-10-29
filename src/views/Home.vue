@@ -91,6 +91,7 @@ export default class Home extends Vue {}
 
     .main-container {
       .top-container {
+        padding: 0 50px;
         background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.03));
 
         .top-show {
