@@ -15,15 +15,15 @@
           </router-link>
           <div class="article-value">
             <div class="value-item">
-              <Icon type="ios-beer-outline" />
+              <Icon type="ios-eye" />
               <span>8</span>
             </div>
             <div class="value-item">
-              <Icon type="ios-beer-outline" />
+              <Icon type="md-thumbs-up" />
               <span>8</span>
             </div>
             <div class="value-item">
-              <Icon type="ios-beer-outline" />
+              <Icon type="md-time" />
               <span>10月25日</span>
             </div>
           </div>
@@ -88,6 +88,10 @@ export default class ArticleItem extends Vue {}
 
           .value-item {
             margin-right: 12px;
+
+            i {
+              margin-right: 3px;
+            }
           }
         }
       }
