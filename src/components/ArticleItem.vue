@@ -23,6 +23,10 @@
               <span>8</span>
             </div>
             <div class="value-item">
+              <Icon type="md-text" />
+              <span>8</span>
+            </div>
+            <div class="value-item">
               <Icon type="md-time" />
               <span>10月25日</span>
             </div>
