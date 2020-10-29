@@ -1,12 +1,12 @@
 // 全局样式
 
 $primaryColor: #3737ba;
-$titleColor: #030303;
-$contentColor: #f2f2f2;
+$titleColor: #292525;
+$contentColor: #8e8787;
 
 // a 标签样式
 a {
-  color: #8e8787;
+  color: $contentColor;
 
   &:hover {
     color: $primaryColor;
