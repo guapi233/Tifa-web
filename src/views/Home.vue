@@ -20,10 +20,10 @@
               <div class="top-show">
                 <h1 class="title">TIFA COMMUNITY</h1>
                 <ul class="page-tabs">
-                  <router-link tag="li" to="/" active-class="active"
+                  <router-link tag="li" to="/" exact-active-class="active"
                     >社区广场</router-link
                   >
-                  <router-link tag="li" to="/topic" active-class="active"
+                  <router-link tag="li" to="/topic" exact-active-class="active"
                     >话题</router-link
                   >
                 </ul>
