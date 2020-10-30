@@ -48,7 +48,7 @@
           </Button>
         </FormItem>
       </Form>
-      <div class="toolsBar">
+      <div class="tools-bar">
         <Button type="text">忘记密码？</Button>
         <router-link to="/register"
           ><Button type="text">
@@ -144,7 +144,7 @@ export default class Login extends Vue {
     cursor: pointer;
   }
 
-  .toolsBar {
+  .tools-bar {
     display: flex;
     justify-content: space-between;
   }

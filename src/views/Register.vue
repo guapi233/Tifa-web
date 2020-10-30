@@ -58,7 +58,7 @@
           </Button>
         </FormItem>
       </Form>
-      <div class="toolsBar">
+      <div class="tools-bar">
         <router-link to="/login"
           ><Button type="text">
             已有账号？前往登陆
@@ -166,7 +166,7 @@ export default class Register extends Vue {
     cursor: pointer;
   }
 
-  .toolsBar {
+  .tools-bar {
     display: flex;
     justify-content: flex-end;
   }
