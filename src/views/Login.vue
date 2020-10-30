@@ -1,5 +1,5 @@
 <template>
-  <div class="outermost">
+  <div class="login-outermost">
     <div class="login-container">
       <Form ref="loginForm" :model="formData" :rules="validateRules">
         <FormItem prop="usernumber">
@@ -117,8 +117,8 @@ export default class Login extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-.outermost {
+<style lang="scss">
+.login-outermost {
   height: 100vh;
   overflow: hidden;
   background-color: $primaryColor;

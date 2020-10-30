@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="topic-outermost">
     话题...
   </div>
 </template>

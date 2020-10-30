@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="follow-outermost">
     关注的...
   </div>
 </template>

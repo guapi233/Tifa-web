@@ -1,5 +1,5 @@
 <template>
-  <div class="outermost">
+  <div class="home-outermost">
     <Layout class="layout-wrapper">
       <Header class="header-reset">
         <div class="header-container">
@@ -142,7 +142,7 @@ export default class Home extends Vue {}
 
 
 <style lang="scss">
-.outermost {
+.home-outermost {
   .layout-wrapper {
     min-height: 100vh;
 

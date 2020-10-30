@@ -1,5 +1,5 @@
 <template>
-  <div class="outermost">
+  <div class="register-outermost">
     <div class="register-container">
       <Form ref="registerForm" :model="formData" :rules="validateRules">
         <FormItem prop="usernumber">
@@ -139,8 +139,8 @@ export default class Register extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-.outermost {
+<style lang="scss">
+.register-outermost {
   height: 100vh;
   overflow: hidden;
   background-color: $primaryColor;

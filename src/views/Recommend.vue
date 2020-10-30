@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="community-recommend-outermost">
     <div class="article-list">
       <ArticleItem />
       <ArticleItem />
@@ -28,7 +28,9 @@ export default class ClassName extends Vue {}
 
 
 <style lang="scss">
-.load-more {
-  margin: 36px 0;
+.community-recommend-outermost {
+  .load-more {
+    margin: 36px 0;
+  }
 }
 </style>
