@@ -4,50 +4,48 @@
       <router-link to="/" class="wrapper">
         <div class="article-info">
           <div class="article-title">
-            在 MIUI 12 上强制开启全局高刷新率
+            {{ articleObj.title }}
           </div>
           <div class="other-info">
             <router-link class="author" to="/">
-              <img
-                src="https://cdn.sspai.com/2019/11/14/5e970b7834fd522df7520bb00ea9a362.gif?imageMogr2/auto-orient/quality/95/thumbnail/!40x40r/gravity/Center/crop/40x40/interlace/1"
-                alt=""
-              />
-              <span>卢中南</span>
+              <img :src="baseUrl + articleObj.author.pic" alt="" />
+              <span>{{ articleObj.author.name }}</span>
             </router-link>
             <div class="article-value">
               <div class="value-item">
                 <Icon type="ios-eye" />
-                <span>8</span>
+                <span>{{ articleObj.viewCount }}</span>
               </div>
               <div class="value-item">
                 <Icon type="md-thumbs-up" />
-                <span>8</span>
+                <span>{{ articleObj.likeCount }}</span>
               </div>
               <div class="value-item">
                 <Icon type="md-text" />
-                <span>8</span>
+                <span>{{ articleObj.commentCount }}</span>
               </div>
               <div class="value-item">
                 <Icon type="md-time" />
-                <span>10月25日</span>
+                <span>{{ articleObj.created }}</span>
               </div>
             </div>
           </div>
         </div>
-        <img
-          src="https://cdn.sspai.com/article/20ffe8ab-27ef-3198-862e-a6d0ca8a31c6.jpeg?imageMogr2/auto-orient/quality/95/thumbnail/!640x400r/gravity/Center/crop/640x400/interlace/1"
-          alt=""
-        />
+        <img :src="baseUrl + articleObj.banner" alt="" />
       </router-link>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import config from "@/config/index";
 
 @Component
-export default class ArticleItem extends Vue {}
+export default class ArticleItem extends Vue {
+  @Prop({ type: Object }) private articleObj!: object;
+  private baseUrl = config.baseUrl;
+}
 </script>
 
 <style lang="scss" scoped>
