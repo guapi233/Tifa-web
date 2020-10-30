@@ -1,6 +1,6 @@
+const devUrl = "http://localhost:3000";
+const proUrl = "http://xxx.xxx.com";
+
 export default {
-  baseUrl: {
-    dev: "http://localhost:3000",
-    pro: "http://xxx.xxx.com"
-  }
-}
+  baseUrl: process.env.NODE_ENV === "development" ? devUrl : proUrl,
+};
