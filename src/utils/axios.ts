@@ -5,6 +5,7 @@
 import axios from "axios";
 import errorHandle from "./errorHandle";
 import config from "@/config";
+import Vue from "vue";
 
 const instance = axios.create({
   baseURL: config.baseUrl,
@@ -29,7 +30,12 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res) => {
     if ((res.status >= 200 && res.status < 300) || res.status === 304) {
-      return res.data;
+      if (res.data.isOk) {
+        return res.data.data;
+      } else {
+        Vue.prototype.$Message.error(res.data.data);
+        return false;
+      }
     } else {
       errorHandle("请求失败");
       return Promise.reject("请求失败");

@@ -70,7 +70,7 @@ import { getStorage, setStorage } from "@/utils/index";
 @Component
 export default class Login extends Vue {
   private btnLoading = false;
-  private captcha = "";
+  private captcha: any = "";
   private formData = {
     usernumber: "",
     password: "",

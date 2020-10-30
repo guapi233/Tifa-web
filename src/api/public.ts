@@ -12,11 +12,5 @@ export const getCaptcha = async () => {
     setStorage("sid", sid);
   }
 
-  const result = await axios.get(`/public/getCaptcha?sid=${sid}`);
-
-  if (result.status === 200) {
-    return result.data;
-  } else {
-    throw new Error("生成验证码失败");
-  } 
-}
+  return axios.get(`/public/getCaptcha?sid=${sid}`);
+};
