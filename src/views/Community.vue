@@ -5,11 +5,11 @@
         <Content class="main">
           <div class="article">
             <div class="cate-tabs">
-              <router-link class="tab" to="/" active-class="active">
+              <router-link class="tab" to="/" exact-active-class="active">
                 <Icon class="icon" type="md-medal" size="22" />
                 <span>精选</span>
               </router-link>
-              <router-link class="tab" to="/follow" active-class="active">
+              <router-link class="tab" to="/follow" exact-active-class="active">
                 <Icon class="icon" type="md-happy" size="22" />
                 <span>关注</span>
               </router-link>
