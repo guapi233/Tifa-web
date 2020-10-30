@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
@@ -12,6 +11,4 @@ import { Component, Vue } from "vue-property-decorator";
 export default class ClassName extends Vue {}
 </script>
 
-
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

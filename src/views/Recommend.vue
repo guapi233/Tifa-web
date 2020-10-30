@@ -15,7 +15,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ArticleItem from "@/components/ArticleItem.vue";
@@ -25,7 +24,6 @@ import ArticleItem from "@/components/ArticleItem.vue";
 })
 export default class ClassName extends Vue {}
 </script>
-
 
 <style lang="scss">
 .community-recommend-outermost {
