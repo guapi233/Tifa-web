@@ -1,5 +1,10 @@
 <template>
   <div class="register-outermost">
+    <div class="back-home">
+      <router-link to="/">
+        <img src="@/assets/logo.png" alt="返回首页" />
+      </router-link>
+    </div>
     <div class="register-container">
       <Form ref="registerForm" :model="formData" :rules="validateRules">
         <FormItem prop="usernumber">
@@ -145,12 +150,22 @@ export default class Register extends Vue {
   overflow: hidden;
   background-color: $primaryColor;
 
+  .back-home {
+    width: 100px;
+    cursor: pointer;
+    margin: 150px auto 0;
+
+    img {
+      width: 100%;
+    }
+  }
+
   .register-container {
     width: 400px;
     background: #f2f2f2;
     border-radius: 10px;
     box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24), 0 0 2px rgba(10, 16, 20, 0.12);
-    margin: 200px auto;
+    margin: 100px auto;
     padding: 25px;
   }
 
