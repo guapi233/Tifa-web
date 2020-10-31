@@ -38,6 +38,7 @@ export default class ClassName extends Vue {
 .community-recommend-outermost {
   .load-more {
     margin: 36px 0;
+    text-align: center;
   }
 }
 </style>
