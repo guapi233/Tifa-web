@@ -75,3 +75,40 @@ export const countFormat = (count: number) => {
 
   return count;
 };
+
+/**
+ * 格式化时间展示
+ * 小于3分钟：刚刚；小于一小时：xx分钟前；小于一天：xx小时前；小于两天：昨天 xx:xx；都不小于：月份-日期
+ * @param date 日期时间戳
+ */
+export const dateForm = (date: number | string) => {
+  if (typeof date === "string") {
+    date = new Date(date).getTime();
+  }
+
+  const now = Date.now();
+  const difference = now - date;
+  const justNow = 1000 * 60 * 3;
+  const oneHour = 1000 * 60 * 60 * 1;
+  const today = 1000 * 60 * 60 * 24;
+  const yesterday = 1000 * 60 * 60 * 48;
+  const dateObj = new Date(date);
+
+  if (difference <= justNow) {
+    return "刚刚";
+  } else if (difference > justNow && difference <= oneHour) {
+    return `${Math.floor(difference / 1000 / 60)} 分钟前`;
+  } else if (difference > oneHour && difference <= today) {
+    return `${Math.floor(difference / 1000 / 60 / 60)} 小时前`;
+  } else if (difference > today && difference <= yesterday) {
+    return `昨天 ${dateObj
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${dateObj
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`;
+  } else {
+    return `${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
+  }
+};
