@@ -68,7 +68,7 @@ export const toPageTop = (scrollTiming = 300) => {
  * 格式化点赞、观看、评论 数量展示
  * @param count 点赞、观看、评论 数量
  */
-export const likeCountFormat = (count: number) => {
+export const countFormat = (count: number) => {
   if (count > 999) {
     return `999+`;
   }
