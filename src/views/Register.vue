@@ -80,7 +80,7 @@ import { generDeterminInput } from "@/utils/validator";
 @Component
 export default class Register extends Vue {
   private btnLoading = false;
-  private captcha = "";
+  private captcha: any = "";
   private formData = {
     usernumber: "",
     password: "",
