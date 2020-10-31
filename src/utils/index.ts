@@ -32,6 +32,7 @@ export const delStorage = (key: string) => {
 /**
  * 返回页面顶部的初始化函数
  * 返回一个 用于返回页面顶部 的方法
+ * 实现原理可参考：https://github.com/guapi233/Blog/issues/31
  * @param { Number } scrollTiming 持续时长，默认300ms
  */
 
