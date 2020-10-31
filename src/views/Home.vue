@@ -134,36 +134,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { toPageTop } from "@/utils/index";
 
 @Component
 export default class Home extends Vue {
-  private timer = 0;
-  private scrollTiming = 300;
-
-  private toTop() {
-    cancelAnimationFrame(this.timer);
-
-    const b = document.body.scrollTop || document.documentElement.scrollTop;
-    const c = b;
-
-    const startTime = Date.now();
-
-    const func = () => {
-      const t =
-        this.scrollTiming -
-        Math.max(0, startTime - Date.now() + this.scrollTiming);
-
-      window.scrollTo(0, b + (-c / this.scrollTiming) * t);
-
-      this.timer = requestAnimationFrame(func);
-
-      if (t === this.scrollTiming) {
-        cancelAnimationFrame(this.timer);
-      }
-    };
-
-    this.timer = requestAnimationFrame(func);
-  }
+  private toTop = toPageTop();
 }
 </script>
 
