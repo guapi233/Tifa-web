@@ -2,11 +2,15 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
 const Login = () => import(/* webpackChunkName: "Login" */ "@/views/Login.vue");
-const Register = () => import(/* webpackChunkName: "Register" */ "@/views/Register.vue");
+const Register = () =>
+  import(/* webpackChunkName: "Register" */ "@/views/Register.vue");
 const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
-const Community = () => import(/* webpackChunkName: "Community" */ "@/views/Community.vue");
-const Recommend = () => import(/* webpackChunkName: "Recommend" */ "@/views/Recommend.vue");
-const Follow = () => import(/* webpackChunkName: "Follow" */ "@/views/Follow.vue");
+const Community = () =>
+  import(/* webpackChunkName: "Community" */ "@/views/Community.vue");
+const Recommend = () =>
+  import(/* webpackChunkName: "Recommend" */ "@/views/Recommend.vue");
+const Follow = () =>
+  import(/* webpackChunkName: "Follow" */ "@/views/Follow.vue");
 const Topic = () => import(/* webpackChunkName: "Topic" */ "@/views/Topic.vue");
 
 Vue.use(VueRouter);
@@ -16,47 +20,48 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
+    redirect: "/community",
     children: [
       {
-        path: "/",
+        path: "community",
         name: "Community",
         component: Community,
         children: [
           {
-            path: "/",
+            path: "",
             name: "Recommend",
-            component: Recommend  
+            component: Recommend,
           },
           {
-            path: "/follow",
+            path: "follow",
             name: "Follow",
-            component: Follow
-          }
-        ]
+            component: Follow,
+          },
+        ],
       },
       {
         path: "/topic",
         name: "Topic",
-        component: Topic
-      }
-    ]
+        component: Topic,
+      },
+    ],
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
   },
   {
     path: "/Register",
     name: "Register",
-    component: Register
+    component: Register,
   },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;
