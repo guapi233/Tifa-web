@@ -18,3 +18,19 @@ a {
 ul {
   list-style: none;
 }
+
+// 动画
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.3s;
+}
+
+.fade-enter,
+fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave {
+  opacity: 1;
+}
