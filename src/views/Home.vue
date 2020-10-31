@@ -9,7 +9,9 @@
           </a>
           <div class="right">
             <Icon class="search" type="ios-search" size="32" />
-            <Button shape="circle" class="login-btn">登录</Button>
+            <router-link to="/login">
+              <Button shape="circle" class="login-btn">登录</Button>
+            </router-link>
           </div>
         </div>
       </Header>
