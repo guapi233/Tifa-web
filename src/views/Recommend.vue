@@ -27,7 +27,7 @@ export default class ClassName extends Vue {
   private articleList = [];
 
   private async created() {
-    const res = await getArticleList();
+    const res: any = await getArticleList();
 
     this.articleList = res;
   }
