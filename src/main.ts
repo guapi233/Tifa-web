@@ -14,7 +14,7 @@ import {
   Sider,
   Content,
   Footer,
-  Icon
+  Icon,
 } from "view-design";
 
 import "view-design/dist/styles/iview.css";
@@ -39,5 +39,5 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
