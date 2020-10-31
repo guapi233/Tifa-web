@@ -18,8 +18,28 @@
                 class="header-notice"
                 size="26"
               />
-              <div class="header-user">
+              <div
+                class="header-user"
+                @mouseenter="userToolsShow = true"
+                @mouseleave="userToolsShow = false"
+              >
                 <img :src="userPic" alt="" />
+
+                <transition name="fade">
+                  <div class="tooltip" v-if="userToolsShow">
+                    <div class="arrow">
+                      <div class="tip-em"></div>
+                      <div class="em1"></div>
+                      <div class="em2"></div>
+                    </div>
+
+                    <ul class="tips">
+                      <li class="tip">个人主页</li>
+                      <li class="tip">账号设置</li>
+                      <li class="tip">退出登录</li>
+                    </ul>
+                  </div>
+                </transition>
               </div>
             </div>
           </div>
@@ -152,6 +172,7 @@ import config from "@/config/index";
 @Component
 export default class Home extends Vue {
   private toTop = toPageTop();
+  private userToolsShow = false;
   private get token() {
     return this.$store.state.token;
   }
@@ -160,7 +181,6 @@ export default class Home extends Vue {
   }
 
   private get userPic() {
-    console.log(this.userInfo);
     return this.userInfo.pic
       ? config.baseUrl + this.userInfo.pic
       : "data:image/gif;base64,R0lGODlhSABIAPQAAOfn5+jo6Onp6erq6uvr6+zs7O3t7e7u7u/v7/Dw8PHx8fLy8vPz8/T09PX19fb29vf39/j4+Pn5+fr6+vv7+/z8/P39/f7+/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAABIAEgAAAX+oCCOZGmeaKqubOu+cCzPdG3feK7vfO//wKBwSCwaW4Fk4JgLAACCAYEwEDiXzJiTsIhULGBLJcIoOAHKZBYFKEAsmLh8fplAGIkDdYBdi5INcHODhBgXYA59awEDEYWPhBZmflYCEpCYcRYJUJQBjpmYFGp+AA2hoQ+dWQEFgqiQFweKRgAQsKEStEQBBK+4jxcGu0IAC8ChDqtFAKDIkBPEQhTPmBZVRr0X1bGTRa3b3IXC0j7g4uPD2QXh6HTq3+zug+TZBO3zht5DSQf4+QhIBekl4V++OvCABHCQD1KEcjmaNXxEYQiABxMLPRQSAMGFjyBDihxJUiSGBcv+fgQoWLKly5AV+Fj097JmSZTMHNjcCXLjNwETeNqsQABij14VhLq0cCAlEQAGkioduckpMwZTR6ryNEBq1kMJ1xj7+nErJSsBgmYlavSpAQtZFVgVu0ApBmVnTZgSCqFS3hIBKOyM2ZYVy5oV/qJYOVjxicCDZTr+44tn08kiAOjk+bAwLwBYlSbyPHDh175zPxc4nJUCAjRMnAwIRDbkAwKwLQIYwMBrbZAVHBR4QvqFEwEIIPj+LdJCBAUDcuPY0kAw86HCpc/Y4gDudaEWIBjQ/gIKA+/fp1p4ED0GgAMTDKX/iqGC3MJJzs+//sBviiUQ7JeeBLj914iA800rMNxjloTh4IMQRijhhBRKOEFRgAUQYIUcduhhhRJI9sd5H5ZooocXQIBFCAA7";
@@ -224,11 +244,68 @@ export default class Home extends Vue {
           .header-user {
             height: 36px;
             width: 36px;
+            position: relative;
 
             img {
               width: 100%;
               height: 100%;
               border-radius: 100%;
+            }
+
+            .tooltip {
+              position: absolute;
+              min-width: 92px;
+              padding: 8px 0;
+              box-shadow: 0 4px 7px rgba(0, 0, 0, 0.16);
+              background: #fff;
+              color: #655e5e;
+              transform: translateX(-32%);
+              border: 1px solid #e5e5e5;
+              margin-top: -20px;
+
+              .tips {
+                text-align: center;
+                font-size: 12px;
+                line-height: 36px;
+
+                .tip {
+                  cursor: pointer;
+                  &:hover {
+                    background: #e5e5e5;
+                    color: #292525;
+                  }
+                }
+              }
+
+              .arrow {
+                .tip-em {
+                  width: 12px;
+                  height: 12px;
+                  position: absolute;
+                  left: 80px;
+                  top: -10px;
+                }
+                .em1 {
+                  position: absolute;
+                  bottom: 100%;
+                  left: 40px;
+                  width: 0;
+                  height: 0;
+                  border-left: 6px solid transparent;
+                  border-bottom: 6px solid #8080807e;
+                  border-right: 6px solid transparent;
+                }
+                .em2 {
+                  position: absolute;
+                  bottom: 100%;
+                  left: 41px;
+                  width: 0;
+                  height: 0;
+                  border-left: 5px solid transparent;
+                  border-bottom: 5px solid #fff;
+                  border-right: 5px solid transparent;
+                }
+              }
             }
           }
         }
