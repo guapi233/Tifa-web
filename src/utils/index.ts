@@ -11,7 +11,11 @@ export const getSid = (): string => {
  * 读取 localStorage
  */
 export const getStorage = (key: string): string | null => {
-  return localStorage.getItem(key);
+  try {
+    return JSON.parse(localStorage.getItem(key) || "");
+  } catch (err) {
+    return localStorage.getItem(key);
+  }
 };
 
 /**
