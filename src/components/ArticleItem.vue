@@ -14,15 +14,15 @@
             <div class="article-value">
               <div class="value-item">
                 <Icon type="ios-eye" />
-                <span>{{ articleObj.viewCount }}</span>
+                <span>{{ viewCount }}</span>
               </div>
               <div class="value-item">
                 <Icon type="md-thumbs-up" />
-                <span>{{ articleObj.likeCount }}</span>
+                <span>{{ likeCount }}</span>
               </div>
               <div class="value-item">
                 <Icon type="md-text" />
-                <span>{{ articleObj.commentCount }}</span>
+                <span>{{ commentCount }}</span>
               </div>
               <div class="value-item">
                 <Icon type="md-time" />
@@ -40,11 +40,24 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import config from "@/config/index";
+import { countFormat } from "@/utils/index";
 
 @Component
 export default class ArticleItem extends Vue {
   @Prop({ type: Object }) private articleObj!: object;
   private baseUrl = config.baseUrl;
+
+  private get viewCount() {
+    return countFormat((this.articleObj as any).viewCount);
+  }
+
+  private get likeCount() {
+    return countFormat((this.articleObj as any).likeCount);
+  }
+
+  private get commentCount() {
+    return countFormat((this.articleObj as any).commentCount);
+  }
 }
 </script>
 
