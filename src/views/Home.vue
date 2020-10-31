@@ -8,10 +8,20 @@
             <span>Tifa</span>
           </a>
           <div class="right">
-            <Icon class="search" type="ios-search" size="32" />
-            <router-link to="/login">
+            <Icon class="search" type="ios-search" size="26" />
+            <router-link to="/login" v-if="!token">
               <Button shape="circle" class="login-btn">登录</Button>
             </router-link>
+            <div class="logined-show" v-else>
+              <Icon
+                type="md-notifications-outline"
+                class="header-notice"
+                size="26"
+              />
+              <div class="header-user">
+                <img src="@/assets/defaultPic.gif" alt="" />
+              </div>
+            </div>
           </div>
         </div>
       </Header>
@@ -141,6 +151,12 @@ import { toPageTop } from "@/utils/index";
 @Component
 export default class Home extends Vue {
   private toTop = toPageTop();
+  private get token() {
+    return this.$store.state.token;
+  }
+  private get userInfo() {
+    return this.$store.state.userInfo;
+  }
 }
 </script>
 
@@ -176,9 +192,37 @@ export default class Home extends Vue {
       }
 
       .right {
+        display: flex;
+        align-items: flex-end;
+
+        i {
+          color: #655e5e;
+        }
+
         .search {
           margin-right: 20px;
-          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        .logined-show {
+          display: flex;
+          align-items: flex-end;
+
+          .header-notice {
+            margin-right: 20px;
+            cursor: pointer;
+          }
+
+          .header-user {
+            height: 36px;
+            width: 36px;
+
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 100%;
+            }
+          }
         }
       }
     }
