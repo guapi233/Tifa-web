@@ -26,7 +26,7 @@
               </div>
               <div class="value-item">
                 <Icon type="md-time" />
-                <span>{{ articleObj.created }}</span>
+                <span>{{ createdDate }}</span>
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import config from "@/config/index";
-import { countFormat } from "@/utils/index";
+import { countFormat, dateForm } from "@/utils/index";
 
 @Component
 export default class ArticleItem extends Vue {
@@ -57,6 +57,10 @@ export default class ArticleItem extends Vue {
 
   private get commentCount() {
     return countFormat((this.articleObj as any).commentCount);
+  }
+
+  private get createdDate() {
+    return dateForm((this.articleObj as any).created);
   }
 }
 </script>
