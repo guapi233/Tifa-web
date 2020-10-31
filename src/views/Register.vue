@@ -121,15 +121,17 @@ export default class Register extends Vue {
       if (valid) {
         this.btnLoading = true;
         // 执行 登录
-        const res = await register({
+        const res: any = await register({
           ...this.formData,
           sid: getStorage("sid")
         });
 
         this.btnLoading = false;
         if (res) {
-          setStorage("userInfo", JSON.stringify(res.data));
-          setStorage("token", (res as any).token);
+          this.$store.commit("setUserInfoAndToken", {
+            userInfo: res.userInfo,
+            token: res.token
+          });
           this.$router.replace("/");
         } else {
           // 登陆失败后重置验证码
