@@ -23,7 +23,7 @@ import { getArticleList } from "@/api/content";
 @Component({
   components: { ArticleItem }
 })
-export default class ClassName extends Vue {
+export default class CommunityRecommend extends Vue {
   private articleList = [];
 
   private async created() {
