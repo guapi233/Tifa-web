@@ -67,7 +67,7 @@ const routes: Array<RouteConfig> = [
         ],
       },
       {
-        path: "/user",
+        path: "/user/:usernumber",
         name: "User",
         component: User,
         children: [
