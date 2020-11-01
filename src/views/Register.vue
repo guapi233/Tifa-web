@@ -80,7 +80,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { getCaptcha } from "@/api/public";
 import { register } from "@/api/login";
 import { getStorage, setStorage } from "@/utils/index";
-import { generDeterminInput } from "@/utils/validator";
+import { generDeterminInput, generIsExistInput } from "@/utils/validator";
 
 @Component
 export default class Register extends Vue {
@@ -95,7 +95,11 @@ export default class Register extends Vue {
   private validateRules = {
     usernumber: [
       { required: true, message: "请输入账号", trigger: "blur" },
-      { min: 6, max: 20, message: "合法的账号长度为6-20位", trigger: "blur" }
+      { min: 6, max: 20, message: "合法的账号长度为6-20位", trigger: "blur" },
+      {
+        validator: generIsExistInput(this.formData, "/public/exist"),
+        trigger: "blur"
+      }
     ],
     password: [
       { required: true, message: "请输入密码", trigger: "blur" },
