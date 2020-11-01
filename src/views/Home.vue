@@ -1,7 +1,7 @@
 <template>
   <div class="home-outermost">
     <Layout class="layout-wrapper">
-      <Header class="header-reset">
+      <Header class="header-reset header-fixed">
         <div class="header-container">
           <a href="/" class="logo">
             <img src="@/assets/logo.png" alt="" />
@@ -184,6 +184,13 @@ export default class Home extends Vue {
       background: #fff;
     }
 
+    .header-fixed {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+
     .ivu-layout {
       background: #fff;
     }
@@ -299,8 +306,9 @@ export default class Home extends Vue {
       }
     }
 
-    /* .page-container {
-    } */
+    .page-container {
+      padding-top: 64px;
+    }
 
     .footer-container {
       max-width: 1164px;
