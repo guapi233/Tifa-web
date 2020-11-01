@@ -281,8 +281,6 @@ export default class User extends Vue {}
                     line-height: 32px;
                   }
                 }
-                .time {
-                }
               }
 
               .update-cont {
@@ -364,9 +362,6 @@ export default class User extends Vue {}
                         span {
                           color: #292525;
                         }
-                      }
-
-                      .time-box {
                       }
                     }
 
