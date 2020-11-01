@@ -7,7 +7,7 @@
             <img src="@/assets/logo.png" alt="" />
             <span>Tifa</span>
           </a>
-          <div class="right">
+          <div class="right" :class="{ 'is-login': token }">
             <Icon class="search" type="ios-search" size="26" />
             <router-link to="/login" v-if="!token">
               <Button shape="circle" class="login-btn">登录</Button>
@@ -223,10 +223,11 @@ export default class Home extends Vue {
 
       .right {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
 
         i {
           color: #655e5e;
+          margin-top: 5px;
         }
 
         .search {
@@ -310,6 +311,14 @@ export default class Home extends Vue {
               }
             }
           }
+        }
+      }
+
+      .is-login {
+        align-items: flex-end;
+
+        i {
+          margin-top: 0;
         }
       }
     }
