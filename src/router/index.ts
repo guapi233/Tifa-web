@@ -14,6 +14,7 @@ const Recommend = () =>
 const Follow = () =>
   import(/* webpackChunkName: "Follow" */ "@/views/Follow.vue");
 const Topic = () => import(/* webpackChunkName: "Topic" */ "@/views/Topic.vue");
+const User = () => import(/* webpackChunkName: "User" */ "@/views/User.vue");
 
 Vue.use(VueRouter);
 
@@ -22,12 +23,12 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
-    redirect: "/community",
     children: [
       {
         path: "/",
         name: "Hometab",
         component: Hometab,
+        redirect: "/community",
         children: [
           {
             path: "community",
@@ -52,6 +53,11 @@ const routes: Array<RouteConfig> = [
             component: Topic,
           },
         ],
+      },
+      {
+        path: "/user",
+        name: "User",
+        component: User,
       },
     ],
   },
