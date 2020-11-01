@@ -19,6 +19,40 @@
             <Button shape="circle">编辑</Button>
           </div>
         </div>
+
+        <div class="overview">
+          <div class="side-item">
+            <div class="title">头衔</div>
+            <div class="side-content">
+              <div class="con-row">
+                <img
+                  src="https://cdn.sspai.com/ui/badge/shaoshupaichengyuan.png"
+                  alt=""
+                />
+                <span class="con-txt">MEMBER OF TIFA COMMUNITY</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="side-item">
+            <div class="title">个人成就</div>
+            <div class="side-content">
+              <div class="con-row">
+                <Icon type="md-person" size="18" />
+                <span class="con-txt">加入社区至今 955 天</span>
+              </div>
+              <div class="con-row">
+                <Icon type="ios-eye" size="18" />
+                <span class="con-txt">文章被阅读 7754 次</span>
+              </div>
+              <div class="con-row">
+                <Icon type="md-thumbs-up" size="18" />
+                <span class="con-txt">获得 8854 次点赞</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="tab-box">
           <ul class="tabs">
             <router-link
@@ -511,7 +545,15 @@ export default class User extends Vue {}
       left: calc(50% + 240px);
       z-index: 99;
       width: 264px;
+    }
 
+    .overview {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .right-side,
+    .overview {
       .side-item {
         background-color: #fff;
         padding: 20px;
@@ -547,6 +589,93 @@ export default class User extends Vue {}
           }
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .right-side {
+    display: none;
+  }
+
+  .user-content {
+    margin: 0 auto;
+  }
+
+  .overview {
+    display: block !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .tab-box {
+    .tabs {
+      a {
+        font-size: 14px !important;
+      }
+    }
+  }
+
+  .update-item {
+    width: 100vw;
+    margin-top: 22px;
+    padding: 0 10px;
+
+    .update-cont {
+      display: block !important;
+      position: relative;
+      .img-box {
+        width: 100% !important;
+        padding-top: 0 !important;
+
+        img {
+          position: static !important;
+          transform: none !important;
+          width: 100% !important;
+          height: auto !important;
+        }
+      }
+
+      .card-content {
+        width: auto !important;
+
+        .card-bottom {
+          position: absolute;
+          top: 150px;
+          left: 10px;
+          color: #fff !important;
+
+          a {
+            span {
+              color: #fff !important;
+            }
+          }
+
+          .right {
+            display: none !important;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-container {
+    display: block !important;
+    text-align: center;
+
+    .logo {
+      margin-right: 0 !important;
+    }
+
+    .footer-txt-pc,
+    .link,
+    .official {
+      text-align: center !important;
+    }
+
+    .link span,
+    .official a {
+      margin: 0 12px !important;
     }
   }
 }
