@@ -408,4 +408,26 @@ export default class Home extends Vue {
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .header-reset {
+    padding: 0;
+  }
+
+  .tooltip {
+    transform: translateX(-50%) !important;
+
+    .em1 {
+      left: 57px !important;
+    }
+
+    .em2 {
+      left: 58px !important;
+    }
+  }
+
+  .user-page {
+    padding-top: 0 !important;
+  }
+}
 </style>
