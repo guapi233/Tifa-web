@@ -57,141 +57,39 @@
           <ul class="tabs">
             <router-link
               to="/user"
-              active-class="userpage-tab-active"
+              exact-active-class="userpage-tab-active"
               class="tab"
               >动态</router-link
             >
             <router-link
-              to="/user/articles"
-              active-class="userpage-tab-active"
+              to="/user/article"
+              exact-active-class="userpage-tab-active"
               class="tab"
               >文章</router-link
             >
             <router-link
               to="/user/topic"
-              active-class="userpage-tab-active"
+              exact-active-class="userpage-tab-active"
               class="tab"
               >话题</router-link
             >
             <router-link
               to="/user/collection"
-              active-class="userpage-tab-active"
+              exact-active-class="userpage-tab-active"
               class="tab"
               >收藏</router-link
             >
             <router-link
               to="/user/follow"
-              active-class="userpage-tab-active"
+              exact-active-class="userpage-tab-active"
               class="tab"
               >关注</router-link
             >
           </ul>
         </div>
-        <div class="user-updates">
-          <div class="container">
-            <div class="updates">
-              <div class="update-item">
-                <div class="title-box">
-                  <div class="left">
-                    <div class="title">
-                      <router-link to="/user"
-                        ><img
-                          class="updates-pic"
-                          src="@/assets/defaultPic.gif"
-                          alt=""
-                      /></router-link>
-                      <div class="name">Mob233</div>
-                    </div>
-                    <div class="memo">喜欢了文章</div>
-                  </div>
-                  <div class="time">
-                    3小时前
-                  </div>
-                </div>
-                <div class="update-cont">
-                  <div class="img-box">
-                    <router-link to="/article">
-                      <img
-                        src="https://cdn.sspai.com/2020/10/29/8eae8c931fb95351d8da34fd6d8d69a2.jpg?imageMogr2/auto-orient/quality/95/thumbnail/!800x400r/gravity/Center/crop/800x400/interlace/1"
-                        alt=""
-                      />
-                    </router-link>
-                  </div>
-                  <div class="card-content">
-                    <router-link to="/article" class="title-cont">
-                      我需要什么样的笔记？可全文检索的内容库
-                    </router-link>
-                    <div class="card-bottom">
-                      <div class="left">
-                        <div class="pic-box">
-                          <router-link to="/user">
-                            <img
-                              class="updates-pic"
-                              src="@/assets/defaultPic.gif"
-                              alt=""
-                            />
-                            <span>其则不远</span>
-                          </router-link>
-                        </div>
-                        <div class="time-box">10月29日</div>
-                      </div>
-                      <div class="right">
-                        <div class="like-count">
-                          <Icon type="md-thumbs-up" size="18" />
-                          14
-                        </div>
-                        <router-link
-                          to="/article#comment-box"
-                          class="comment-count"
-                        >
-                          <Icon type="md-text" size="18" />
-                          7
-                        </router-link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <div class="update-item">
-                <div class="title-box">
-                  <div class="left">
-                    <div class="title">
-                      <router-link to="/user"
-                        ><img
-                          class="updates-pic"
-                          src="@/assets/defaultPic.gif"
-                          alt=""
-                      /></router-link>
-                      <div class="name">Mob233</div>
-                    </div>
-                    <div class="memo">
-                      评论了
-                      <span class="article">田玥涵</span>
-                      的文章
-                    </div>
-                  </div>
-                  <div class="time">
-                    3小时前
-                  </div>
-                </div>
-                <div class="update-cont">
-                  <div class="comment-box">
-                    <Icon type="ios-quote" size="28" />
-                    <div class="comment-content">
-                      <div class="txt">开不开步，hhh</div>
-                      <div class="article-title">
-                        原文：<router-link to="/article"
-                          >《本周看什么 | 近期值得一看的 8 部作品》</router-link
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- 展示内容 -->
+        <router-view />
       </div>
       <div class="right-side">
         <div class="side-item">
@@ -343,199 +241,6 @@ export default class User extends Vue {}
           }
         }
       }
-
-      .user-updates {
-        max-width: 800px;
-        width: 100%;
-        .container {
-          padding: 16px 0;
-          .updates {
-            .update-item {
-              margin-bottom: 22px;
-              color: $contentColor;
-
-              .comment-box {
-                padding: 30px;
-                background: #fff;
-                display: flex;
-
-                i {
-                  margin-right: 30px;
-                }
-
-                .comment-content {
-                  flex: 1;
-                  word-wrap: break-word;
-
-                  .txt {
-                    font-size: 16px;
-                    color: #292525;
-                    width: 100%;
-                    max-width: 664px;
-                  }
-
-                  .article-title {
-                    color: #8e8787;
-                    font-size: 14px;
-                    margin-top: 12px;
-                  }
-
-                  a {
-                    color: #292525;
-
-                    &:hover {
-                      color: $primaryColor;
-                    }
-                  }
-                }
-              }
-
-              .updates-pic {
-                width: 24px;
-                height: 24px;
-                border-radius: 100%;
-                vertical-align: middle;
-                cursor: pointer;
-              }
-
-              .title-box {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                font-size: 14px;
-                margin-bottom: 8px;
-
-                .left {
-                  display: flex;
-                  align-items: center;
-                  .title {
-                    .name {
-                      display: inline-block;
-                      color: #292525;
-                      margin: 0 14px 0 10px;
-                    }
-                  }
-                  .memo {
-                    line-height: 32px;
-                  }
-                }
-              }
-
-              .update-cont {
-                user-select: none;
-                max-width: 800px;
-                display: flex;
-                background-color: #fff;
-                width: 100%;
-                .img-box {
-                  width: 50%;
-                  padding-top: 25%;
-                  overflow: hidden;
-                  position: relative;
-                  transition: all 0.2s ease-out;
-                  background: linear-gradient(
-                    180deg,
-                    transparent 50%,
-                    rgba(0, 0, 0, 0.2)
-                  );
-
-                  img {
-                    position: absolute;
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%, -50%);
-                    min-width: 100%;
-                    width: auto;
-                    height: 100%;
-                    transition: width 0.2s ease-out, height 0.2s ease-out;
-                  }
-                }
-
-                .card-content {
-                  width: 50%;
-                  padding: 30px;
-                  box-sizing: border-box;
-                  transition: all 0.2s ease-out;
-                  display: flex;
-                  -webkit-box-orient: vertical;
-                  -webkit-box-direction: normal;
-                  -ms-flex-direction: column;
-                  flex-direction: column;
-                  -webkit-box-pack: justify;
-                  -ms-flex-pack: justify;
-                  justify-content: space-between;
-
-                  .title-cont {
-                    color: #292525;
-                    font-weight: 600;
-                    font-size: 20px;
-                    height: 57px;
-                    margin-bottom: 20px;
-                    line-height: 1.4;
-                    text-align: left;
-                  }
-
-                  .card-bottom {
-                    display: -webkit-box;
-                    display: -ms-flexbox;
-                    display: flex;
-                    -webkit-box-pack: justify;
-                    -ms-flex-pack: justify;
-                    justify-content: space-between;
-                    -webkit-box-align: center;
-                    -ms-flex-align: center;
-                    align-items: center;
-
-                    .left {
-                      display: flex;
-                      .pic-box {
-                        margin-right: 10px;
-                        display: flex;
-                        align-items: center;
-
-                        img {
-                          margin-right: 10px;
-                        }
-
-                        span {
-                          color: #292525;
-                        }
-                      }
-                    }
-
-                    .right {
-                      display: flex;
-
-                      i {
-                        margin-right: 3px;
-                      }
-
-                      .like-count {
-                        display: flex;
-                        align-items: center;
-                      }
-
-                      .comment-count {
-                        display: flex;
-                        align-items: center;
-                        margin-left: 20px;
-                      }
-                    }
-                  }
-                }
-              }
-
-              &:hover .img-box {
-                width: 380px;
-              }
-
-              &:hover .img-box img {
-                height: 110%;
-              }
-            }
-          }
-        }
-      }
     }
 
     .right-side {
@@ -612,49 +317,6 @@ export default class User extends Vue {}
     .tabs {
       a {
         font-size: 14px !important;
-      }
-    }
-  }
-
-  .update-item {
-    width: 100vw;
-    margin-top: 22px;
-    padding: 0 10px;
-
-    .update-cont {
-      display: block !important;
-      position: relative;
-      .img-box {
-        width: 100% !important;
-        padding-top: 0 !important;
-
-        img {
-          position: static !important;
-          transform: none !important;
-          width: 100% !important;
-          height: auto !important;
-        }
-      }
-
-      .card-content {
-        width: auto !important;
-
-        .card-bottom {
-          position: absolute;
-          top: 150px;
-          left: 10px;
-          color: #fff !important;
-
-          a {
-            span {
-              color: #fff !important;
-            }
-          }
-
-          .right {
-            display: none !important;
-          }
-        }
       }
     }
   }
