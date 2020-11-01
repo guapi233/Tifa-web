@@ -5,6 +5,8 @@ const Login = () => import(/* webpackChunkName: "Login" */ "@/views/Login.vue");
 const Register = () =>
   import(/* webpackChunkName: "Register" */ "@/views/Register.vue");
 const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
+const Hometab = () =>
+  import(/* webpackChunkName: "Hometab" */ "@/views/Hometab.vue");
 const Community = () =>
   import(/* webpackChunkName: "Community" */ "@/views/Community.vue");
 const Recommend = () =>
@@ -23,26 +25,33 @@ const routes: Array<RouteConfig> = [
     redirect: "/community",
     children: [
       {
-        path: "community",
-        name: "Community",
-        component: Community,
+        path: "/",
+        name: "Hometab",
+        component: Hometab,
         children: [
           {
-            path: "",
-            name: "Recommend",
-            component: Recommend,
+            path: "community",
+            name: "Community",
+            component: Community,
+            children: [
+              {
+                path: "",
+                name: "Recommend",
+                component: Recommend,
+              },
+              {
+                path: "follow",
+                name: "Follow",
+                component: Follow,
+              },
+            ],
           },
           {
-            path: "follow",
-            name: "Follow",
-            component: Follow,
+            path: "/topic",
+            name: "Topic",
+            component: Topic,
           },
         ],
-      },
-      {
-        path: "/topic",
-        name: "Topic",
-        component: Topic,
       },
     ],
   },
