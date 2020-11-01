@@ -73,7 +73,7 @@ const routes: Array<RouteConfig> = [
         children: [
           {
             path: "",
-            name: "Updates",
+            name: "UserUpdate",
             component: UserUpdate,
           },
           {
