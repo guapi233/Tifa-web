@@ -39,11 +39,7 @@
             <div class="title">头衔</div>
             <div class="side-content">
               <div class="con-row">
-                <img
-                  src="https://cdn.sspai.com/ui/badge/shaoshupaichengyuan.png"
-                  alt=""
-                />
-                <span class="con-txt">MEMBER OF TIFA COMMUNITY</span>
+                <UserTitle />
               </div>
             </div>
           </div>
@@ -145,8 +141,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import config from "@/config/index";
 import { getUserInfo } from "@/api/public";
+import UserTitle from "@/components/UserTitle.vue";
 
-@Component
+@Component({
+  components: { UserTitle }
+})
 export default class User extends Vue {
   private userInfo: any = {};
 
