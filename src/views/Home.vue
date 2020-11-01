@@ -34,7 +34,9 @@
                     </div>
 
                     <ul class="tips">
-                      <li class="tip">个人主页</li>
+                      <router-link tag="li" class="tip" to="/user">
+                        个人主页
+                      </router-link>
                       <li class="tip">账号设置</li>
                       <li class="tip">退出登录</li>
                     </ul>
