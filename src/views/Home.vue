@@ -34,7 +34,11 @@
                     </div>
 
                     <ul class="tips">
-                      <router-link tag="li" class="tip" to="/user">
+                      <router-link
+                        tag="li"
+                        class="tip"
+                        :to="`/user/${usernumber}`"
+                      >
                         个人主页
                       </router-link>
                       <li class="tip">账号设置</li>
@@ -165,6 +169,10 @@ export default class Home extends Vue {
   }
   private get userInfo() {
     return this.$store.state.userInfo;
+  }
+
+  private get usernumber() {
+    return this.userInfo.usernumber;
   }
 
   private get userPic() {
