@@ -21,8 +21,16 @@
               >粉丝 {{ userInfo.followed }}</router-link
             >
           </div>
-          <div class="edit">
+          <div class="oper" v-if="isSelf">
             <Button shape="circle">编辑</Button>
+          </div>
+          <div class="oper" v-else>
+            <div class="oper-item">
+              <Button shape="circle" type="primary">关注</Button>
+            </div>
+            <div class="oper-item">
+              <Button shape="circle">私信</Button>
+            </div>
           </div>
         </div>
 
@@ -148,6 +156,10 @@ export default class User extends Vue {
       : "data:image/gif;base64,R0lGODlhSABIAPQAAOfn5+jo6Onp6erq6uvr6+zs7O3t7e7u7u/v7/Dw8PHx8fLy8vPz8/T09PX19fb29vf39/j4+Pn5+fr6+vv7+/z8/P39/f7+/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAABIAEgAAAX+oCCOZGmeaKqubOu+cCzPdG3feK7vfO//wKBwSCwaW4Fk4JgLAACCAYEwEDiXzJiTsIhULGBLJcIoOAHKZBYFKEAsmLh8fplAGIkDdYBdi5INcHODhBgXYA59awEDEYWPhBZmflYCEpCYcRYJUJQBjpmYFGp+AA2hoQ+dWQEFgqiQFweKRgAQsKEStEQBBK+4jxcGu0IAC8ChDqtFAKDIkBPEQhTPmBZVRr0X1bGTRa3b3IXC0j7g4uPD2QXh6HTq3+zug+TZBO3zht5DSQf4+QhIBekl4V++OvCABHCQD1KEcjmaNXxEYQiABxMLPRQSAMGFjyBDihxJUiSGBcv+fgQoWLKly5AV+Fj097JmSZTMHNjcCXLjNwETeNqsQABij14VhLq0cCAlEQAGkioduckpMwZTR6ryNEBq1kMJ1xj7+nErJSsBgmYlavSpAQtZFVgVu0ApBmVnTZgSCqFS3hIBKOyM2ZYVy5oV/qJYOVjxicCDZTr+44tn08kiAOjk+bAwLwBYlSbyPHDh175zPxc4nJUCAjRMnAwIRDbkAwKwLQIYwMBrbZAVHBR4QvqFEwEIIPj+LdJCBAUDcuPY0kAw86HCpc/Y4gDudaEWIBjQ/gIKA+/fp1p4ED0GgAMTDKX/iqGC3MJJzs+//sBviiUQ7JeeBLj914iA800rMNxjloTh4IMQRijhhBRKOEFRgAUQYIUcduhhhRJI9sd5H5ZooocXQIBFCAA7";
   }
 
+  private get isSelf() {
+    return this.userInfo.usernumber === this.$store.state.userInfo.usernumber;
+  }
+
   private async created() {
     const { usernumber } = this.$route.params;
 
@@ -242,10 +254,15 @@ export default class User extends Vue {
           }
         }
 
-        .edit {
+        .oper {
           position: absolute;
           right: 30px;
           top: 32px;
+          display: flex;
+
+          .oper-item {
+            margin-right: 10px;
+          }
         }
       }
 
