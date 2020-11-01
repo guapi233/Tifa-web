@@ -391,6 +391,14 @@ export default class User extends Vue {}
                   }
                 }
               }
+
+              &:hover .img-box {
+                width: 380px;
+              }
+
+              &:hover .img-box img {
+                height: 110%;
+              }
             }
           }
         }
