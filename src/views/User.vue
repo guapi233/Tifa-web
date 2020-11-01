@@ -19,7 +19,40 @@
             <Button shape="circle">编辑</Button>
           </div>
         </div>
-        <div class="tabs"></div>
+        <div class="tab-box">
+          <ul class="tabs">
+            <router-link
+              to="/user"
+              active-class="userpage-tab-active"
+              class="tab"
+              >动态</router-link
+            >
+            <router-link
+              to="/user/articles"
+              active-class="userpage-tab-active"
+              class="tab"
+              >文章</router-link
+            >
+            <router-link
+              to="/user/topic"
+              active-class="userpage-tab-active"
+              class="tab"
+              >话题</router-link
+            >
+            <router-link
+              to="/user/collection"
+              active-class="userpage-tab-active"
+              class="tab"
+              >收藏</router-link
+            >
+            <router-link
+              to="/user/follow"
+              active-class="userpage-tab-active"
+              class="tab"
+              >关注</router-link
+            >
+          </ul>
+        </div>
         <div class="user-updates"></div>
       </div>
       <div class="right-side"></div>
@@ -113,6 +146,32 @@ export default class User extends Vue {}
           position: absolute;
           right: 30px;
           top: 32px;
+        }
+      }
+
+      .tab-box {
+        width: 100%;
+        max-width: 800px;
+        height: 40px;
+        margin-top: 20px;
+        padding: 0 12px;
+
+        .tabs {
+          display: flex;
+
+          .tab {
+            padding: 7px 14px;
+            font-size: 16px;
+            font-weight: 400;
+            margin: 0;
+            margin-right: 10px;
+          }
+
+          .userpage-tab-active {
+            color: $primaryColor;
+            font-weight: bold;
+            border-bottom: 2px solid $primaryColor;
+          }
         }
       }
     }
