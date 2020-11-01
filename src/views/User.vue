@@ -159,7 +159,38 @@
           </div>
         </div>
       </div>
-      <div class="right-side"></div>
+      <div class="right-side">
+        <div class="side-item">
+          <div class="title">头衔</div>
+          <div class="side-content">
+            <div class="con-row">
+              <img
+                src="https://cdn.sspai.com/ui/badge/shaoshupaichengyuan.png"
+                alt=""
+              />
+              <span class="con-txt">MEMBER OF TIFA COMMUNITY</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-item">
+          <div class="title">个人成就</div>
+          <div class="side-content">
+            <div class="con-row">
+              <Icon type="md-person" size="18" />
+              <span class="con-txt">加入社区至今 955 天</span>
+            </div>
+            <div class="con-row">
+              <Icon type="ios-eye" size="18" />
+              <span class="con-txt">文章被阅读 7754 次</span>
+            </div>
+            <div class="con-row">
+              <Icon type="md-thumbs-up" size="18" />
+              <span class="con-txt">获得 8854 次点赞</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -480,6 +511,42 @@ export default class User extends Vue {}
       left: calc(50% + 240px);
       z-index: 99;
       width: 264px;
+
+      .side-item {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+
+        .title {
+          font-size: 16px;
+          color: #292525;
+          margin-bottom: 10px;
+          font-weight: 600;
+        }
+
+        .side-content {
+          .con-row {
+            margin-top: 14px;
+            color: #292525;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            font-size: 12px;
+
+            img {
+              width: 20px;
+              height: 20px;
+            }
+
+            i,
+            img {
+              margin-right: 10px;
+              margin-left: 5px;
+            }
+          }
+        }
+      }
     }
   }
 }
