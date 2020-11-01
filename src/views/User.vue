@@ -118,6 +118,43 @@
                   </div>
                 </div>
               </div>
+
+              <div class="update-item">
+                <div class="title-box">
+                  <div class="left">
+                    <div class="title">
+                      <router-link to="/user"
+                        ><img
+                          class="updates-pic"
+                          src="@/assets/defaultPic.gif"
+                          alt=""
+                      /></router-link>
+                      <div class="name">Mob233</div>
+                    </div>
+                    <div class="memo">
+                      评论了
+                      <span class="article">田玥涵</span>
+                      的文章
+                    </div>
+                  </div>
+                  <div class="time">
+                    3小时前
+                  </div>
+                </div>
+                <div class="update-cont">
+                  <div class="comment-box">
+                    <Icon type="ios-quote" size="28" />
+                    <div class="comment-content">
+                      <div class="txt">开不开步，hhh</div>
+                      <div class="article-title">
+                        原文：<router-link to="/article"
+                          >《本周看什么 | 近期值得一看的 8 部作品》</router-link
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -251,6 +288,42 @@ export default class User extends Vue {}
             .update-item {
               margin-bottom: 22px;
               color: $contentColor;
+
+              .comment-box {
+                padding: 30px;
+                background: #fff;
+                display: flex;
+
+                i {
+                  margin-right: 30px;
+                }
+
+                .comment-content {
+                  flex: 1;
+                  word-wrap: break-word;
+
+                  .txt {
+                    font-size: 16px;
+                    color: #292525;
+                    width: 100%;
+                    max-width: 664px;
+                  }
+
+                  .article-title {
+                    color: #8e8787;
+                    font-size: 14px;
+                    margin-top: 12px;
+                  }
+
+                  a {
+                    color: #292525;
+
+                    &:hover {
+                      color: $primaryColor;
+                    }
+                  }
+                }
+              }
 
               .updates-pic {
                 width: 24px;
