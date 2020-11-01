@@ -27,6 +27,8 @@ const UserCollection = () =>
   );
 const UserFollow = () =>
   import(/* webpackChunkName: "UserFollow" */ "@/views/User/Follow.vue");
+const NotFound = () =>
+  import(/* webpackChunkName: "NotFound" */ "@/views/NotFound.vue");
 
 Vue.use(VueRouter);
 
@@ -106,6 +108,11 @@ const routes: Array<RouteConfig> = [
     path: "/Register",
     name: "Register",
     component: Register,
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 
