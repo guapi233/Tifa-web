@@ -46,6 +46,8 @@ export default class ClassName extends Vue {}
 <style lang="scss">
 .community-outermost {
   .main-container {
+    padding: 0 50px;
+
     .wrapper {
       max-width: 1164px;
       padding: 0 12px;
