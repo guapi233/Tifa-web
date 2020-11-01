@@ -14,3 +14,12 @@ export const getCaptcha = async () => {
 
   return axios.get(`/public/getCaptcha?sid=${sid}`);
 };
+
+/**
+ * @param id 用户账号
+ */
+export const getUserInfo = async (usernumber: string) => {
+  if (!usernumber) return;
+
+  return axios.get(`/public/getUserInfo?usernumber=${usernumber}`);
+};
