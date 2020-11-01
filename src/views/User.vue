@@ -70,31 +70,31 @@
         <div class="tab-box">
           <ul class="tabs">
             <router-link
-              to="/user"
+              :to="{ name: 'UserUpdate', params: usernumber }"
               exact-active-class="userpage-tab-active"
               class="tab"
               >动态</router-link
             >
             <router-link
-              to="/user/article"
+              :to="{ name: 'UserArticle', params: usernumber }"
               exact-active-class="userpage-tab-active"
               class="tab"
               >文章</router-link
             >
             <router-link
-              to="/user/topic"
+              :to="{ name: 'UserTopic', params: usernumber }"
               exact-active-class="userpage-tab-active"
               class="tab"
               >话题</router-link
             >
             <router-link
-              to="/user/collection"
+              :to="{ name: 'UserCollection', params: usernumber }"
               exact-active-class="userpage-tab-active"
               class="tab"
               >收藏</router-link
             >
             <router-link
-              to="/user/follow"
+              :to="{ name: 'UserFollow', params: usernumber }"
               exact-active-class="userpage-tab-active"
               class="tab"
               >关注</router-link
@@ -162,6 +162,7 @@ export default class User extends Vue {
 
   private async created() {
     const { usernumber } = this.$route.params;
+    (this as any).usernumber = usernumber;
 
     if (!usernumber) {
       // 404
