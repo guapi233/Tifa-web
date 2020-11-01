@@ -33,7 +33,6 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
     component: Home,
     children: [
       {
@@ -44,12 +43,11 @@ const routes: Array<RouteConfig> = [
         children: [
           {
             path: "community",
-            name: "Community",
             component: Community,
             children: [
               {
                 path: "",
-                name: "Recommend",
+                name: "CommunityRecommend",
                 component: Recommend,
               },
               {
@@ -68,7 +66,6 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: "/user/:usernumber",
-        name: "User",
         component: User,
         children: [
           {
