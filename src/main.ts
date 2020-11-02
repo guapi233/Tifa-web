@@ -17,6 +17,7 @@ import {
   Icon,
   RadioGroup,
   Radio,
+  Upload,
 } from "view-design";
 
 import "view-design/dist/styles/iview.css";
@@ -35,6 +36,7 @@ Vue.component("Footer", Footer);
 Vue.component("Icon", Icon);
 Vue.component("RadioGroup", RadioGroup);
 Vue.component("Radio", Radio);
+Vue.component("Upload", Upload);
 
 Vue.prototype.$Message = Message;
 
