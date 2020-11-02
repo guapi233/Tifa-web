@@ -66,6 +66,7 @@ export default class Setting extends Vue {}
 .setting-outermost {
   min-height: 777px;
   background-color: #f5f7f9;
+  overflow: hidden;
 
   .setting-container {
     max-width: 548px;
@@ -108,6 +109,10 @@ export default class Setting extends Vue {}
           border-bottom: 2px solid;
         }
       }
+    }
+
+    .setting-content {
+      margin: 40px auto;
     }
   }
 }
