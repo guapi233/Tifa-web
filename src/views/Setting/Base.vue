@@ -94,6 +94,19 @@ export default class SettingBase extends Vue {
   private validateRules = {
     name: [{ required: true, message: "请输入您的名称", trigger: "blur" }]
   };
+
+  private created() {
+    const { userInfo } = this.$store.state;
+
+    if (userInfo.usernumber) {
+      this.formData = userInfo;
+    } else {
+      // go to 404
+      this.$router.replace({
+        path: "/whoops"
+      });
+    }
+  }
 }
 </script>
 
