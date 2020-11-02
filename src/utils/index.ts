@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import config from "@/config";
 
 /**
  * 新建 Sid
@@ -115,4 +116,18 @@ export const dateForm = (date: number | string) => {
   } else {
     return `${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
   }
+};
+
+/**
+ * 是否为公共api
+ * @param url 路径
+ */
+export const isPublicApi = (url: string) => {
+  let isPublic = false;
+
+  config.publicApi.forEach((exp) => {
+    isPublic = isPublic || exp.test(url);
+  });
+
+  return isPublic;
 };
