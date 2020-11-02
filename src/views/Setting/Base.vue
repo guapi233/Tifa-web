@@ -37,11 +37,19 @@
         </FormItem>
 
         <FormItem prop="gender" label="性别">
-          <Input
-            size="large"
-            v-model="formData.gender"
-            placeholder="您的性别"
-          />
+          <div class="gender">
+            <RadioGroup v-model="formData.gender" class="gender-box">
+              <Radio :label="1" class="gender-item">
+                <span>男</span>
+              </Radio>
+              <Radio :label="0" class="gender-item">
+                <span>女</span>
+              </Radio>
+              <Radio :label="2" class="gender-item">
+                <span>无</span>
+              </Radio>
+            </RadioGroup>
+          </div>
         </FormItem>
 
         <FormItem prop="interest" label="兴趣爱好">
@@ -84,7 +92,7 @@ export default class SettingBase extends Vue {
     summary: ""
   };
   private validateRules = {
-    name: [{ required: true }]
+    name: [{ required: true, message: "请输入您的名称", trigger: "blur" }]
   };
 }
 </script>
@@ -120,6 +128,19 @@ export default class SettingBase extends Vue {
     background: #fff;
     text-align: center;
     margin: 12px 0;
+
+    .gender {
+      padding: 0 20px;
+      .gender-box {
+        width: 100%;
+        display: flex;
+        color: $contentColor;
+
+        .gender-item {
+          margin-right: 20px;
+        }
+      }
+    }
   }
 
   .sub-box {
