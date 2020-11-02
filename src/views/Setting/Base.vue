@@ -7,9 +7,24 @@
 
       <div class="handle-box">
         <!-- <Button class="handle-item" shape="circle">删除头像</Button> -->
-        <Button class="handle-item" type="primary" shape="circle"
-          >上传新头像</Button
+        <Upload
+          :action="uploadPicUrl"
+          :headers="headers"
+          :show-upload-list="false"
+          :max-size="5000000"
+          :before-upload="beforeUpload"
+          :on-success="uploadSuccess"
+          :on-err="uploadFail"
         >
+          <Button
+            class="handle-item upload"
+            type="primary"
+            shape="circle"
+            :loading="uploadBtnLoading"
+          >
+            上传新头像
+          </Button>
+        </Upload>
       </div>
     </div>
     <div class="item-box">
@@ -89,6 +104,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { editUserInfo } from "@/api/user";
 import { getUserInfo } from "@/api/public";
+import { uploadPic } from "@/api/user";
 import config from "@/config";
 
 @Component
@@ -104,11 +120,41 @@ export default class SettingBase extends Vue {
     name: [{ required: true, message: "请输入您的名称", trigger: "blur" }]
   };
   private saveBtnLoading = false;
+  private uploadBtnLoading = false;
+  private headers = {
+    Authorization: "bearer " + this.$store.state.token
+  };
 
+  private get uploadPicUrl() {
+    return (
+      config.baseUrl +
+      "/user/uploadPic?usernumber=" +
+      this.$store.state.userInfo.usernumber
+    );
+  }
   private get userPic() {
     return this.$store.state.userInfo.pic
       ? config.baseUrl + this.$store.state.userInfo.pic
       : "data:image/gif;base64,R0lGODlhSABIAPQAAOfn5+jo6Onp6erq6uvr6+zs7O3t7e7u7u/v7/Dw8PHx8fLy8vPz8/T09PX19fb29vf39/j4+Pn5+fr6+vv7+/z8/P39/f7+/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAQAAAAALAAAAABIAEgAAAX+oCCOZGmeaKqubOu+cCzPdG3feK7vfO//wKBwSCwaW4Fk4JgLAACCAYEwEDiXzJiTsIhULGBLJcIoOAHKZBYFKEAsmLh8fplAGIkDdYBdi5INcHODhBgXYA59awEDEYWPhBZmflYCEpCYcRYJUJQBjpmYFGp+AA2hoQ+dWQEFgqiQFweKRgAQsKEStEQBBK+4jxcGu0IAC8ChDqtFAKDIkBPEQhTPmBZVRr0X1bGTRa3b3IXC0j7g4uPD2QXh6HTq3+zug+TZBO3zht5DSQf4+QhIBekl4V++OvCABHCQD1KEcjmaNXxEYQiABxMLPRQSAMGFjyBDihxJUiSGBcv+fgQoWLKly5AV+Fj097JmSZTMHNjcCXLjNwETeNqsQABij14VhLq0cCAlEQAGkioduckpMwZTR6ryNEBq1kMJ1xj7+nErJSsBgmYlavSpAQtZFVgVu0ApBmVnTZgSCqFS3hIBKOyM2ZYVy5oV/qJYOVjxicCDZTr+44tn08kiAOjk+bAwLwBYlSbyPHDh175zPxc4nJUCAjRMnAwIRDbkAwKwLQIYwMBrbZAVHBR4QvqFEwEIIPj+LdJCBAUDcuPY0kAw86HCpc/Y4gDudaEWIBjQ/gIKA+/fp1p4ED0GgAMTDKX/iqGC3MJJzs+//sBviiUQ7JeeBLj914iA800rMNxjloTh4IMQRijhhBRKOEFRgAUQYIUcduhhhRJI9sd5H5ZooocXQIBFCAA7";
+  }
+
+  // 用户上传头像钩子
+  private beforeUpload() {
+    this.uploadBtnLoading = true;
+  }
+  private async uploadSuccess(res: any) {
+    res = await getUserInfo(this.$store.state.userInfo.usernumber);
+
+    // 修改本地缓存
+    this.$store.commit("setUserInfoAndToken", {
+      userInfo: res
+    });
+    this.uploadBtnLoading = false;
+    this.$Message.success("上传成功");
+  }
+  private uploadFail(err: any) {
+    this.$Message.error("上传失败");
+    this.uploadBtnLoading = false;
   }
 
   // 保存并提交修改
@@ -168,6 +214,14 @@ export default class SettingBase extends Vue {
 
       .handle-item {
         margin-left: 8px;
+      }
+
+      .upload {
+        position: relative;
+
+        .invisible {
+          display: none;
+        }
       }
     }
   }
