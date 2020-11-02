@@ -29,6 +29,20 @@ const UserFollow = () =>
   import(/* webpackChunkName: "UserFollow" */ "@/views/User/Follow.vue");
 const Setting = () =>
   import(/* webpackChunkName: "Setting" */ "@/views/Setting.vue");
+const SettingBase = () =>
+  import(/* webpackChunkName: "SettingBase" */ "@/views/Setting/Base.vue");
+const SettingAccount = () =>
+  import(
+    /* webpackChunkName: "SettingAccount" */ "@/views/Setting/Account.vue"
+  );
+const SettingMail = () =>
+  import(/* webpackChunkName: "SettingMail" */ "@/views/Setting/Mail.vue");
+const SettingPreference = () =>
+  import(
+    /* webpackChunkName: "SettingPreference" */ "@/views/Setting/Preference.vue"
+  );
+const SettingFilter = () =>
+  import(/* webpackChunkName: "SettingFilter" */ "@/views/Setting/Filter.vue");
 const NotFound = () =>
   import(/* webpackChunkName: "NotFound" */ "@/views/NotFound.vue");
 
@@ -101,8 +115,34 @@ const routes: Array<RouteConfig> = [
       },
       {
         path: "/setting",
-        name: "Setting",
         component: Setting,
+        children: [
+          {
+            path: "",
+            name: "SettingBase",
+            component: SettingBase,
+          },
+          {
+            path: "account",
+            name: "SettingAccount",
+            component: SettingAccount,
+          },
+          {
+            path: "mail",
+            name: "SettingMail",
+            component: SettingMail,
+          },
+          {
+            path: "preference",
+            name: "SettingPreference",
+            component: SettingPreference,
+          },
+          {
+            path: "filter",
+            name: "SettingFilter",
+            component: SettingFilter,
+          },
+        ],
       },
     ],
   },

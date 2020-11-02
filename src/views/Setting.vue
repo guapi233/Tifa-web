@@ -5,29 +5,33 @@
         <div class="title">账号设置</div>
         <div class="line"></div>
         <ul class="tabs">
-          <router-link exact-active-class="active" class="tab" tag="li" to=""
+          <router-link
+            exact-active-class="active"
+            class="tab"
+            tag="li"
+            :to="{ name: 'SettingBase' }"
             >资料编辑</router-link
           >
           <router-link
             exact-active-class="active"
             class="tab"
             tag="li"
-            to="usernumer"
+            :to="{ name: 'SettingAccount' }"
           >
-            <li class="tab">账号和密码</li>
+            账号和密码
           </router-link>
           <router-link
             exact-active-class="active"
             class="tab"
             tag="li"
-            to="mail"
+            :to="{ name: 'SettingMail' }"
             >消息与邮件</router-link
           >
           <router-link
             exact-active-class="active"
             class="tab"
             tag="li"
-            to="preference"
+            :to="{ name: 'SettingPreference' }"
           >
             偏好与隐私
           </router-link>
@@ -35,7 +39,7 @@
             exact-active-class="active"
             class="tab"
             tag="li"
-            to="filter"
+            :to="{ name: 'SettingFilter' }"
           >
             屏蔽
           </router-link>
@@ -44,7 +48,7 @@
 
       <div class="setting-content">
         <div class="setting-base">
-          ...
+          <router-view />
         </div>
       </div>
     </div>
@@ -92,9 +96,14 @@ export default class Setting extends Vue {}
         .tab {
           color: $contentColor;
           cursor: pointer;
+          padding: 4px 0;
+          margin: 0;
+          line-height: 24px;
+          letter-spacing: 0.1em;
+          transition: all 0.2s;
         }
 
-        .avtive {
+        .active {
           color: $primaryColor;
           border-bottom: 2px solid;
         }
