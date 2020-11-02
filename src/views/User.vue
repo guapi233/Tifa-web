@@ -22,7 +22,9 @@
             >
           </div>
           <div class="oper" v-if="isSelf">
-            <Button shape="circle">编辑</Button>
+            <router-link to="/setting">
+              <Button shape="circle">编辑</Button>
+            </router-link>
           </div>
           <div class="oper" v-else>
             <div class="oper-item">
