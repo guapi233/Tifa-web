@@ -72,7 +72,13 @@
       </Form>
     </div>
     <div class="sub-box">
-      <Button type="primary" shape="circle" style="padding: 0 30px;">
+      <Button
+        type="primary"
+        shape="circle"
+        style="padding: 0 30px;"
+        @click="save"
+        :loading="saveBtnLoading"
+      >
         保存
       </Button>
     </div>
@@ -81,6 +87,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { editUserInfo } from "@/api/user";
+import { getUserInfo } from "@/api/public";
 
 @Component
 export default class SettingBase extends Vue {
@@ -94,6 +102,26 @@ export default class SettingBase extends Vue {
   private validateRules = {
     name: [{ required: true, message: "请输入您的名称", trigger: "blur" }]
   };
+  private saveBtnLoading = false;
+
+  private async save() {
+    this.saveBtnLoading = true;
+
+    // 1. 修改信息
+    const res = await editUserInfo(this.formData);
+
+    if (res) {
+      // 2. 获取修改成功的信息
+      const res = await getUserInfo(this.$store.state.userInfo.usernumber);
+
+      // 3. 修改本地缓存
+      this.$store.commit("setUserInfoAndToken", {
+        userInfo: res
+      });
+      this.$Message.success("修改成功");
+    }
+    this.saveBtnLoading = false;
+  }
 
   private created() {
     const { userInfo } = this.$store.state;
