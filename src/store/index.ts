@@ -15,7 +15,7 @@ export default new Vuex.Store({
       { userInfo, token }: { userInfo: object; token: string }
     ) {
       setStorage("userInfo", JSON.stringify(userInfo));
-      setStorage("token", token);
+      token && setStorage("token", token);
 
       state.userInfo = userInfo;
       state.token = token;
