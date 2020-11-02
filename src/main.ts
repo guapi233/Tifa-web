@@ -15,6 +15,8 @@ import {
   Content,
   Footer,
   Icon,
+  RadioGroup,
+  Radio,
 } from "view-design";
 
 import "view-design/dist/styles/iview.css";
@@ -31,6 +33,8 @@ Vue.component("Sider", Sider);
 Vue.component("Content", Content);
 Vue.component("Footer", Footer);
 Vue.component("Icon", Icon);
+Vue.component("RadioGroup", RadioGroup);
+Vue.component("Radio", Radio);
 
 Vue.prototype.$Message = Message;
 
