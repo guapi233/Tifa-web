@@ -27,6 +27,8 @@ const UserCollection = () =>
   );
 const UserFollow = () =>
   import(/* webpackChunkName: "UserFollow" */ "@/views/User/Follow.vue");
+const Setting = () =>
+  import(/* webpackChunkName: "Setting" */ "@/views/Setting.vue");
 const NotFound = () =>
   import(/* webpackChunkName: "NotFound" */ "@/views/NotFound.vue");
 
@@ -96,6 +98,11 @@ const routes: Array<RouteConfig> = [
             component: UserFollow,
           },
         ],
+      },
+      {
+        path: "/setting",
+        name: "Setting",
+        component: Setting,
       },
     ],
   },
