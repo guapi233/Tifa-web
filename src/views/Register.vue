@@ -5,7 +5,7 @@
         <img src="@/assets/logo.png" alt="返回首页" />
       </router-link>
     </div>
-    <div class="register-container">
+    <div class="register-container" @keydown.enter="register('registerForm')">
       <Form ref="registerForm" :model="formData" :rules="validateRules">
         <FormItem prop="usernumber">
           <Input
