@@ -18,7 +18,7 @@ export default new Vuex.Store({
       token && setStorage("token", token);
 
       state.userInfo = userInfo;
-      state.token = token;
+      token && (state.token = token);
     },
   },
   actions: {},
