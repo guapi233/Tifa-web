@@ -25,6 +25,7 @@ import "@/config/iviewTheme.less";
 
 Vue.component("Button", Button);
 Vue.component("Input", Input);
+Vue.component("IInput", Input); // 使用符合规范的标签名 再次注册一遍 Input
 Vue.component("Form", Form);
 Vue.component("FormItem", FormItem);
 Vue.component("Tooltip", Tooltip);
