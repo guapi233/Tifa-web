@@ -43,6 +43,8 @@ const SettingPreference = () =>
   );
 const SettingFilter = () =>
   import(/* webpackChunkName: "SettingFilter" */ "@/views/Setting/Filter.vue");
+const ArticleDetail = () =>
+  import(/* webpackChunkName: "ArticleDetail" */ "@/views/ArticleDetail.vue");
 const NotFound = () =>
   import(/* webpackChunkName: "NotFound" */ "@/views/NotFound.vue");
 
@@ -143,6 +145,11 @@ const routes: Array<RouteConfig> = [
             component: SettingFilter,
           },
         ],
+      },
+      {
+        path: "/article",
+        name: "Article",
+        component: ArticleDetail,
       },
     ],
   },
