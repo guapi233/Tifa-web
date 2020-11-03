@@ -18,6 +18,7 @@ import {
   RadioGroup,
   Radio,
   Upload,
+  Switch,
 } from "view-design";
 
 import "view-design/dist/styles/iview.css";
@@ -38,6 +39,7 @@ Vue.component("Icon", Icon);
 Vue.component("RadioGroup", RadioGroup);
 Vue.component("Radio", Radio);
 Vue.component("Upload", Upload);
+Vue.component("ISwitch", Switch);
 
 Vue.prototype.$Message = Message;
 
