@@ -99,7 +99,7 @@ export default class Setting extends Vue {}
           margin: 0;
           line-height: 24px;
           letter-spacing: 0.1em;
-          transition: all 0.2s;
+          transition: color 0.2s;
         }
 
         .active {
