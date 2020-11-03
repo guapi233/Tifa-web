@@ -250,27 +250,5 @@ export default class SettingBase extends Vue {
     text-align: center;
     margin-top: 40px;
   }
-
-  /* 设置页 Form 重置样式 */
-  .setting-form-reset {
-    .ivu-form-item-label {
-      font-size: 16px !important;
-      color: $contentColor;
-    }
-
-    .setting-input-reset {
-      input {
-        background-color: #f5f5f5;
-        padding: 20px 15px 20px 14px;
-        font-size: 14px;
-        height: 60px;
-        border: none;
-
-        &:focus {
-          background-color: #fff;
-        }
-      }
-    }
-  }
 }
 </style>
