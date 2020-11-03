@@ -47,9 +47,7 @@
       </div>
 
       <div class="setting-content">
-        <div class="setting-base">
-          <router-view />
-        </div>
+        <router-view />
       </div>
     </div>
   </div>
