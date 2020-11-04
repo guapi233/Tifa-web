@@ -40,11 +40,11 @@
           size="large"
           type="primary"
         ></Button>
-        <div class="count">133</div>
+        <div class="count">{{ likeCount }}</div>
         <div class="comment-icon item">
           <Icon type="md-text" size="28" />
         </div>
-        <div class="count">20</div>
+        <div class="count">{{ commentCount }}</div>
         <div class="forward-icon item">
           <Icon type="ios-share" size="28" />
         </div>
@@ -99,7 +99,9 @@
     <!-- 点赞信息、文章操作栏 -->
     <div class="article-action-bar">
       <div class="like-btn">
-        <Button shape="circle" icon="md-thumbs-up" size="large">257</Button>
+        <Button shape="circle" icon="md-thumbs-up" size="large">{{
+          likeCount
+        }}</Button>
       </div>
       <div class="liked-users">
         <div
@@ -140,15 +142,15 @@
       <div class="author-container">
         <div class="author-center">
           <div class="author-pic">
-            <Avatar size="42" to="/" />
+            <Avatar size="42" to="/" :src="author.pic" />
           </div>
           <div class="content">
             <div class="top">
-              <router-link to="/">Vanilla</router-link>
+              <router-link to="/">{{ author.name }}</router-link>
               <div class="title"></div>
             </div>
             <div class="summary">
-              矫揉造作爱生活 歇斯底里爱乱想 愤世嫉俗爱独行
+              {{ author.summary || "还没有介绍自己呢" }}
             </div>
             <div class="follow-btn">
               <Button type="primary" shape="circle">关注</Button>
@@ -175,7 +177,7 @@
         <div class="comment">
           <!-- 头部 -->
           <div class="comment-header">
-            <div class="comment-title">全部评论（20）</div>
+            <div class="comment-title">全部评论（{{ commentCount }}）</div>
             <div class="review-box">
               <span>热门排序</span>
               <Icon type="ios-funnel-outline" size="14" />
@@ -339,7 +341,7 @@ import { Component, Vue, Ref } from "vue-property-decorator";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
 import { getArticleDetail } from "@/api/content";
 import config from "@/config/index";
-import { dateFormat } from "@/utils/index";
+import { dateFormat, countFormat } from "@/utils/index";
 
 @Component({
   components: { ArticleItem3 }
@@ -387,6 +389,16 @@ export default class ArticleDetail extends Vue {
   // 文章发布时间
   private get createdDate() {
     return dateFormat(this.articleDetail.created);
+  }
+  // 查看、点赞、评论信息
+  private get viewCount() {
+    return countFormat(this.articleDetail.viewCount);
+  }
+  private get likeCount() {
+    return countFormat(this.articleDetail.likeCount);
+  }
+  private get commentCount() {
+    return countFormat(this.articleDetail.commentCount);
   }
 
   // 暂时这么做，过段时间将 校验&鉴权 提升到路由层级
