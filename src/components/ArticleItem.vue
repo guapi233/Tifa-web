@@ -40,7 +40,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import config from "@/config/index";
-import { countFormat, dateForm } from "@/utils/index";
+import { countFormat, dateFormat } from "@/utils/index";
 
 @Component
 export default class ArticleItem extends Vue {
@@ -60,7 +60,7 @@ export default class ArticleItem extends Vue {
   }
 
   private get createdDate() {
-    return dateForm((this.articleObj as any).created);
+    return dateFormat((this.articleObj as any).created);
   }
 }
 </script>

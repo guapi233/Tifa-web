@@ -86,7 +86,7 @@ export const countFormat = (count: number) => {
  * 小于3分钟：刚刚；小于一小时：xx分钟前；小于一天：xx小时前；小于两天：昨天 xx:xx；都不小于：月份-日期
  * @param date 日期时间戳
  */
-export const dateForm = (date: number | string) => {
+export const dateFormat = (date: number | string) => {
   if (typeof date === "string") {
     date = new Date(date).getTime();
   }
