@@ -1,24 +1,21 @@
 <template>
-  <div class="article-detail-outermost">
+  <div class="article-detail-outermost" v-if="articleDetail">
     <!-- 顶部信息 -->
     <div class="article-header">
       <div class="gray-bg-box"></div>
       <div class="article-banner">
-        <img
-          src="https://cdn.sspai.com/article/a00bc7e1-e6f7-0528-ecb9-451e0ec0c9c5.jpg?imageMogr2/auto-orient/quality/95/thumbnail/!1420x708r/gravity/Center/crop/1420x708/interlace/1"
-          alt=""
-        />
+        <img :src="baseUrl + articleDetail.banner" alt="" />
       </div>
       <div class="article-title-box">
         <div class="article-title">
-          一日一技｜只要一台电脑，轻松获取米家设备 token
+          {{ articleDetail.title }}
         </div>
         <div class="article-author">
           <div class="author-box">
-            <Avatar size="32" />
-            <span class="name">Vanilla</span>
+            <Avatar size="32" :src="author.pic" />
+            <span class="name">{{ author.name }}</span>
           </div>
-          <div class="timer">10月13日</div>
+          <div class="timer">{{ createdDate }}</div>
         </div>
       </div>
     </div>
@@ -26,11 +23,8 @@
     <!-- 文章主体 -->
     <div class="article-body">
       <div ref="articleContent" class="article-content">
-        <h2>我是标题啊啊啊啊</h2>
-        <p>
-          呜啦啦啦啦啦!大娃娃阿瓦达爱我的骄傲我都个挖掘活动个就爱我批的简欧屁娃机动票据外婆IDjaw破ID就
-        </p>
-        <a href="baidu.com">去百度啊啊啊啊啊！</a>
+        1111
+        <!-- <div v-html="articleDetail.content"></div> -->
       </div>
 
       <!-- 左侧工具栏 -->
@@ -343,6 +337,9 @@
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
+import { getArticleDetail } from "@/api/content";
+import config from "@/config/index";
+import { dateFormat } from "@/utils/index";
 
 @Component({
   components: { ArticleItem3 }
@@ -377,15 +374,38 @@ export default class ArticleDetail extends Vue {
   ];
   private replyShow = false;
   private sideBarLeft = "0";
+  private baseUrl = config.baseUrl;
+  private articleDetail: any = null;
   @Ref("replyInput") private replyInput!: any;
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
 
-  private mounted() {
+  //作者信息
+  private get author() {
+    return this.articleDetail.author;
+  }
+  // 文章发布时间
+  private get createdDate() {
+    return dateFormat(this.articleDetail.created);
+  }
+
+  // 暂时这么做，过段时间将 校验&鉴权 提升到路由层级
+  private async mounted() {
+    const { articleId } = this.$route.params;
+    const res = await getArticleDetail(articleId);
+
+    if (!res) {
+      this.$router.replace("/whoops");
+    } else {
+      this.articleDetail = res;
+    }
+
     // 监听窗口边框 调整左侧工具栏
-    this.resetSideBarLeft();
-    this.resetSideBarLeft = this.resetSideBarLeft.bind(this);
-    window.addEventListener("resize", this.resetSideBarLeft);
+    this.$nextTick(() => {
+      this.resetSideBarLeft();
+      this.resetSideBarLeft = this.resetSideBarLeft.bind(this);
+      window.addEventListener("resize", this.resetSideBarLeft);
+    });
   }
 
   private beforeDestroy() {
@@ -487,6 +507,7 @@ export default class ArticleDetail extends Vue {
     .article-content {
       width: 100%;
       max-width: 664px;
+      min-height: 340px;
       margin: 0 auto;
       color: #4c4e4d;
       font-size: 16px;
