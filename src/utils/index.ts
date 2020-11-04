@@ -114,7 +114,7 @@ export const dateFormat = (date: number | string) => {
       .toString()
       .padStart(2, "0")}`;
   } else {
-    return `${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
+    return `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
   }
 };
 
