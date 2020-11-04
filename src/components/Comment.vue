@@ -12,12 +12,16 @@
         </div>
         <!-- 回复框 -->
         <div class="comment-reply">
-          <CommentReply />
+          <CommentReply :userInfo="userInfo" />
         </div>
 
         <!-- 评论列表 -->
         <div class="comment-list-box">
-          <CommentItem />
+          <CommentItem
+            v-for="commentObj in commentList"
+            :key="commentObj.commentId"
+            :commentObj="commentObj"
+          />
         </div>
         <!-- 加载更多评论 -->
         <div class="load-more-comment">
@@ -41,9 +45,12 @@ import { countFormat } from "@/utils/index";
   }
 })
 export default class Comment extends Vue {
-  @Prop({ default: () => ({}) }) private commentObj!: object;
+  @Prop({ default: () => [] }) private commentList!: any;
   @Prop({ default: 0 }) private __commentCount!: number;
 
+  private get userInfo() {
+    return this.$store.state.userInfo;
+  }
   private get commentCount() {
     return countFormat(this.__commentCount);
   }

@@ -4,18 +4,19 @@
       <div>
         <div class="title-box">
           <div class="header-box">
-            <router-link to="/">
-              <img
-                src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-                alt=""
-              />
-            </router-link>
+            <Avatar
+              size="40"
+              :to="`/user/${userInfo.usernumber}`"
+              :src="userInfo.pic"
+            />
           </div>
           <div class="input-text" @click.stop="replyToShow" v-if="!replyShow">
             写下你的评论
           </div>
           <div class="input-name" v-else>
-            <router-link to="/">Mob233</router-link>
+            <router-link :to="`/user/${userInfo.usernumber}`">{{
+              userInfo.name
+            }}</router-link>
             <Icon
               type="md-close"
               size="18"
@@ -42,12 +43,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Vue, Ref, Prop } from "vue-property-decorator";
 
 @Component
 export default class CommentReply extends Vue {
   private replyShow = false;
   @Ref("replyInput") private replyInput!: any;
+  @Prop({ default: "userInfo" }) private userInfo!: any;
 
   // 显示回复输入框
   private replyToShow() {

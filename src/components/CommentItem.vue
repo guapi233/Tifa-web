@@ -5,71 +5,86 @@
         <div class="comment-user">
           <div class="header-box">
             <Avatar
-              src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-              to="/"
+              :src="author.pic"
+              :to="`/user/${commentObj.authorId}`"
               size="40"
             />
           </div>
           <div class="user-box">
             <div class="name">
-              <router-link to="/" class="user-link">MYC___</router-link>
+              <router-link
+                :to="`/user/${commentObj.authorId}`"
+                class="user-link"
+                >{{ author.name }}</router-link
+              >
             </div>
-            <div class="timer">10月19日</div>
+            <div class="timer">{{ dateFormat(commentObj.created) }}</div>
           </div>
         </div>
         <div class="comment-content-box">
           <div class="comment-content">
             <div class="comment-txt">
-              不是用Aqara 网关就可以在使用Homekit 在家庭里显示吗
+              {{ commentObj.content }}
             </div>
             <div class="oper-box">
               <div class="oper-item">
                 <Icon type="md-text" size="20" />
-                <span>1</span>
+                <span>{{ commentObj.commentCount }}</span>
               </div>
               <div class="oper-item">
                 <Icon type="md-thumbs-up" size="20" />
-                <span>0</span>
+                <span>{{ commentObj.likeCount }}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="comment-content-box">
-        <div class="comment-children-item">
+        <div
+          class="comment-children-item"
+          v-for="child in children"
+          :key="child.commentId"
+        >
           <!-- 子 -->
           <div class="comment-container">
             <div class="comment-user">
               <div class="header-box">
                 <Avatar
-                  src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-                  to="/"
+                  :src="child.author.pic"
+                  :to="`/user/${child.authorId}`"
                   size="40"
                 />
               </div>
               <div class="user-box">
                 <div class="name">
-                  <router-link to="/" class="user-link">MYC___</router-link>
-                  <span class="decoration"
-                    >回复 <router-link to="/">夜色催更</router-link></span
-                  >
+                  <router-link to="/" class="user-link">{{
+                    child.author.name
+                  }}</router-link>
+                  <span class="decoration">
+                    <span v-if="child.replyId !== commentObj.authorId"
+                      >回复
+                      <router-link :to="`/user/${child.replyId}`">{{
+                        child.reply.name
+                      }}</router-link></span
+                    >
+                  </span>
                 </div>
-                <div class="timer">10月19日</div>
+                <div class="timer">{{ dateFormat(child.created) }}</div>
               </div>
             </div>
             <div class="comment-content-box">
               <div class="comment-content">
                 <div class="comment-txt">
-                  不是用Aqara 网关就可以在使用Homekit 在家庭里显示吗
+                  {{ child.content }}
                 </div>
                 <div class="oper-box">
                   <div class="oper-item">
                     <Icon type="md-text" size="20" />
-                    <span>1</span>
+                    <span>{{ child.commentCount }}</span>
                   </div>
                   <div class="oper-item">
                     <Icon type="md-thumbs-up" size="20" />
-                    <span>0</span>
+                    <span>{{ child.likeCount }}</span>
                   </div>
                 </div>
               </div>
@@ -83,9 +98,23 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { dateFormat } from "@/utils/index";
 
 @Component
-export default class CommentItem extends Vue {}
+export default class CommentItem extends Vue {
+  @Prop({ default: () => ({}) }) private commentObj!: any;
+  private dateFormat = dateFormat;
+
+  // 子评论列表
+  private get children() {
+    return this.commentObj.children;
+  }
+
+  // 作者信息
+  private get author() {
+    return this.commentObj.author;
+  }
+}
 </script>
 
 <style lang="scss">

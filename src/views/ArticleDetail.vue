@@ -173,7 +173,7 @@
       </div>
 
       <!-- 评论区 -->
-      <Comment />
+      <Comment :commentList="commentList" />
 
       <!-- 推荐阅读 -->
       <div class="recommend-read">
@@ -194,7 +194,7 @@
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { dateFormat, countFormat } from "@/utils/index";
-import { getArticleDetail } from "@/api/content";
+import { getArticleDetail, getCommentList } from "@/api/content";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
 import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
@@ -232,7 +232,9 @@ export default class ArticleDetail extends Vue {
   ];
   private sideBarLeft = "0";
   private baseUrl = config.baseUrl;
+  private articleId = "";
   private articleDetail: any = null;
+  private commentList: any = [];
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
 
@@ -255,16 +257,11 @@ export default class ArticleDetail extends Vue {
     return countFormat(this.articleDetail.commentCount);
   }
 
-  // 暂时这么做，过段时间将 校验&鉴权 提升到路由层级
   private async mounted() {
     const { articleId } = this.$route.params;
-    const res = await getArticleDetail(articleId);
-
-    if (!res) {
-      this.$router.replace("/whoops");
-    } else {
-      this.articleDetail = res;
-    }
+    this.articleId = articleId;
+    await this.getArticleDetail();
+    await this.getCommentList();
 
     // 监听窗口边框 调整左侧工具栏
     this.$nextTick(() => {
@@ -277,6 +274,27 @@ export default class ArticleDetail extends Vue {
   private beforeDestroy() {
     // 销毁监听器
     window.removeEventListener("resize", this.resetSideBarLeft);
+  }
+
+  // 暂时这么做，过段时间将 校验&鉴权 提升到路由层级
+  // 获取文章详情
+  private async getArticleDetail() {
+    const res = await getArticleDetail(this.articleId);
+
+    if (!res) {
+      this.$router.replace("/whoops");
+    } else {
+      this.articleDetail = res;
+    }
+  }
+
+  // 获取评论列表
+  private async getCommentList() {
+    const res = await getCommentList(this.articleId);
+
+    if (res) {
+      this.commentList = res;
+    }
   }
 
   // 重置左侧工具栏的left属性
