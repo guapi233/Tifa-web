@@ -1,0 +1,178 @@
+<template>
+  <div class="comment-reply-outermost">
+    <div class="reply-box">
+      <div>
+        <div class="title-box">
+          <div class="header-box">
+            <router-link to="/">
+              <img
+                src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
+                alt=""
+              />
+            </router-link>
+          </div>
+          <div class="input-text" @click.stop="replyToShow" v-if="!replyShow">
+            写下你的评论
+          </div>
+          <div class="input-name" v-else>
+            <router-link to="/">Mob233</router-link>
+            <Icon
+              type="md-close"
+              size="18"
+              class="close-reply"
+              @click="replyShow = false"
+            />
+          </div>
+        </div>
+        <div class="comment-box" v-show="replyShow">
+          <div class="backdrop">
+            <div class="highlights"></div>
+          </div>
+          <textarea ref="replyInput" class="reply-input"></textarea>
+          <div class="handle-box">
+            <Button shape="circle" class="reply-btn">评论</Button>
+            <div class="upload">
+              <Icon type="md-images" size="16" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Ref } from "vue-property-decorator";
+
+@Component
+export default class CommentReply extends Vue {
+  private replyShow = false;
+  @Ref("replyInput") private replyInput!: any;
+
+  // 显示回复输入框
+  private replyToShow() {
+    this.replyShow = true;
+    this.$nextTick(() => {
+      this.replyInput.focus();
+    });
+  }
+}
+</script>
+
+<style lang="scss">
+.comment-reply-outermost {
+  .reply-box {
+    .title-box {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+
+      .header-box {
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        margin-right: 14px;
+
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 40px;
+        }
+      }
+
+      .input-text {
+        color: $contentColor;
+        flex: 1;
+        cursor: text;
+      }
+
+      .input-name {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+
+        .close-reply {
+          color: rgb(230, 45, 45);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .comment-box {
+      position: relative;
+      padding-left: 54px;
+      margin-top: 10px;
+
+      .backdrop {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        padding: 2px;
+        color: #211615;
+        width: calc(100% - 54px);
+        height: 122px;
+        background-color: #fff;
+        color: #292525;
+        overflow: auto;
+        pointer-events: none;
+        transition: transform 1s;
+        font-size: 16px;
+        outline: 0;
+        resize: none;
+        border: none;
+        font-weight: 400;
+        line-height: 1.6;
+
+        .highlights {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 1.6;
+          color: transparent;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+        }
+      }
+
+      .reply-input {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 20px;
+        width: 100%;
+        min-height: 122px;
+        height: auto;
+        background-color: transparent;
+        color: #292525;
+        font-size: 16px;
+        box-sizing: border-box;
+        outline: 0;
+        resize: none;
+        border: none;
+        font-weight: 400;
+        line-height: 1.6;
+      }
+
+      .handle-box {
+        display: flex;
+
+        .reply-btn {
+          margin-right: 10px;
+        }
+
+        .upload {
+          width: 30px;
+          height: 30px;
+          background: #f5f5f5;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          border-radius: 15px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+</style>

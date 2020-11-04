@@ -173,152 +173,7 @@
       </div>
 
       <!-- 评论区 -->
-      <div class="comment-box">
-        <div class="comment">
-          <!-- 头部 -->
-          <div class="comment-header">
-            <div class="comment-title">全部评论（{{ commentCount }}）</div>
-            <div class="review-box">
-              <span>热门排序</span>
-              <Icon type="ios-funnel-outline" size="14" />
-            </div>
-          </div>
-          <!-- 回复框 -->
-          <div class="comment-reply">
-            <div class="reply-box">
-              <div>
-                <div class="title-box">
-                  <div class="header-box">
-                    <router-link to="/">
-                      <img
-                        src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-                        alt=""
-                      />
-                    </router-link>
-                  </div>
-                  <div
-                    class="input-text"
-                    @click.stop="replyToShow"
-                    v-if="!replyShow"
-                  >
-                    写下你的评论
-                  </div>
-                  <div class="input-name" v-else>
-                    <router-link to="/">Mob233</router-link>
-                    <Icon
-                      type="md-close"
-                      size="18"
-                      class="close-reply"
-                      @click="replyShow = false"
-                    />
-                  </div>
-                </div>
-                <div class="comment-box" v-show="replyShow">
-                  <div class="backdrop">
-                    <div class="highlights"></div>
-                  </div>
-                  <textarea ref="replyInput" class="reply-input"></textarea>
-                  <div class="handle-box">
-                    <Button shape="circle" class="reply-btn">评论</Button>
-                    <div class="upload">
-                      <Icon type="md-images" size="16" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 评论列表 -->
-          <div class="comment-list-box">
-            <div class="comment-list">
-              <div class="comment-container">
-                <div class="comment-user">
-                  <div class="header-box">
-                    <Avatar
-                      src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-                      to="/"
-                      size="40"
-                    />
-                  </div>
-                  <div class="user-box">
-                    <div class="name">
-                      <router-link to="/" class="user-link">MYC___</router-link>
-                    </div>
-                    <div class="timer">10月19日</div>
-                  </div>
-                </div>
-                <div class="comment-content-box">
-                  <div class="comment-content">
-                    <div class="comment-txt">
-                      不是用Aqara 网关就可以在使用Homekit 在家庭里显示吗
-                    </div>
-                    <div class="oper-box">
-                      <div class="oper-item">
-                        <Icon type="md-text" size="20" />
-                        <span>1</span>
-                      </div>
-                      <div class="oper-item">
-                        <Icon type="md-thumbs-up" size="20" />
-                        <span>0</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="comment-content-box">
-                <div class="comment-children-item">
-                  <!-- 子 -->
-                  <div class="comment-container">
-                    <div class="comment-user">
-                      <div class="header-box">
-                        <Avatar
-                          src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-                          to="/"
-                          size="40"
-                        />
-                      </div>
-                      <div class="user-box">
-                        <div class="name">
-                          <router-link to="/" class="user-link"
-                            >MYC___</router-link
-                          >
-                          <span class="decoration"
-                            >回复
-                            <router-link to="/">夜色催更</router-link></span
-                          >
-                        </div>
-                        <div class="timer">10月19日</div>
-                      </div>
-                    </div>
-                    <div class="comment-content-box">
-                      <div class="comment-content">
-                        <div class="comment-txt">
-                          不是用Aqara 网关就可以在使用Homekit 在家庭里显示吗
-                        </div>
-                        <div class="oper-box">
-                          <div class="oper-item">
-                            <Icon type="md-text" size="20" />
-                            <span>1</span>
-                          </div>
-                          <div class="oper-item">
-                            <Icon type="md-thumbs-up" size="20" />
-                            <span>0</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 加载更多评论 -->
-          <div class="load-more-comment">
-            更多
-          </div>
-        </div>
-      </div>
+      <Comment />
 
       <!-- 推荐阅读 -->
       <div class="recommend-read">
@@ -338,13 +193,14 @@
 
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
-import ArticleItem3 from "@/components/ArticleItem3.vue";
-import { getArticleDetail } from "@/api/content";
-import config from "@/config/index";
 import { dateFormat, countFormat } from "@/utils/index";
+import { getArticleDetail } from "@/api/content";
+import ArticleItem3 from "@/components/ArticleItem3.vue";
+import Comment from "@/components/Comment.vue";
+import config from "@/config/index";
 
 @Component({
-  components: { ArticleItem3 }
+  components: { ArticleItem3, Comment }
 })
 export default class ArticleDetail extends Vue {
   private likedUsers = [
@@ -374,11 +230,9 @@ export default class ArticleDetail extends Vue {
       name: "卧槽，冰"
     }
   ];
-  private replyShow = false;
   private sideBarLeft = "0";
   private baseUrl = config.baseUrl;
   private articleDetail: any = null;
-  @Ref("replyInput") private replyInput!: any;
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
 
@@ -431,14 +285,6 @@ export default class ArticleDetail extends Vue {
       this.articleContent.offsetLeft -
       (this.leftSideBar.clientWidth + 170) +
       "px";
-  }
-
-  // 显示回复输入框
-  private replyToShow() {
-    this.replyShow = true;
-    this.$nextTick(() => {
-      this.replyInput.focus();
-    });
   }
 }
 </script>
@@ -898,266 +744,6 @@ export default class ArticleDetail extends Vue {
         width: 100%;
         max-width: 548px;
         max-height: 126px;
-      }
-    }
-
-    .comment-box {
-      .comment {
-        width: 100%;
-        max-width: 644px;
-        margin: 0 auto;
-        margin-top: 40px;
-
-        .comment-header {
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 22px;
-          letter-spacing: 0.06em;
-          color: #655e5e;
-          text-align: center;
-          position: relative;
-
-          .review-box {
-            position: absolute;
-            font-size: 14px;
-            right: 0;
-            top: 0;
-            color: #8e8787;
-            cursor: pointer;
-
-            i {
-              margin-left: 3px;
-            }
-          }
-        }
-
-        .comment-reply {
-          margin-top: 30px;
-          padding: 16px;
-          background: #fff;
-          .reply-box {
-            .title-box {
-              display: flex;
-              align-items: center;
-              font-size: 14px;
-
-              .header-box {
-                width: 40px;
-                height: 40px;
-                overflow: hidden;
-                margin-right: 14px;
-
-                img {
-                  width: 40px;
-                  height: 40px;
-                  border-radius: 40px;
-                }
-              }
-
-              .input-text {
-                color: $contentColor;
-                flex: 1;
-                cursor: text;
-              }
-
-              .input-name {
-                flex: 1;
-                display: flex;
-                justify-content: space-between;
-
-                .close-reply {
-                  color: rgb(230, 45, 45);
-                  cursor: pointer;
-                }
-              }
-            }
-
-            .comment-box {
-              position: relative;
-              padding-left: 54px;
-              margin-top: 10px;
-
-              .backdrop {
-                position: absolute;
-                z-index: 1;
-                top: 0;
-                padding: 2px;
-                color: #211615;
-                width: calc(100% - 54px);
-                height: 122px;
-                background-color: #fff;
-                color: #292525;
-                overflow: auto;
-                pointer-events: none;
-                transition: transform 1s;
-                font-size: 16px;
-                outline: 0;
-                resize: none;
-                border: none;
-                font-weight: 400;
-                line-height: 1.6;
-
-                .highlights {
-                  font-size: 16px;
-                  font-weight: 400;
-                  line-height: 1.6;
-                  color: transparent;
-                  white-space: pre-wrap;
-                  word-wrap: break-word;
-                }
-              }
-
-              .reply-input {
-                position: relative;
-                z-index: 2;
-                margin-bottom: 20px;
-                width: 100%;
-                min-height: 122px;
-                height: auto;
-                background-color: transparent;
-                color: #292525;
-                font-size: 16px;
-                box-sizing: border-box;
-                outline: 0;
-                resize: none;
-                border: none;
-                font-weight: 400;
-                line-height: 1.6;
-              }
-
-              .handle-box {
-                display: flex;
-
-                .reply-btn {
-                  margin-right: 10px;
-                }
-
-                .upload {
-                  width: 30px;
-                  height: 30px;
-                  background: #f5f5f5;
-                  display: -webkit-box;
-                  display: -ms-flexbox;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  font-size: 14px;
-                  border-radius: 15px;
-                  cursor: pointer;
-                }
-              }
-            }
-          }
-        }
-
-        .comment-list-box {
-          margin-top: 8px;
-
-          .comment-list {
-            margin-bottom: 8px;
-            width: 100%;
-            padding: 10px 20px 4px 20px;
-            background: #fff;
-
-            .comment-content-box {
-              padding-left: 54px;
-            }
-
-            .comment-container {
-              padding: 10px 0;
-
-              .comment-user {
-                display: flex;
-                align-items: center;
-
-                .header-box {
-                  width: 40px;
-                  height: 40px;
-                  margin-right: 14px;
-
-                  img {
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 100%;
-                  }
-                }
-
-                .user-box {
-                  overflow: hidden;
-                  flex: 1;
-
-                  .name {
-                    display: flex;
-                    align-items: center;
-
-                    .user-link {
-                      font-size: 14px;
-                      font-weight: 600;
-                      margin-bottom: 5px;
-                      color: #292525;
-
-                      &:hover {
-                        color: $primaryColor;
-                      }
-                    }
-
-                    .decoration {
-                      margin-left: 15px;
-                      color: $contentColor;
-                    }
-                  }
-
-                  .timer {
-                    color: #8e8787;
-                    font-size: 12px;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                  }
-                }
-              }
-
-              .comment-content {
-                margin-bottom: 10px;
-
-                .comment-txt {
-                  margin-top: 8px;
-                  line-height: 1.4;
-                  font-size: 16px;
-                  color: #4c4e4d;
-                  word-wrap: break-word;
-                }
-
-                .oper-box {
-                  display: flex;
-                  margin-top: 16px;
-                  min-height: 20px;
-
-                  .oper-item {
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    color: $contentColor;
-                    margin-right: 16px;
-
-                    span {
-                      margin-left: 5px;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        .load-more-comment {
-          text-align: center;
-          background: #fff;
-          height: 60px;
-          line-height: 60px;
-          cursor: pointer;
-          color: #655e5e;
-        }
       }
     }
 
