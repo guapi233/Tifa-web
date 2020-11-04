@@ -58,6 +58,24 @@
           <Icon type="ios-pricetags" size="28" />
         </div>
       </div>
+
+      <!-- 右侧工具栏 -->
+      <div class="article-right-side">
+        <div class="directory-container">
+          <div class="item">
+            <div class="circle"></div>
+            <div class="title">本周社区热榜</div>
+          </div>
+          <div class="sub-directory-container">
+            <div class="item sub-directory">
+              <div class="circle h3"></div>
+              <div class="title">
+                🏅️《国内 17 座大城市毕业生补贴最高十万，秋招的你想去哪？》
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 文章标签 -->
@@ -552,6 +570,91 @@ export default class ArticleDetail extends Vue {
 
         &:hover {
           color: $primaryColor;
+        }
+      }
+    }
+
+    .article-right-side {
+      position: absolute;
+      top: 0;
+      transform: translateY(0);
+      bottom: auto;
+      right: 40px;
+      z-index: 90;
+      padding: 10px 0;
+      width: 220px;
+      padding-left: 40px;
+      max-height: 400px;
+      overflow: hidden;
+      margin-top: -10px;
+
+      .directory-container {
+        .item {
+          margin-bottom: 10px;
+          text-align: left;
+          cursor: pointer;
+
+          .circle {
+            width: 16px;
+            height: 4px;
+            border-radius: 20px;
+            background: #e5e5e5;
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            transition: background 0.5s;
+
+            &.h3 {
+              width: 10px;
+              height: 4px;
+              margin-right: 2px;
+            }
+          }
+
+          .title {
+            font-size: 12px;
+            line-height: 17px;
+            color: $contentColor;
+            display: inline-block;
+            opacity: 0;
+            width: 150px;
+            vertical-align: middle;
+            text-align: left;
+            transition: opacity 0.5s;
+            margin-top: -2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 10px;
+            font-weight: 600;
+          }
+
+          &:hover {
+            .circle {
+              background-color: #8e8787;
+            }
+
+            .title {
+              color: #655e5e;
+            }
+          }
+        }
+
+        .sub-directory {
+          .title {
+            margin-left: 8px;
+            font-weight: 400;
+          }
+
+          &:hover {
+            .title {
+              color: #292525;
+            }
+          }
+        }
+
+        &:hover .title {
+          opacity: 1;
         }
       }
     }
