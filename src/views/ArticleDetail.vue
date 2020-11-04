@@ -15,7 +15,6 @@
         </div>
         <div class="article-author">
           <div class="author-box">
-            <!-- <img src="@/assets/defaultPic.gif" alt="" /> -->
             <Avatar size="32" />
             <span class="name">Vanilla</span>
           </div>
@@ -71,9 +70,6 @@
           :key="item.name"
           :style="{ 'z-index': 50 - index }"
         >
-          <!-- <router-link to="/">
-            <img :src="item.pic" alt="" />
-          </router-link> -->
           <Avatar :src="item.pic" to="/" size="16" />
         </div>
         <div class="tip-info">
@@ -106,9 +102,6 @@
       <div class="author-container">
         <div class="author-center">
           <div class="author-pic">
-            <!-- <router-link to="/">
-              <img src="@/assets/defaultPic.gif" alt="" />
-            </router-link> -->
             <Avatar size="42" to="/" />
           </div>
           <div class="content">
@@ -202,12 +195,6 @@
               <div class="comment-container">
                 <div class="comment-user">
                   <div class="header-box">
-                    <!-- <router-link to="/">
-                      <img
-                        src=""
-                        alt=""
-                      />
-                    </router-link> -->
                     <Avatar
                       src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
                       to="/"
@@ -245,12 +232,6 @@
                   <div class="comment-container">
                     <div class="comment-user">
                       <div class="header-box">
-                        <!-- <router-link to="/">
-                          <img
-                            src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
-                            alt=""
-                          />
-                        </router-link> -->
                         <Avatar
                           src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
                           to="/"

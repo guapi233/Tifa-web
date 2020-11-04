@@ -8,7 +8,6 @@
           </div>
           <div class="other-info">
             <router-link class="author" to="/">
-              <!-- <img :src="baseUrl + " alt="" /> -->
               <Avatar class="user-pic" size="25" :src="articleObj.author.pic" />
               <span>{{ articleObj.author.name }}</span>
             </router-link>

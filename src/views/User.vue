@@ -4,7 +4,6 @@
       <div class="user-content">
         <div class="user-info">
           <div class="pic">
-            <!-- <img :src="userPic" alt="" /> -->
             <Avatar size="100" :src="userInfo.pic" />
           </div>
           <div class="cont">

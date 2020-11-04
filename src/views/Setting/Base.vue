@@ -2,7 +2,6 @@
   <div class="setting-base-outermost">
     <div class="header-box">
       <div class="pic">
-        <!-- <img :src="userPic" alt="" /> -->
         <Avatar :src="userInfo.pic" size="60" />
       </div>
 

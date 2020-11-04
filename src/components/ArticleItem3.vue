@@ -13,10 +13,6 @@
         </router-link>
         <div class="card-bottom">
           <router-link class="author" to="/">
-            <!-- <img
-              src="https://cdn.sspai.com/2020/05/11/avatar/3c9a70f91923fbd189c3caf27e7b1727.?imageMogr2/auto-orient/quality/95/thumbnail/!48x48r/gravity/Center/crop/48x48/interlace/1"
-              alt=""
-            /> -->
             <Avatar size="24" />
 
             <span class="name">zachal</span>

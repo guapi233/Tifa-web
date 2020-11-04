@@ -7,12 +7,6 @@
             <div class="title-box">
               <div class="left">
                 <div class="title">
-                  <!-- <router-link to="/user"
-                    ><img
-                      class="updates-pic"
-                      src=""
-                      alt=""
-                  /></router-link> -->
                   <Avatar to="/user" size="24" />
                   <div class="name">Mob233</div>
                 </div>
@@ -29,12 +23,6 @@
             <div class="title-box">
               <div class="left">
                 <div class="title">
-                  <!-- <router-link to="/user"
-                    ><img
-                      class="updates-pic"
-                      src="@/assets/defaultPic.gif"
-                      alt=""
-                  /></router-link> -->
                   <Avatar to="/user" size="24" />
                   <div class="name">Mob233</div>
                 </div>

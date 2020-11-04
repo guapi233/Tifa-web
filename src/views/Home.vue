@@ -23,7 +23,6 @@
                 @mouseenter="userToolsShow = true"
                 @mouseleave="userToolsShow = false"
               >
-                <!-- <img :src="userPic" alt="" /> -->
                 <Avatar :src="userInfo.pic" />
 
                 <transition name="fade">
