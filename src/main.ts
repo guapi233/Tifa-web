@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+
+import Avatar from "@/components/Avatar.vue";
 import {
   Button,
   Input,
@@ -19,6 +21,7 @@ import {
   Radio,
   Upload,
   Switch,
+  Avatar as IAvatar,
 } from "view-design";
 
 import "view-design/dist/styles/iview.css";
@@ -40,6 +43,8 @@ Vue.component("RadioGroup", RadioGroup);
 Vue.component("Radio", Radio);
 Vue.component("Upload", Upload);
 Vue.component("ISwitch", Switch);
+Vue.component("IAvatar", IAvatar);
+Vue.component("Avatar", Avatar);
 
 Vue.prototype.$Message = Message;
 
