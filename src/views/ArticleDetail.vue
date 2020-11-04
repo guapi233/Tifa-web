@@ -25,12 +25,38 @@
 
     <!-- 文章主体 -->
     <div class="article-body">
-      <div class="article-content">
+      <div ref="articleContent" class="article-content">
         <h2>我是标题啊啊啊啊</h2>
         <p>
           呜啦啦啦啦啦!大娃娃阿瓦达爱我的骄傲我都个挖掘活动个就爱我批的简欧屁娃机动票据外婆IDjaw破ID就
         </p>
         <a href="baidu.com">去百度啊啊啊啊啊！</a>
+      </div>
+
+      <!-- 左侧工具栏 -->
+      <div
+        ref="leftSideBar"
+        class="article-left-side"
+        :style="{ left: sideBarLeft }"
+      >
+        <Button
+          class="like-btn"
+          icon="md-thumbs-up"
+          shape="circle"
+          size="large"
+          type="primary"
+        ></Button>
+        <div class="count">133</div>
+        <div class="comment-icon item">
+          <Icon type="md-text" size="28" />
+        </div>
+        <div class="count">20</div>
+        <div class="forward-icon item">
+          <Icon type="ios-share" size="28" />
+        </div>
+        <div class="collection-icon item">
+          <Icon type="ios-pricetags" size="28" />
+        </div>
       </div>
     </div>
 
@@ -332,8 +358,32 @@ export default class ArticleDetail extends Vue {
     }
   ];
   private replyShow = false;
+  private sideBarLeft = "0";
   @Ref("replyInput") private replyInput!: any;
+  @Ref("articleContent") private articleContent!: any;
+  @Ref("leftSideBar") private leftSideBar!: any;
 
+  private mounted() {
+    // 监听窗口边框 调整左侧工具栏
+    this.resetSideBarLeft();
+    this.resetSideBarLeft = this.resetSideBarLeft.bind(this);
+    window.addEventListener("resize", this.resetSideBarLeft);
+  }
+
+  private beforeDestroy() {
+    // 销毁监听器
+    window.removeEventListener("resize", this.resetSideBarLeft);
+  }
+
+  // 重置左侧工具栏的left属性
+  private resetSideBarLeft() {
+    this.sideBarLeft =
+      this.articleContent.offsetLeft -
+      (this.leftSideBar.clientWidth + 170) +
+      "px";
+  }
+
+  // 显示回复输入框
   private replyToShow() {
     this.replyShow = true;
     this.$nextTick(() => {
@@ -470,6 +520,38 @@ export default class ArticleDetail extends Vue {
 
         &:hover {
           border-width: 2px;
+        }
+      }
+    }
+
+    .article-left-side {
+      position: absolute;
+      top: 0;
+      transform: translateY(0);
+      bottom: auto;
+      left: 90px;
+      text-align: center;
+      z-index: 90;
+      color: $contentColor;
+
+      .like-btn {
+        margin-bottom: 8px;
+        width: 48px;
+        height: 48px;
+        font-size: 26px;
+      }
+
+      .count {
+        font-size: 12px;
+        line-height: 17px;
+      }
+
+      .item {
+        margin-top: 20px;
+        cursor: pointer;
+
+        &:hover {
+          color: $primaryColor;
         }
       }
     }
