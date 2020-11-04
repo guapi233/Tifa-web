@@ -7,12 +7,13 @@
             <div class="title-box">
               <div class="left">
                 <div class="title">
-                  <router-link to="/user"
+                  <!-- <router-link to="/user"
                     ><img
                       class="updates-pic"
-                      src="@/assets/defaultPic.gif"
+                      src=""
                       alt=""
-                  /></router-link>
+                  /></router-link> -->
+                  <Avatar to="/user" size="24" />
                   <div class="name">Mob233</div>
                 </div>
                 <div class="memo">喜欢了文章</div>
@@ -28,12 +29,13 @@
             <div class="title-box">
               <div class="left">
                 <div class="title">
-                  <router-link to="/user"
+                  <!-- <router-link to="/user"
                     ><img
                       class="updates-pic"
                       src="@/assets/defaultPic.gif"
                       alt=""
-                  /></router-link>
+                  /></router-link> -->
+                  <Avatar to="/user" size="24" />
                   <div class="name">Mob233</div>
                 </div>
                 <div class="memo">

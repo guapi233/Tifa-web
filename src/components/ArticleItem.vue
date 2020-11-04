@@ -8,7 +8,8 @@
           </div>
           <div class="other-info">
             <router-link class="author" to="/">
-              <img :src="baseUrl + articleObj.author.pic" alt="" />
+              <!-- <img :src="baseUrl + " alt="" /> -->
+              <Avatar class="user-pic" size="25" :src="articleObj.author.pic" />
               <span>{{ articleObj.author.name }}</span>
             </router-link>
             <div class="article-value">
@@ -93,10 +94,7 @@ export default class ArticleItem extends Vue {
             display: flex;
             align-items: center;
 
-            img {
-              width: 25px;
-              height: 25px;
-              border-radius: 100%;
+            .user-pic {
               margin-right: 8px;
             }
           }

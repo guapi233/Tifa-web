@@ -13,10 +13,12 @@
         </router-link>
         <div class="card-bottom">
           <router-link class="author" to="/">
-            <img
+            <!-- <img
               src="https://cdn.sspai.com/2020/05/11/avatar/3c9a70f91923fbd189c3caf27e7b1727.?imageMogr2/auto-orient/quality/95/thumbnail/!48x48r/gravity/Center/crop/48x48/interlace/1"
               alt=""
-            />
+            /> -->
+            <Avatar size="24" />
+
             <span class="name">zachal</span>
           </router-link>
           <div class="right">
@@ -104,11 +106,11 @@ export default class ClassName extends Vue {}
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            margin-right: 10px;
           }
           .name {
             display: flex;
             max-width: 90px;
+            margin-left: 10px;
           }
         }
 

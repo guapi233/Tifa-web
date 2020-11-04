@@ -15,8 +15,9 @@
         </div>
         <div class="article-author">
           <div class="author-box">
-            <img src="@/assets/defaultPic.gif" alt="" />
-            <span>Vanilla</span>
+            <!-- <img src="@/assets/defaultPic.gif" alt="" /> -->
+            <Avatar size="32" />
+            <span class="name">Vanilla</span>
           </div>
           <div class="timer">10月13日</div>
         </div>
@@ -70,9 +71,10 @@
           :key="item.name"
           :style="{ 'z-index': 50 - index }"
         >
-          <router-link to="/">
+          <!-- <router-link to="/">
             <img :src="item.pic" alt="" />
-          </router-link>
+          </router-link> -->
+          <Avatar :src="item.pic" to="/" size="16" />
         </div>
         <div class="tip-info">
           <div class="nickname">
@@ -104,9 +106,10 @@
       <div class="author-container">
         <div class="author-center">
           <div class="author-pic">
-            <router-link to="/">
+            <!-- <router-link to="/">
               <img src="@/assets/defaultPic.gif" alt="" />
-            </router-link>
+            </router-link> -->
+            <Avatar size="42" to="/" />
           </div>
           <div class="content">
             <div class="top">
@@ -199,12 +202,17 @@
               <div class="comment-container">
                 <div class="comment-user">
                   <div class="header-box">
-                    <router-link to="/">
+                    <!-- <router-link to="/">
                       <img
-                        src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
+                        src=""
                         alt=""
                       />
-                    </router-link>
+                    </router-link> -->
+                    <Avatar
+                      src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
+                      to="/"
+                      size="40"
+                    />
                   </div>
                   <div class="user-box">
                     <div class="name">
@@ -237,12 +245,17 @@
                   <div class="comment-container">
                     <div class="comment-user">
                       <div class="header-box">
-                        <router-link to="/">
+                        <!-- <router-link to="/">
                           <img
                             src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
                             alt=""
                           />
-                        </router-link>
+                        </router-link> -->
+                        <Avatar
+                          src="https://cdn.sspai.com/avatar/7a833758c66cea9f5702a7813da0c3ec.?imageMogr2/auto-orient/quality/95/thumbnail/!80x80r/gravity/Center/crop/80x80/interlace/1"
+                          to="/"
+                          size="40"
+                        />
                       </div>
                       <div class="user-box">
                         <div class="name">
@@ -405,7 +418,7 @@ export default class ArticleDetail extends Vue {
             border-radius: 100%;
           }
 
-          span {
+          .name {
             color: #292525;
             margin-left: 10px;
           }
@@ -539,6 +552,7 @@ export default class ArticleDetail extends Vue {
         height: 18px;
         border-radius: 100%;
         position: relative;
+        line-height: 1;
 
         img {
           width: 16px;
