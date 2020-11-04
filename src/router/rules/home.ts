@@ -14,7 +14,7 @@ export default [
   userRoutes,
   settingRoutes,
   {
-    path: "/article",
+    path: "/article/:articleId",
     name: "Article",
     component: ArticleDetail,
   },
