@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+// global components
 import Avatar from "@/components/Avatar.vue";
 import {
   Button,
@@ -24,12 +25,13 @@ import {
   Avatar as IAvatar,
 } from "view-design";
 
+// global style
 import "view-design/dist/styles/iview.css";
 import "@/config/iviewTheme.less";
 
 Vue.component("Button", Button);
 Vue.component("Input", Input);
-Vue.component("IInput", Input); // 使用符合规范的标签名 再次注册一遍 Input
+Vue.component("IInput", Input); // 使用符合规范的标签名 再次注册一遍 Input（原因：Input无法正常使用双标签，会被代码检查干掉）
 Vue.component("Form", Form);
 Vue.component("FormItem", FormItem);
 Vue.component("Tooltip", Tooltip);
