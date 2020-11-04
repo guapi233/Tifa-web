@@ -7,3 +7,7 @@ export const getArticleList = async (skip = 0, limit = 0) => {
 export const getArticleDetail = async (articleId: string) => {
   return axios.get(`/public/getArticleDetail?articleId=${articleId}`);
 };
+
+export const getCommentList = async (targetId: string) => {
+  return axios.get(`/public/getCommentList?targetId=${targetId}`);
+};
