@@ -12,7 +12,12 @@
         </div>
         <!-- 回复框 -->
         <div class="comment-reply">
-          <CommentReply :userInfo="userInfo" />
+          <CommentReply
+            :userInfo="userInfo"
+            :inputVal.sync="inputVal"
+            :replyShow.sync="replyShow"
+            @onSubmit="submitComment"
+          />
         </div>
 
         <!-- 评论列表 -->
@@ -37,6 +42,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import CommentItem from "@/components/CommentItem.vue";
 import CommentReply from "@/components/CommentReply.vue";
 import { countFormat } from "@/utils/index";
+import { addComment } from "@/api/content";
 
 @Component({
   components: {
@@ -47,12 +53,37 @@ import { countFormat } from "@/utils/index";
 export default class Comment extends Vue {
   @Prop({ default: () => [] }) private commentList!: any;
   @Prop({ default: 0 }) private __commentCount!: number;
+  @Prop({ default: "" }) private articleId!: string;
 
+  // 输入框内容 & 输入框展示变量
+  private inputVal = "";
+  private replyShow = false;
+
+  // 用户信息
   private get userInfo() {
     return this.$store.state.userInfo;
   }
+  // 评论总数
   private get commentCount() {
     return countFormat(this.__commentCount);
+  }
+
+  // 添加评论
+  private async submitComment() {
+    const res = await addComment({
+      targetId: this.articleId,
+      replyId: "*",
+      content: this.inputVal
+    });
+
+    if (res) {
+      this.commentList.unshift(res);
+      this.$Message.success("评论成功");
+
+      // 关闭输入框 & 清空输入内容
+      this.inputVal = "";
+      this.replyShow = false;
+    }
   }
 }
 </script>

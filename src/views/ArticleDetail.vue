@@ -173,7 +173,7 @@
       </div>
 
       <!-- 评论区 -->
-      <Comment :commentList="commentList" />
+      <Comment :commentList="commentList" :articleId="articleId" />
 
       <!-- 推荐阅读 -->
       <div class="recommend-read">
@@ -235,6 +235,7 @@ export default class ArticleDetail extends Vue {
   private articleId = "";
   private articleDetail: any = null;
   private commentList: any = [];
+  private commentSort = "likeCount";
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
 

@@ -21,7 +21,7 @@
               type="md-close"
               size="18"
               class="close-reply"
-              @click="replyShow = false"
+              @click="$emit('update:replyShow', false)"
             />
           </div>
         </div>
@@ -29,9 +29,16 @@
           <div class="backdrop">
             <div class="highlights"></div>
           </div>
-          <textarea ref="replyInput" class="reply-input"></textarea>
+          <textarea
+            ref="replyInput"
+            :value="inputVal"
+            @input="inputChange"
+            class="reply-input"
+          ></textarea>
           <div class="handle-box">
-            <Button shape="circle" class="reply-btn">评论</Button>
+            <Button shape="circle" class="reply-btn" @click="onSubmit"
+              >评论</Button
+            >
             <div class="upload">
               <Icon type="md-images" size="16" />
             </div>
@@ -47,16 +54,31 @@ import { Component, Vue, Ref, Prop } from "vue-property-decorator";
 
 @Component
 export default class CommentReply extends Vue {
-  private replyShow = false;
   @Ref("replyInput") private replyInput!: any;
   @Prop({ default: "userInfo" }) private userInfo!: any;
+  @Prop({ default: false }) private replyShow!: boolean;
+  @Prop({ default: "" }) private inputVal!: string;
+
+  // 输入框值变换时 通知父组件
+  private inputChange(e: any) {
+    this.$emit("update:inputVal", e.target.value);
+  }
 
   // 显示回复输入框
   private replyToShow() {
-    this.replyShow = true;
+    this.$emit("update:replyShow", true);
     this.$nextTick(() => {
       this.replyInput.focus();
     });
+  }
+
+  // 提交评论
+  private onSubmit() {
+    if (this.inputVal === "") {
+      this.$Message.error("输入内容不能为空");
+    } else {
+      this.$emit("onSubmit");
+    }
   }
 }
 </script>
