@@ -1,7 +1,7 @@
 <template>
   <div class="article-item-outermost">
     <div class="article-item">
-      <router-link to="/" class="wrapper">
+      <router-link :to="`/article/${articleObj.articleId}`" class="wrapper">
         <div class="article-info">
           <div class="article-title">
             {{ articleObj.title }}
