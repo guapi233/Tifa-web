@@ -32,8 +32,15 @@
           />
         </div>
         <!-- 加载更多评论 -->
-        <div class="load-more-comment">
-          更多
+        <div
+          class="load-more-comment"
+          @click="$emit('loadmore', ++skip)"
+          v-if="loadedCommentCount < localCommentCount"
+        >
+          <span>更多</span>
+        </div>
+        <div class="load-more-comment is-empty" v-else>
+          <span>没有更多评论了哦~</span>
         </div>
       </div>
     </div>
@@ -64,8 +71,10 @@ export default class Comment extends Vue {
   private replyShow = false;
   // countFormat
   private countFormat = countFormat;
-  // 组件内部使用的评论数量，用于 评论成功时 完成展示效果 +1
+  // 组件内部使用的评论总数量，用于 评论成功时 完成展示效果 +1
   private localCommentCount = this.commentCount;
+  // 当前评论页数（跳过的页数）
+  private skip = 0;
 
   // 展示用的 组件内部的文章评论数量
   private get showLocalCommentCount() {
@@ -74,6 +83,17 @@ export default class Comment extends Vue {
   // 用户信息
   private get userInfo() {
     return this.$store.state.userInfo;
+  }
+
+  // 当前加载的评论数量
+  private get loadedCommentCount() {
+    let count = this.commentList.length;
+
+    this.commentList.forEach((comment: any) => {
+      count += comment.children ? comment.children.length : 0;
+    });
+
+    return count;
   }
 
   // 添加评论
@@ -101,9 +121,10 @@ export default class Comment extends Vue {
     const sort = this.commentSort === "created" ? "likeCount" : "created";
     this.$emit("update:commentSort", sort);
 
-    // 将评论列表清空， 并对父组件触发 changeSort 事件
+    // 将评论列表清空，页数归1, 并对父组件触发 changeSort 事件
     this.$emit("update:commentList", []);
-    this.$emit("changeSort");
+    this.skip = 0;
+    this.$emit("changeSort", this.skip);
   }
 }
 </script>
@@ -157,6 +178,10 @@ export default class Comment extends Vue {
       line-height: 60px;
       cursor: pointer;
       color: #655e5e;
+    }
+
+    .is-empty {
+      cursor: auto;
     }
   }
 }

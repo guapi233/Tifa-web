@@ -23,8 +23,7 @@
     <!-- 文章主体 -->
     <div class="article-body">
       <div ref="articleContent" class="article-content">
-        1111
-        <!-- <div v-html="articleDetail.content"></div> -->
+        <div v-html="articleDetail.content"></div>
       </div>
 
       <!-- 左侧工具栏 -->
@@ -179,6 +178,7 @@
         :commentCount="articleDetail.commentCount"
         :commentSort.sync="commentSort"
         @changeSort="getCommentList"
+        @loadmore="getCommentList"
       />
 
       <!-- 推荐阅读 -->
