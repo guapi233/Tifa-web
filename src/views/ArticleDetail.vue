@@ -174,9 +174,11 @@
 
       <!-- 评论区 -->
       <Comment
-        :commentList="commentList"
+        :commentList.sync="commentList"
         :targetId="articleId"
         :commentCount="articleDetail.commentCount"
+        :commentSort.sync="commentSort"
+        @changeSort="getCommentList"
       />
 
       <!-- 推荐阅读 -->
@@ -266,7 +268,7 @@ export default class ArticleDetail extends Vue {
     const { articleId } = this.$route.params;
     this.articleId = articleId;
     await this.getArticleDetail();
-    await this.getCommentList();
+    await this.getCommentList(0);
 
     // 监听窗口边框 调整左侧工具栏
     this.$nextTick(() => {
@@ -294,11 +296,16 @@ export default class ArticleDetail extends Vue {
   }
 
   // 获取评论列表
-  private async getCommentList() {
-    const res = await getCommentList(this.articleId);
+  private async getCommentList(skip: number) {
+    const res: any = await getCommentList({
+      targetId: this.articleId,
+      limit: 20,
+      skip,
+      sort: this.commentSort
+    });
 
     if (res) {
-      this.commentList = res;
+      this.commentList.push(...res);
     }
   }
 

@@ -7,8 +7,9 @@
           <div class="comment-title">
             全部评论（{{ showLocalCommentCount }}）
           </div>
-          <div class="review-box">
-            <span>热门排序</span>
+          <div class="review-box" @click="changeSort">
+            <span v-if="commentSort === 'likeCount'">热门排序</span>
+            <span v-if="commentSort === 'created'">时间排序</span>
             <Icon type="ios-funnel-outline" size="14" />
           </div>
         </div>
@@ -56,6 +57,7 @@ export default class Comment extends Vue {
   @Prop({ default: () => [] }) private commentList!: any;
   @Prop({ default: 0 }) private commentCount!: number;
   @Prop({ default: "" }) private targetId!: string;
+  @Prop({ default: "likeCount" }) private commentSort!: string;
 
   // 输入框内容 & 输入框展示变量
   private inputVal = "";
@@ -93,6 +95,16 @@ export default class Comment extends Vue {
       this.localCommentCount++;
     }
   }
+
+  // 切换评论展示方式
+  private changeSort() {
+    const sort = this.commentSort === "created" ? "likeCount" : "created";
+    this.$emit("update:commentSort", sort);
+
+    // 将评论列表清空， 并对父组件触发 changeSort 事件
+    this.$emit("update:commentList", []);
+    this.$emit("changeSort");
+  }
 }
 </script>
 
@@ -120,6 +132,7 @@ export default class Comment extends Vue {
         top: 0;
         color: #8e8787;
         cursor: pointer;
+        user-select: none;
 
         i {
           margin-left: 3px;
