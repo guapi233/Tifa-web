@@ -29,6 +29,7 @@
             v-for="commentObj in commentList"
             :key="commentObj.commentId"
             :commentObj="commentObj"
+            :secondReplyShowId.sync="secondReplyShowId"
           />
         </div>
         <!-- 加载更多评论 -->
@@ -75,6 +76,8 @@ export default class Comment extends Vue {
   private localCommentCount = this.commentCount;
   // 当前评论页数（跳过的页数）
   private skip = 0;
+  // 当前展示的二级评论输入框的评论Id
+  private secondReplyShowId: any = null;
 
   // 展示用的 组件内部的文章评论数量
   private get showLocalCommentCount() {

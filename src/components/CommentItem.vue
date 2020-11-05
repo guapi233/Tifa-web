@@ -28,7 +28,10 @@
               {{ commentObj.content }}
             </div>
             <div class="oper-box">
-              <div class="oper-item">
+              <div
+                class="oper-item"
+                @click="secondReplyShow(commentObj.author)"
+              >
                 <Icon type="md-text" size="20" />
                 <span>{{ commentObj.commentCount }}</span>
               </div>
@@ -80,7 +83,7 @@
                   {{ child.content }}
                 </div>
                 <div class="oper-box">
-                  <div class="oper-item">
+                  <div class="oper-item" @click="secondReplyShow(child.author)">
                     <Icon type="md-text" size="20" />
                     <span>{{ child.commentCount }}</span>
                   </div>
@@ -94,7 +97,10 @@
           </div>
         </div>
         <!-- 二级评论回复框 -->
-        <div class="comment-replyer">
+        <div
+          class="comment-replyer"
+          v-show="secondReplyShowId === commentObj.commentId"
+        >
           <div class="reply-box">
             <div class="wrap">
               <div class="title-box">
@@ -139,11 +145,13 @@ import ReplyArea from "@/components/ReplyArea.vue";
 })
 export default class CommentItem extends Vue {
   @Prop({ default: () => ({}) }) private commentObj!: any;
+  // 当前展示的二级评论回复框的评论Id
+  @Prop({ default: () => null }) private secondReplyShowId!: any;
   private dateFormat = dateFormat;
   // 二级评论 @对象信息
   private commentReplyTip = {
-    name: "杰恩莱茵哈特",
-    usernumber: "17692711124"
+    name: "加载中...",
+    usernumber: "whoops"
   };
 
   // 子评论列表
@@ -159,6 +167,15 @@ export default class CommentItem extends Vue {
   // 个人信息
   private get userInfo() {
     return this.$store.state.userInfo;
+  }
+
+  // 点击一级&二级评论的 评论回复按钮
+  private secondReplyShow(authorInfo: any) {
+    // 修改当前展示的输入框
+    this.$emit("update:secondReplyShowId", this.commentObj.commentId);
+
+    // 获取当前 @的人的信息
+    this.commentReplyTip = authorInfo;
   }
 }
 </script>
