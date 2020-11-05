@@ -1,6 +1,7 @@
 <template>
   <div class="comment-item-outermost">
     <div class="comment-list">
+      <!-- 一级评论内容区 -->
       <div class="comment-container">
         <div class="comment-user">
           <div class="header-box">
@@ -39,6 +40,7 @@
           </div>
         </div>
       </div>
+      <!-- 二级评论内容区 -->
       <div class="comment-content-box">
         <div
           class="comment-children-item"
@@ -91,6 +93,37 @@
             </div>
           </div>
         </div>
+        <!-- 二级评论回复框 -->
+        <div class="comment-replyer">
+          <div class="reply-box">
+            <div class="wrap">
+              <div class="title-box">
+                <div class="header-box">
+                  <Avatar size="40" />
+                </div>
+                <div class="tip-box">
+                  <router-link
+                    class="self"
+                    :to="`/user/${userInfo.usernumber}`"
+                    >{{ userInfo.name }}</router-link
+                  >
+
+                  <span class="txt margin">回复</span>
+
+                  <router-link
+                    class="txt"
+                    :to="`/user/${commentReplyTip.usernumber}`"
+                  >
+                    {{ commentReplyTip.name }}
+                  </router-link>
+                </div>
+              </div>
+              <div class="content-box">
+                <ReplyArea />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -99,11 +132,19 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { dateFormat } from "@/utils/index";
+import ReplyArea from "@/components/ReplyArea.vue";
 
-@Component
+@Component({
+  components: { ReplyArea }
+})
 export default class CommentItem extends Vue {
   @Prop({ default: () => ({}) }) private commentObj!: any;
   private dateFormat = dateFormat;
+  // 二级评论 @对象信息
+  private commentReplyTip = {
+    name: "杰恩莱茵哈特",
+    usernumber: "17692711124"
+  };
 
   // 子评论列表
   private get children() {
@@ -113,6 +154,11 @@ export default class CommentItem extends Vue {
   // 作者信息
   private get author() {
     return this.commentObj.author;
+  }
+
+  // 个人信息
+  private get userInfo() {
+    return this.$store.state.userInfo;
   }
 }
 </script>
@@ -127,6 +173,66 @@ export default class CommentItem extends Vue {
 
     .comment-content-box {
       padding-left: 54px;
+
+      .comment-replyer {
+        margin: 20px 0 30px;
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) scale(0.5);
+          height: 200%;
+          width: 200%;
+          border: 2px solid #e5e5e5;
+          z-index: 1;
+        }
+
+        .reply-box {
+          padding: 16px;
+          background: #fff;
+
+          .wrap {
+            position: relative;
+            z-index: 5;
+
+            .title-box {
+              display: flex;
+              align-items: center;
+              font-size: 14px;
+
+              .header-box {
+                margin-right: 14px;
+              }
+
+              .tip-box {
+                .self {
+                  color: #292525;
+                  &:hover {
+                    color: $primaryColor;
+                  }
+                }
+
+                .txt {
+                  color: $contentColor;
+                }
+
+                .margin {
+                  margin: 0 8px;
+                }
+              }
+            }
+
+            .content-box {
+              position: relative;
+              padding-left: 54px;
+              margin-top: 10px;
+            }
+          }
+        }
+      }
     }
 
     .comment-container {
