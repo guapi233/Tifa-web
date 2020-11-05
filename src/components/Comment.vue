@@ -4,7 +4,9 @@
       <div class="comment">
         <!-- 头部 -->
         <div class="comment-header">
-          <div class="comment-title">全部评论（{{ commentCount }}）</div>
+          <div class="comment-title">
+            全部评论（{{ showLocalCommentCount }}）
+          </div>
           <div class="review-box">
             <span>热门排序</span>
             <Icon type="ios-funnel-outline" size="14" />
@@ -52,37 +54,43 @@ import { addComment } from "@/api/content";
 })
 export default class Comment extends Vue {
   @Prop({ default: () => [] }) private commentList!: any;
-  @Prop({ default: 0 }) private __commentCount!: number;
-  @Prop({ default: "" }) private articleId!: string;
+  @Prop({ default: 0 }) private commentCount!: number;
+  @Prop({ default: "" }) private targetId!: string;
 
   // 输入框内容 & 输入框展示变量
   private inputVal = "";
   private replyShow = false;
+  // countFormat
+  private countFormat = countFormat;
+  // 组件内部使用的评论数量，用于 评论成功时 完成展示效果 +1
+  private localCommentCount = this.commentCount;
 
+  // 展示用的 组件内部的文章评论数量
+  private get showLocalCommentCount() {
+    return countFormat(this.localCommentCount);
+  }
   // 用户信息
   private get userInfo() {
     return this.$store.state.userInfo;
-  }
-  // 评论总数
-  private get commentCount() {
-    return countFormat(this.__commentCount);
   }
 
   // 添加评论
   private async submitComment() {
     const res = await addComment({
-      targetId: this.articleId,
+      targetId: this.targetId,
       replyId: "*",
-      content: this.inputVal
+      content: this.inputVal,
+      type: 0
     });
 
     if (res) {
       this.commentList.unshift(res);
       this.$Message.success("评论成功");
 
-      // 关闭输入框 & 清空输入内容
-      this.inputVal = "";
+      // 关闭输入框 & 清空输入内容 & 评论展示数量 +1
       this.replyShow = false;
+      this.inputVal = "";
+      this.localCommentCount++;
     }
   }
 }

@@ -173,7 +173,11 @@
       </div>
 
       <!-- 评论区 -->
-      <Comment :commentList="commentList" :articleId="articleId" />
+      <Comment
+        :commentList="commentList"
+        :targetId="articleId"
+        :commentCount="articleDetail.commentCount"
+      />
 
       <!-- 推荐阅读 -->
       <div class="recommend-read">
