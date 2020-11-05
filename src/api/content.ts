@@ -11,3 +11,7 @@ export const getArticleDetail = async (articleId: string) => {
 export const getCommentList = async (targetId: string) => {
   return axios.get(`/public/getCommentList?targetId=${targetId}`);
 };
+
+export const addComment = async (commentObj: object) => {
+  return axios.post("/content/addComment", commentObj);
+};
