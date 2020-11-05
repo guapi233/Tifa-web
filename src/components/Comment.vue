@@ -30,6 +30,7 @@
             :key="commentObj.commentId"
             :commentObj="commentObj"
             :secondReplyShowId.sync="secondReplyShowId"
+            @secondReply="submitSecondComment"
           />
         </div>
         <!-- 加载更多评论 -->
@@ -77,7 +78,7 @@ export default class Comment extends Vue {
   // 当前评论页数（跳过的页数）
   private skip = 0;
   // 当前展示的二级评论输入框的评论Id
-  private secondReplyShowId: any = null;
+  private secondReplyShowId = "";
 
   // 展示用的 组件内部的文章评论数量
   private get showLocalCommentCount() {
@@ -116,6 +117,44 @@ export default class Comment extends Vue {
       this.replyShow = false;
       this.inputVal = "";
       this.localCommentCount++;
+    }
+  }
+
+  // 添加二级评论
+  private async submitSecondComment(commentInfo: any) {
+    /**
+     * commentInfo 评论信息
+     * replyId 回复对象账号、content：评论内容、commentId:当前一级评论Id、commentItem:子组件实例，身上有successCallBack方法
+     * secondLevelCommentId：二级评论的Id，如果当前的回复对象为2级评论对象 该属性为其对象的commentId，否则为空字符串
+     */
+    const {
+      replyId,
+      content,
+      commentId,
+      commentItem,
+      secondLevelCommentId
+    } = commentInfo;
+    const res = await addComment({
+      targetId: commentId,
+      replyId,
+      content,
+      type: 1,
+      targetType: 0,
+      secondLevelCommentId
+    });
+
+    if (res) {
+      const currentComent = this.commentList.find((comment: any) => {
+        return comment.commentId === commentId;
+      });
+      currentComent.children.push(res);
+      this.$Message.success("评论成功");
+
+      // 关闭输入框 & 清空输入内容 & 评论展示数量 +1
+      this.secondReplyShowId = "";
+      commentItem.successCallBack();
+      this.localCommentCount++;
+      currentComent.commentCount++;
     }
   }
 

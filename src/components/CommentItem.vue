@@ -28,10 +28,7 @@
               {{ commentObj.content }}
             </div>
             <div class="oper-box">
-              <div
-                class="oper-item"
-                @click="secondReplyShow(commentObj.author)"
-              >
+              <div class="oper-item" @click="secondReplyShow(commentObj)">
                 <Icon type="md-text" size="20" />
                 <span>{{ commentObj.commentCount }}</span>
               </div>
@@ -83,7 +80,10 @@
                   {{ child.content }}
                 </div>
                 <div class="oper-box">
-                  <div class="oper-item" @click="secondReplyShow(child.author)">
+                  <div
+                    class="oper-item"
+                    @click="secondReplyShow(child, child.commentId)"
+                  >
                     <Icon type="md-text" size="20" />
                     <span>{{ child.commentCount }}</span>
                   </div>
@@ -105,7 +105,7 @@
             <div class="wrap">
               <div class="title-box">
                 <div class="header-box">
-                  <Avatar size="40" />
+                  <Avatar size="40" :src="userInfo.pic" />
                 </div>
                 <div class="tip-box">
                   <router-link
@@ -120,12 +120,12 @@
                     class="txt"
                     :to="`/user/${commentReplyTip.usernumber}`"
                   >
-                    {{ commentReplyTip.name }}
+                    {{ commentReplyTip.author.name }}
                   </router-link>
                 </div>
               </div>
               <div class="content-box">
-                <ReplyArea />
+                <ReplyArea @onSubmit="submitReply" v-model="inputVal" />
               </div>
             </div>
           </div>
@@ -148,11 +148,17 @@ export default class CommentItem extends Vue {
   // 当前展示的二级评论回复框的评论Id
   @Prop({ default: () => null }) private secondReplyShowId!: any;
   private dateFormat = dateFormat;
+  // 输入框内容
+  private inputVal = "";
   // 二级评论 @对象信息
-  private commentReplyTip = {
-    name: "加载中...",
-    usernumber: "whoops"
+  private commentReplyTip: any = {
+    author: {
+      name: "加载中...",
+      usernumber: "whoops"
+    }
   };
+  // 当前的回复对象是否 为 2级评论对象
+  private secondLevelCommentId = "";
 
   // 子评论列表
   private get children() {
@@ -170,12 +176,40 @@ export default class CommentItem extends Vue {
   }
 
   // 点击一级&二级评论的 评论回复按钮
-  private secondReplyShow(authorInfo: any) {
+  private secondReplyShow(
+    commentInfo: any,
+    secondLevelCommentId: string | undefined
+  ) {
     // 修改当前展示的输入框
     this.$emit("update:secondReplyShowId", this.commentObj.commentId);
 
     // 获取当前 @的人的信息
-    this.commentReplyTip = authorInfo;
+    this.commentReplyTip = commentInfo;
+
+    // 判断当前的回复对象是否为 2级评论
+    this.secondLevelCommentId = secondLevelCommentId || "";
+  }
+
+  // 提交评论
+  private submitReply() {
+    const payload: any = {
+      replyId: this.commentReplyTip.author.usernumber,
+      content: this.inputVal,
+      commentId: this.commentObj.commentId,
+      commentItem: this,
+      secondLevelCommentId: this.secondLevelCommentId
+    };
+
+    this.$emit("secondReply", payload);
+  }
+
+  // 评论成功回调函数
+  private successCallBack() {
+    this.inputVal = "";
+    // 如果评论对象为 2级评论， 则在评论完成后将该评论在页面上的commentCount++
+    if (this.secondLevelCommentId) {
+      this.commentReplyTip.commentCount += 1;
+    }
   }
 }
 </script>
@@ -277,7 +311,7 @@ export default class CommentItem extends Vue {
 
           .name {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
 
             .user-link {
               font-size: 14px;

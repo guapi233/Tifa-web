@@ -4,7 +4,7 @@
       <div class="highlights"></div>
     </div>
     <textarea
-      :value="inputVal"
+      :value="value"
       @input="inputChange"
       class="reply-input"
     ></textarea>
@@ -22,16 +22,16 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class ReplyArea extends Vue {
-  @Prop({ default: "" }) private inputVal!: string;
+  @Prop({ default: "" }) private value!: string;
 
   // 输入框值变换时 通知父组件
   private inputChange(e: any) {
-    this.$emit("update:inputVal", e.target.value);
+    this.$emit("input", e.target.value);
   }
 
   // 提交评论
   private onSubmit() {
-    if (this.inputVal === "") {
+    if (this.value === "") {
       this.$Message.error("输入内容不能为空");
     } else {
       this.$emit("onSubmit");
