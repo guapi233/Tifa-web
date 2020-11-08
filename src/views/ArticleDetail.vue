@@ -48,7 +48,11 @@
         <div class="forward-icon item">
           <Icon type="ios-share" size="28" />
         </div>
-        <div class="collection-icon item">
+        <div
+          class="collection-icon item"
+          :class="{ 'is-collected': articleDetail.isCollected }"
+          @click="collectArticle"
+        >
           <Icon type="ios-pricetags" size="28" />
         </div>
       </div>
@@ -130,7 +134,11 @@
         <div class="forward oper-item">
           <Icon type="ios-share" size="24" />
         </div>
-        <div class="collection oper-item">
+        <div
+          class="collection oper-item"
+          :class="{ 'is-collected': articleDetail.isCollected }"
+          @click="collectArticle"
+        >
           <Icon type="ios-pricetags" size="24" />
         </div>
         <div class="other oper-item">
@@ -156,8 +164,21 @@
             <div class="summary">
               {{ author.summary || "还没有介绍自己呢" }}
             </div>
-            <div class="follow-btn">
-              <Button type="primary" shape="circle">关注</Button>
+            <div
+              class="follow-btn"
+              v-if="author.usernumber !== $store.state.userInfo.usernumber"
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                v-if="!author.isFollowed"
+                @click="followUser"
+              >
+                关注
+              </Button>
+              <Button shape="circle" v-else @click="followUser">
+                取消关注
+              </Button>
             </div>
           </div>
         </div>
@@ -209,8 +230,10 @@ import {
   getArticleDetail,
   getCommentList,
   addLike,
-  getLikeList
+  getLikeList,
+  addCollection
 } from "@/api/content";
+import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
 import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
@@ -333,6 +356,32 @@ export default class ArticleDetail extends Vue {
     const res = await getLikeList(this.articleId, 5);
 
     this.likeList = res;
+  }
+
+  // 收藏文章
+  private async collectArticle() {
+    const res = await addCollection(this.articleDetail.articleId);
+
+    if (typeof res === "object") {
+      this.$Message.success("收藏成功");
+      this.articleDetail.isCollected = 1;
+    } else {
+      this.$Message.info(res);
+      this.articleDetail.isCollected = 0;
+    }
+  }
+
+  // 关注用户
+  private async followUser() {
+    const res = await followUser(this.author.usernumber);
+
+    if (typeof res === "object") {
+      this.$Message.success("关注成功");
+      this.author.isFollowed = 1;
+    } else if (typeof res === "string") {
+      this.$Message.info(res);
+      this.author.isFollowed = 0;
+    }
   }
 }
 </script>
@@ -498,6 +547,10 @@ export default class ArticleDetail extends Vue {
         &:hover {
           color: $primaryColor;
         }
+      }
+
+      .is-collected {
+        color: $primaryColor;
       }
     }
 
@@ -695,6 +748,10 @@ export default class ArticleDetail extends Vue {
         &:hover {
           color: $primaryColor;
         }
+      }
+
+      .is-collected {
+        color: $primaryColor;
       }
     }
   }
