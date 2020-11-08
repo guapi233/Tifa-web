@@ -37,7 +37,8 @@
           icon="md-thumbs-up"
           shape="circle"
           size="large"
-          type="primary"
+          :type="articleLiked ? 'primary' : 'default'"
+          @click="likeArticle"
         ></Button>
         <div class="count">{{ likeCount }}</div>
         <div class="comment-icon item">
@@ -98,9 +99,14 @@
     <!-- 点赞信息、文章操作栏 -->
     <div class="article-action-bar">
       <div class="like-btn">
-        <Button shape="circle" icon="md-thumbs-up" size="large">{{
-          likeCount
-        }}</Button>
+        <Button
+          shape="circle"
+          icon="md-thumbs-up"
+          :type="articleLiked ? 'primary' : 'default'"
+          size="large"
+          @click="likeArticle"
+          >{{ likeCount }}</Button
+        >
       </div>
       <div class="liked-users">
         <div
@@ -200,7 +206,7 @@
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { dateFormat, countFormat } from "@/utils/index";
-import { getArticleDetail, getCommentList } from "@/api/content";
+import { getArticleDetail, getCommentList, addLike } from "@/api/content";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
 import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
@@ -253,6 +259,11 @@ export default class ArticleDetail extends Vue {
   private get createdDate() {
     return dateFormat(this.articleDetail.created);
   }
+  // 文章是否点赞
+  private get articleLiked() {
+    return this.articleDetail.isLiked;
+  }
+
   // 查看、点赞、评论信息
   private get viewCount() {
     return countFormat(this.articleDetail.viewCount);
@@ -318,6 +329,21 @@ export default class ArticleDetail extends Vue {
       this.articleContent.offsetLeft -
       (this.leftSideBar.clientWidth + 170) +
       "px";
+  }
+
+  // 给文章点赞
+  private async likeArticle() {
+    const res = await addLike(this.articleDetail.articleId, 0);
+
+    if (typeof res === "object") {
+      this.$Message.success("点赞成功");
+      this.articleDetail.likeCount++;
+      this.articleDetail.isLiked = 1;
+    } else {
+      this.$Message.info(res);
+      this.articleDetail.likeCount--;
+      this.articleDetail.isLiked = 0;
+    }
   }
 }
 </script>
