@@ -323,6 +323,9 @@ export default class ArticleDetail extends Vue {
       this.articleDetail.likeCount--;
       this.articleDetail.isLiked = 0;
     }
+
+    // 重新加载点赞列表
+    this.getLikeList();
   }
 
   // 获取给文章点赞的列表
