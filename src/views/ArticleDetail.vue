@@ -298,11 +298,13 @@ export default class ArticleDetail extends Vue {
 
   // 获取评论列表
   private async getCommentList(skip: number) {
+    const { usernumber } = this.$store.state.userInfo;
     const res: any = await getCommentList({
       targetId: this.articleId,
       limit: 20,
       skip,
-      sort: this.commentSort
+      sort: this.commentSort,
+      usernumber
     });
 
     if (res) {

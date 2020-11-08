@@ -18,9 +18,9 @@ export const getArticleDetail = async (
  * @param commentObj 条件对象
  */
 export const getCommentList = async (commentObj: any) => {
-  const { targetId, skip, limit, sort } = commentObj;
+  const { targetId, skip, limit, sort, usernumber } = commentObj;
   return axios.get(
-    `/public/getCommentList?targetId=${targetId}&skip=${skip}&limit=${limit}&sort=${sort}`
+    `/public/getCommentList?targetId=${targetId}&skip=${skip}&limit=${limit}&sort=${sort}&usernumber=${usernumber}`
   );
 };
 
