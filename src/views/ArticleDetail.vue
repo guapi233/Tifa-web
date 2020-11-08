@@ -307,7 +307,6 @@ export default class ArticleDetail extends Vue {
     window.removeEventListener("resize", this.resetSideBarLeft);
   }
 
-  // 暂时这么做，过段时间将 校验&鉴权 提升到路由层级
   // 获取文章详情
   private async getArticleDetail() {
     const { usernumber } = this.$store.state.userInfo;

@@ -6,6 +6,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import homeRoutes from "./rules/home";
 import otherRoutes from "./rules/other";
+import store from "@/store";
 
 const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
 
@@ -24,6 +25,16 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+// 鉴权路由守卫
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requireAuth)) {
+    if (!store.state.token) {
+      next("/login");
+    }
+  }
+  next();
 });
 
 export default router;

@@ -22,6 +22,9 @@ const SettingFilter = () =>
 export default {
   path: "/setting",
   component: Setting,
+  meta: {
+    requireAuth: true,
+  },
   children: [
     {
       path: "",
