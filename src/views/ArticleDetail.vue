@@ -34,6 +34,7 @@
       <div
         ref="leftSideBar"
         class="article-left-side"
+        v-show="sideBarLeft !== '0'"
         :style="{ left: sideBarLeft }"
       >
         <Button
@@ -533,7 +534,6 @@ export default class ArticleDetail extends Vue {
       top: 0;
       transform: translateY(0);
       bottom: auto;
-      left: 90px;
       text-align: center;
       z-index: 90;
       color: $contentColor;
