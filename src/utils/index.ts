@@ -83,10 +83,10 @@ export const countFormat = (count: number) => {
 
 /**
  * 格式化时间展示
- * 小于3分钟：刚刚；小于一小时：xx分钟前；小于一天：xx小时前；小于两天：昨天 xx:xx；都不小于：月份-日期
+ * 小于3分钟：刚刚；小于一小时：xx分钟前；小于一天：xx小时前；小于两天：昨天 xx:xx；都不小于：月份-日期；不同年份：x年x月x日
  * @param date 日期时间戳
  */
-export const dateFormat = (date: number | string) => {
+export const dateFormat = (date: string | number) => {
   if (typeof date === "string") {
     date = new Date(date).getTime();
   }
@@ -113,6 +113,12 @@ export const dateFormat = (date: number | string) => {
       .getMinutes()
       .toString()
       .padStart(2, "0")}`;
+  } else if (
+    difference > yesterday &&
+    new Date(now).getFullYear() !== dateObj.getFullYear()
+  ) {
+    return `${dateObj.getFullYear()}年${dateObj.getMonth() +
+      1}月${dateObj.getDate()}日`;
   } else {
     return `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
   }
