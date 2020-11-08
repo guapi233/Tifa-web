@@ -9,3 +9,8 @@ export const editUserInfo = (userNewInfo: object) => {
 export const uploadPic = (formData: any) => {
   return axios.post("/user/uploadPic", formData);
 };
+
+// 关注用户
+export const followUser = (targetId: string) => {
+  return axios.get(`/user/addFollow?targetId=${targetId}`);
+};
