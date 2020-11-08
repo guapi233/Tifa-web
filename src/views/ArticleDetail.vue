@@ -12,7 +12,11 @@
         </div>
         <div class="article-author">
           <div class="author-box">
-            <Avatar size="32" :src="author.pic" />
+            <Avatar
+              size="32"
+              :src="author.pic"
+              :to="`/user/${author.usernumber}`"
+            />
             <span class="name">{{ author.name }}</span>
           </div>
           <div class="timer">{{ createdDate }}</div>
@@ -154,11 +158,17 @@
       <div class="author-container">
         <div class="author-center">
           <div class="author-pic">
-            <Avatar size="42" to="/" :src="author.pic" />
+            <Avatar
+              size="42"
+              :to="`/user/${author.usernumber}`"
+              :src="author.pic"
+            />
           </div>
           <div class="content">
             <div class="top">
-              <router-link to="/">{{ author.name }}</router-link>
+              <router-link :to="`/user/${author.usernumber}`">{{
+                author.name
+              }}</router-link>
               <div class="title"></div>
             </div>
             <div class="summary">
