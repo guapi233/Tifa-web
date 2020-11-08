@@ -75,22 +75,14 @@
     <!-- 文章标签 -->
     <div class="article-tag">
       <div class="tag-container">
-        <div class="tag-item">
+        <div
+          class="tag-item"
+          v-for="(tag, index) in articleDetail.tags"
+          :key="tag + index"
+        >
           <router-link to="/" class="tag">
             <span class="sub">#</span>
-            热门文章
-          </router-link>
-        </div>
-        <div class="tag-item">
-          <router-link to="/" class="tag">
-            <span class="sub">#</span>
-            习惯养成
-          </router-link>
-        </div>
-        <div class="tag-item">
-          <router-link to="/" class="tag">
-            <span class="sub">#</span>
-            应用推荐
+            {{ tag }}
           </router-link>
         </div>
       </div>
@@ -111,20 +103,27 @@
       <div class="liked-users">
         <div
           class="pic-item"
-          v-for="(item, index) in likedUsers"
-          :key="item.name"
+          v-for="(item, index) in likeList"
+          :key="item.authorId"
           :style="{ 'z-index': 50 - index }"
         >
-          <Avatar :src="item.pic" to="/" size="16" />
+          <Avatar :src="item.author.pic" to="/" size="16" />
         </div>
         <div class="tip-info">
           <div class="nickname">
-            <router-link to="/">{{ likedUsers[0].name }}</router-link
-            >、 <router-link to="/">{{ likedUsers[1].name }}</router-link
-            >、
-            <router-link to="/">{{ likedUsers[2].name }}</router-link>
+            <router-link to="/" v-if="likeList[0]">{{
+              likeList[0].author.name
+            }}</router-link>
+            <router-link v-if="likeList[1]" to="/"
+              >、 {{ likeList[1].author.name }}</router-link
+            >
+            <router-link v-if="likeList[2]" to="/"
+              >、 {{ likeList[2].author.name }}</router-link
+            >
           </div>
-          <span class="text">等 256 人为本文章点赞</span>
+          <span class="text" v-if="likeList[0]"
+            >等 {{ articleDetail.likeCount }} 人为本文章点赞</span
+          >
         </div>
       </div>
       <div class="right">
@@ -206,7 +205,12 @@
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { dateFormat, countFormat } from "@/utils/index";
-import { getArticleDetail, getCommentList, addLike } from "@/api/content";
+import {
+  getArticleDetail,
+  getCommentList,
+  addLike,
+  getLikeList
+} from "@/api/content";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
 import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
@@ -215,39 +219,13 @@ import config from "@/config/index";
   components: { ArticleItem3, Comment }
 })
 export default class ArticleDetail extends Vue {
-  private likedUsers = [
-    {
-      pic:
-        "https://cdn.sspai.com/2018/11/02/548771227e5043db36dbf4760015ea32.png?imageMogr2/auto-orient/quality/95/thumbnail/!84x84r/gravity/Center/crop/84x84/interlace/1",
-      name: "自动售卖机"
-    },
-    {
-      pic:
-        "https://cdn.sspai.com/avatar/7313ad397f4cf47d314f0f94e98c14a9.jpg?imageMogr2/auto-orient/quality/95/thumbnail/!32x32r/gravity/Center/crop/32x32/interlace/1",
-      name: "bigginho"
-    },
-    {
-      pic:
-        "https://cdn.sspai.com/avatar/27c94833a5e0772e6b72ac0f4a71625c.?imageMogr2/auto-orient/quality/95/thumbnail/!32x32r/gravity/Center/crop/32x32/interlace/1",
-      name: "BravoCiao"
-    },
-    {
-      pic:
-        "https://cdn.sspai.com/2019/04/17/avatar/e6e2ecd78858cbca0ef60dc2493fdcad.?imageMogr2/auto-orient/quality/95/thumbnail/!32x32r/gravity/Center/crop/32x32/interlace/1",
-      name: "xxxbin"
-    },
-    {
-      pic:
-        "https://cdn.sspai.com/2017/11/17/feb87d3de3f1d172706f591bb897f626.jpg?imageMogr2/auto-orient/quality/95/thumbnail/!32x32r/gravity/Center/crop/32x32/interlace/1",
-      name: "卧槽，冰"
-    }
-  ];
   private sideBarLeft = "0";
   private baseUrl = config.baseUrl;
   private articleId = "";
   private articleDetail: any = null;
   private commentList: any = [];
   private commentSort = "likeCount";
+  private likeList: any = [];
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
 
@@ -280,6 +258,7 @@ export default class ArticleDetail extends Vue {
     this.articleId = articleId;
     await this.getArticleDetail();
     await this.getCommentList(0);
+    await this.getLikeList();
 
     // 监听窗口边框 调整左侧工具栏
     this.$nextTick(() => {
@@ -344,6 +323,13 @@ export default class ArticleDetail extends Vue {
       this.articleDetail.likeCount--;
       this.articleDetail.isLiked = 0;
     }
+  }
+
+  // 获取给文章点赞的列表
+  private async getLikeList() {
+    const res = await getLikeList(this.articleId, 5);
+
+    this.likeList = res;
   }
 }
 </script>
