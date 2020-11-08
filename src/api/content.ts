@@ -35,3 +35,7 @@ export const addLike = async (targetId: string, type: number) => {
 export const getLikeList = async (targetId: string, limit: number) => {
   return axios.get(`/public/getLikeList?targetId=${targetId}&limit=${limit}`);
 };
+
+export const addCollection = async (targetId: string) => {
+  return axios.get(`/content/addCollection?targetId=${targetId}`);
+};
