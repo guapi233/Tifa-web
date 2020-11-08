@@ -32,7 +32,11 @@
                 <Icon type="md-text" size="20" />
                 <span>{{ commentObj.commentCount }}</span>
               </div>
-              <div class="oper-item">
+              <div
+                class="oper-item"
+                :class="{ commentLiked: commentObj.isLiked }"
+                @click="likeComment(commentObj)"
+              >
                 <Icon type="md-thumbs-up" size="20" />
                 <span>{{ commentObj.likeCount }}</span>
               </div>
@@ -87,7 +91,11 @@
                     <Icon type="md-text" size="20" />
                     <span>{{ child.commentCount }}</span>
                   </div>
-                  <div class="oper-item">
+                  <div
+                    class="oper-item"
+                    :class="{ commentLiked: child.isLiked }"
+                    @click="likeComment(child)"
+                  >
                     <Icon type="md-thumbs-up" size="20" />
                     <span>{{ child.likeCount }}</span>
                   </div>
@@ -138,6 +146,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { dateFormat } from "@/utils/index";
+import { addLike } from "@/api/content";
 import ReplyArea from "@/components/ReplyArea.vue";
 
 @Component({
@@ -209,6 +218,23 @@ export default class CommentItem extends Vue {
     // 如果评论对象为 2级评论， 则在评论完成后将该评论在页面上的commentCount++
     if (this.secondLevelCommentId) {
       this.commentReplyTip.commentCount += 1;
+    }
+  }
+
+  // 点赞评论
+  private async likeComment(comment: any) {
+    const { commentId } = comment;
+
+    const res = await addLike(commentId, 1);
+
+    if (typeof res === "object") {
+      this.$Message.success("点赞成功");
+      comment.likeCount++;
+      comment.isLiked = 1;
+    } else {
+      this.$Message.info(res);
+      comment.likeCount--;
+      comment.isLiked = 0;
     }
   }
 }
@@ -366,6 +392,10 @@ export default class CommentItem extends Vue {
             span {
               margin-left: 5px;
             }
+          }
+
+          .commentLiked {
+            color: $primaryColor;
           }
         }
       }
