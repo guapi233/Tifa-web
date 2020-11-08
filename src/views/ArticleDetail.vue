@@ -286,7 +286,8 @@ export default class ArticleDetail extends Vue {
   // 暂时这么做，过段时间将 校验&鉴权 提升到路由层级
   // 获取文章详情
   private async getArticleDetail() {
-    const res = await getArticleDetail(this.articleId);
+    const { usernumber } = this.$store.state.userInfo;
+    const res = await getArticleDetail(this.articleId, usernumber);
 
     if (!res) {
       this.$router.replace("/whoops");
