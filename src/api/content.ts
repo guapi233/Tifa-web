@@ -31,3 +31,7 @@ export const addComment = async (commentObj: object) => {
 export const addLike = async (targetId: string, type: number) => {
   return axios.get(`/content/addLike?targetId=${targetId}&type=${type}`);
 };
+
+export const getLikeList = async (targetId: string, limit: number) => {
+  return axios.get(`/public/getLikeList?targetId=${targetId}&limit=${limit}`);
+};
