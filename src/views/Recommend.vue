@@ -8,8 +8,11 @@
       />
     </div>
     <div class="load-more">
-      <Button shape="circle" type="primary">
+      <Button shape="circle" type="primary" v-if="hasMore" @click="loadmore">
         加载更多
+      </Button>
+      <Button shape="circle" type="primary" disabled v-else>
+        已经没有更多了哦
       </Button>
     </div>
   </div>
@@ -24,12 +27,23 @@ import { getArticleList } from "@/api/content";
   components: { ArticleItem }
 })
 export default class CommunityRecommend extends Vue {
-  private articleList = [];
+  private articleList: any = [];
+  private hasMore = true;
+  private page = 0;
 
   private async created() {
-    const res: any = await getArticleList();
+    this.loadmore();
+  }
 
-    this.articleList = res;
+  private async loadmore() {
+    const res: any = await getArticleList(this.page);
+
+    if (res.length === 0) {
+      this.hasMore = false;
+    }
+
+    this.articleList.push(...res);
+    this.page++;
   }
 }
 </script>
