@@ -1,6 +1,6 @@
 import axios from "@/utils/axios";
 
-export const getArticleList = async (skip = 0, limit = 0) => {
+export const getArticleList = async (skip = 0, limit = 20) => {
   return axios.get(`/public/getArticleList?skip=${skip}&limit=${limit}`);
 };
 
