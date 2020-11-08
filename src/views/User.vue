@@ -28,7 +28,16 @@
           </div>
           <div class="oper" v-else>
             <div class="oper-item">
-              <Button shape="circle" type="primary">关注</Button>
+              <Button
+                shape="circle"
+                type="primary"
+                v-if="!userInfo.isFollowed"
+                @click="followUser"
+                >关注</Button
+              >
+              <Button shape="circle" type="default" v-else @click="followUser"
+                >取消关注</Button
+              >
             </div>
             <div class="oper-item">
               <Button shape="circle">私信</Button>
@@ -144,6 +153,7 @@ import { Component, Vue } from "vue-property-decorator";
 import config from "@/config/index";
 import { getUserInfo } from "@/api/public";
 import UserTitle from "@/components/UserTitle.vue";
+import { followUser } from "@/api/user";
 
 @Component({
   components: { UserTitle }
@@ -167,17 +177,31 @@ export default class User extends Vue {
     } else if (usernumber === this.$store.state.userInfo.usernumber) {
       this.userInfo = this.$store.state.userInfo;
     } else {
-      const res = await getUserInfo(usernumber);
+      const res = await getUserInfo(
+        usernumber,
+        this.$store.state.userInfo.usernumber
+      );
       if (res) {
         this.userInfo = res;
-      } else {
-        // 404
       }
     }
   }
 
   private created() {
     this.setUserInfo();
+  }
+
+  // 关注用户
+  private async followUser() {
+    const res = await followUser(this.userInfo.usernumber);
+
+    if (typeof res === "object") {
+      this.$Message.success("关注成功");
+      this.userInfo.isFollowed = 1;
+    } else if (typeof res === "string") {
+      this.$Message.info(res);
+      this.userInfo.isFollowed = 0;
+    }
   }
 }
 </script>

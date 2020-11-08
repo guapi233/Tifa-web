@@ -18,8 +18,8 @@ export const getCaptcha = async () => {
 /**
  * @param id 用户账号
  */
-export const getUserInfo = async (usernumber: string) => {
+export const getUserInfo = async (usernumber: string, self = "") => {
   if (!usernumber) return;
 
-  return axios.get(`/public/getUserInfo?usernumber=${usernumber}`);
+  return axios.get(`/public/getUserInfo?usernumber=${usernumber}&self=${self}`);
 };
