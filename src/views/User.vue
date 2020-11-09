@@ -208,7 +208,7 @@ export default class User extends Vue {
 
 <style lang="scss">
 .user-outermost {
-  min-height: 777px;
+  min-height: 809px;
   background-color: #f5f7f9;
 
   .user-page {
