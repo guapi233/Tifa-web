@@ -161,6 +161,8 @@ import { followUser } from "@/api/user";
 export default class User extends Vue {
   // 用户信息
   private userInfo: any = {};
+  // 用户账号
+  private usernumber = "";
 
   // 是否是本人信息
   private get isSelf() {
@@ -170,21 +172,18 @@ export default class User extends Vue {
   // 获取用户信息，如果异常跳转至 404 page
   private async setUserInfo() {
     const { usernumber } = this.$route.params;
-    (this as any).usernumber = usernumber;
+    this.usernumber = usernumber;
 
-    if (!usernumber) {
-      // 404
-    } else if (usernumber === this.$store.state.userInfo.usernumber) {
-      this.userInfo = this.$store.state.userInfo;
-    } else {
-      const res = await getUserInfo(
-        usernumber,
-        this.$store.state.userInfo.usernumber
-      );
-      if (res) {
-        this.userInfo = res;
-      }
+    const res = await getUserInfo(
+      usernumber,
+      this.$store.state.userInfo.usernumber
+    );
+
+    // 用户不存在，to 404
+    if (!res) {
+      this.$router.replace("/whoops");
     }
+    this.userInfo = res;
   }
 
   private created() {
