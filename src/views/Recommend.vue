@@ -36,7 +36,7 @@ export default class CommunityRecommend extends Vue {
   }
 
   private async loadmore() {
-    const res: any = await getArticleList(this.page);
+    const res: any = await getArticleList({ skip: this.page });
 
     if (res.length === 0) {
       this.hasMore = false;
