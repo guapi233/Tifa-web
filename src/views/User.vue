@@ -13,13 +13,9 @@
             </div>
           </div>
           <div class="follows">
-            <router-link to="/user/follow"
-              >关注 {{ userInfo.follow }}</router-link
-            >
+            <span>关注 {{ userInfo.follow }} </span>
             ·
-            <router-link to="/user/followed"
-              >粉丝 {{ userInfo.followed }}</router-link
-            >
+            <span>粉丝 {{ userInfo.followed }}</span>
           </div>
           <div class="oper" v-if="isSelf">
             <router-link to="/setting">
@@ -273,10 +269,11 @@ export default class User extends Vue {
         .follows {
           margin-top: 24px;
 
-          a {
+          span {
             font-size: 14px;
             line-height: 20px;
             letter-spacing: 0.1em;
+            color: $contentColor;
           }
         }
 
