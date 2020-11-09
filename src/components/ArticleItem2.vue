@@ -132,6 +132,8 @@ export default class ArticleItem2 extends Vue {
 
         .left {
           display: flex;
+          align-items: center;
+
           .pic-box {
             margin-right: 10px;
             display: flex;
@@ -142,7 +144,13 @@ export default class ArticleItem2 extends Vue {
             }
 
             span {
+              display: inline-block;
+              width: 100px;
               color: #292525;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              vertical-align: middle;
             }
           }
         }
