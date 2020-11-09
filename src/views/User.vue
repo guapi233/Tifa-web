@@ -68,7 +68,9 @@
               </div>
               <div class="con-row" v-if="userInfo.articleCount">
                 <Icon type="ios-eye" size="18" />
-                <span class="con-txt">文章被阅读 7755 次</span>
+                <span class="con-txt"
+                  >文章被阅读 {{ userInfo.viewCount }} 次</span
+                >
               </div>
               <div class="con-row" v-if="userInfo.likeCount">
                 <Icon type="md-thumbs-up" size="18" />
@@ -149,7 +151,9 @@
             </div>
             <div class="con-row" v-if="userInfo.articleCount">
               <Icon type="ios-eye" size="18" />
-              <span class="con-txt">文章被阅读 7754 次</span>
+              <span class="con-txt"
+                >文章被阅读 {{ userInfo.viewCount }} 次</span
+              >
             </div>
             <div class="con-row" v-if="userInfo.likeCount">
               <Icon type="md-thumbs-up" size="18" />
@@ -164,7 +168,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import config from "@/config/index";
 import { getUserInfo } from "@/api/public";
 import UserTitle from "@/components/UserTitle.vue";
 import { followUser } from "@/api/user";
