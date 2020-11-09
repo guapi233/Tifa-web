@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <div class="card-content">
-        <router-link to="/article" class="title-cont">
+        <router-link :to="`/article/${article.articleId}`" class="title-cont">
           {{ article.title }}
         </router-link>
         <div class="card-bottom">
@@ -48,7 +48,7 @@ export default class ArticleItem2 extends Vue {
   private dateFormat = dateFormat;
 
   private get article() {
-    return this.itemObj.article;
+    return this.itemObj;
   }
 
   private get author() {
