@@ -2,35 +2,32 @@
   <div class="article-item2-outermost">
     <div class="update-cont">
       <div class="img-box">
-        <router-link to="/article">
-          <img
-            src="https://cdn.sspai.com/2020/10/29/8eae8c931fb95351d8da34fd6d8d69a2.jpg?imageMogr2/auto-orient/quality/95/thumbnail/!800x400r/gravity/Center/crop/800x400/interlace/1"
-            alt=""
-          />
+        <router-link :to="`/article/${article.articleId}`">
+          <img :src="baseUrl + article.banner" alt="" />
         </router-link>
       </div>
       <div class="card-content">
         <router-link to="/article" class="title-cont">
-          我需要什么样的笔记？可全文检索的内容库
+          {{ article.title }}
         </router-link>
         <div class="card-bottom">
           <div class="left">
             <div class="pic-box">
-              <router-link to="/user">
-                <img class="updates-pic" src="@/assets/defaultPic.gif" alt="" />
-                <span>其则不远</span>
+              <router-link :to="`/user/${author.usernumber}`">
+                <img class="updates-pic" :src="baseUrl + author.pic" alt="" />
+                <span>{{ author.name }}</span>
               </router-link>
             </div>
-            <div class="time-box">10月29日</div>
+            <div class="time-box">{{ dateFormat(article.created) }}</div>
           </div>
           <div class="right">
             <div class="like-count">
               <Icon type="md-thumbs-up" size="18" />
-              14
+              {{ article.likeCount }}
             </div>
             <router-link to="/article#comment-box" class="comment-count">
               <Icon type="md-text" size="18" />
-              7
+              {{ article.commentCount }}
             </router-link>
           </div>
         </div>
@@ -40,10 +37,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { dateFormat } from "@/utils/index";
+import config from "@/config";
 
 @Component
-export default class ArticleItem2 extends Vue {}
+export default class ArticleItem2 extends Vue {
+  @Prop({ default: () => ({}) }) itemObj!: any;
+  private baseUrl = config.baseUrl;
+  private dateFormat = dateFormat;
+
+  private get article() {
+    return this.itemObj.article;
+  }
+
+  private get author() {
+    return this.itemObj.author;
+  }
+}
 </script>
 
 <style lang="scss">
