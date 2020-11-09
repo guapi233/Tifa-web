@@ -62,7 +62,7 @@ export default class Setting extends Vue {}
 
 <style lang="scss">
 .setting-outermost {
-  min-height: 777px;
+  min-height: 809px;
   background-color: #f5f7f9;
   overflow: hidden;
 
