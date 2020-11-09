@@ -16,7 +16,7 @@
                 3小时前
               </div>
             </div>
-            <ArticleItem2 />
+            <!-- <ArticleItem2 /> -->
           </div>
 
           <div class="update-item">
