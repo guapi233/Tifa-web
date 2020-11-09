@@ -39,3 +39,23 @@ export const getLikeList = async (targetId: string, limit: number) => {
 export const addCollection = async (targetId: string) => {
   return axios.get(`/content/addCollection?targetId=${targetId}`);
 };
+
+export const getFollowList = async (
+  authorId: string,
+  usernumber = "",
+  skip = 0
+) => {
+  return axios.get(
+    `/public/getFollowList?authorId=${authorId}&usernumber=${usernumber}&skip=${skip}`
+  );
+};
+
+export const getFollowedList = async (
+  targetId: string,
+  usernumber = "",
+  skip = 0
+) => {
+  return axios.get(
+    `/public/getFollowedList?targetId=${targetId}&usernumber=${usernumber}&skip=${skip}`
+  );
+};
