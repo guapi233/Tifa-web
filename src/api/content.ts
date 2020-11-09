@@ -59,3 +59,7 @@ export const getFollowedList = async (
     `/public/getFollowedList?targetId=${targetId}&usernumber=${usernumber}&skip=${skip}`
   );
 };
+
+export const getCollectionList = async (usernumber: string) => {
+  return axios.get(`/public/getCollectionList?usernumber=${usernumber}`);
+};
