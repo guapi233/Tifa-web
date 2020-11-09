@@ -35,7 +35,6 @@ export default class UserArticle extends Vue {
 
     if (res) {
       this.articleList.push(...res);
-      console.log(this.articleList);
     }
   }
 }
