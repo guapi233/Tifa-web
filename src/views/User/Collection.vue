@@ -5,7 +5,7 @@
         class="item"
         v-for="item in collectionList"
         :key="item.collectionId"
-        :itemObj="item"
+        :itemObj="item.article"
       />
     </div>
   </div>
