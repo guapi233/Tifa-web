@@ -56,15 +56,25 @@
             <div class="side-content">
               <div class="con-row">
                 <Icon type="md-person" size="18" />
-                <span class="con-txt">加入社区至今 955 天</span>
+                <span class="con-txt"
+                  >加入社区至今 {{ userInfo.joined || 0 }} 天</span
+                >
               </div>
-              <div class="con-row">
+              <div class="con-row" v-if="userInfo.articleCount">
+                <Icon type="ios-paper" size="18" />
+                <span class="con-txt"
+                  >创作文章 {{ userInfo.articleCount }} 篇</span
+                >
+              </div>
+              <div class="con-row" v-if="userInfo.articleCount">
                 <Icon type="ios-eye" size="18" />
-                <span class="con-txt">文章被阅读 7754 次</span>
+                <span class="con-txt">文章被阅读 7755 次</span>
               </div>
-              <div class="con-row">
+              <div class="con-row" v-if="userInfo.likeCount">
                 <Icon type="md-thumbs-up" size="18" />
-                <span class="con-txt">获得 8854 次点赞</span>
+                <span class="con-txt"
+                  >获得 {{ userInfo.likeCount }} 次点赞</span
+                >
               </div>
             </div>
           </div>
@@ -127,15 +137,23 @@
           <div class="side-content">
             <div class="con-row">
               <Icon type="md-person" size="18" />
-              <span class="con-txt">加入社区至今 955 天</span>
+              <span class="con-txt"
+                >加入社区至今 {{ userInfo.joined || 0 }} 天</span
+              >
             </div>
-            <div class="con-row">
+            <div class="con-row" v-if="userInfo.articleCount">
+              <Icon type="ios-paper" size="18" />
+              <span class="con-txt"
+                >创作文章 {{ userInfo.articleCount }} 篇</span
+              >
+            </div>
+            <div class="con-row" v-if="userInfo.articleCount">
               <Icon type="ios-eye" size="18" />
               <span class="con-txt">文章被阅读 7754 次</span>
             </div>
-            <div class="con-row">
+            <div class="con-row" v-if="userInfo.likeCount">
               <Icon type="md-thumbs-up" size="18" />
-              <span class="con-txt">获得 8854 次点赞</span>
+              <span class="con-txt">获得 {{ userInfo.likeCount }} 次点赞</span>
             </div>
           </div>
         </div>
