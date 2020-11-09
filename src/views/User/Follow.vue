@@ -1,10 +1,10 @@
 <template>
   <div class="user-follow-outermost">
     <div class="tab-box">
-      <div class="tab-item" :class="{ active: !type }" @click="getList(true)">
+      <div class="tab-item" :class="{ active: !type }" @click="getList(0)">
         关注
       </div>
-      <div class="tab-item" :class="{ active: type }" @click="getList(true)">
+      <div class="tab-item" :class="{ active: type }" @click="getList(1)">
         粉丝
       </div>
     </div>
@@ -85,10 +85,10 @@ export default class UserFollow extends Vue {
     return res;
   }
 
-  private async getList(change = false) {
+  private async getList(change = -1) {
     // 清空数组 & 回到第一页 & 清空列表
-    if (change) {
-      this.type = Number(!this.type);
+    if (change !== -1) {
+      this.type = change;
       this.cardList = [];
       this.skip = 0;
     }
@@ -135,6 +135,7 @@ export default class UserFollow extends Vue {
     width: 100%;
     max-width: 800px;
     text-align: right;
+    user-select: none;
 
     .tab-item {
       display: inline-block;
