@@ -58,7 +58,12 @@
           :class="{ 'is-collected': articleDetail.isCollected }"
           @click="collectArticle"
         >
-          <Icon type="ios-pricetags" size="28" />
+          <Icon
+            type="ios-bookmark"
+            v-if="articleDetail.isCollected"
+            size="28"
+          />
+          <Icon type="ios-bookmark-outline" v-else size="28" />
         </div>
       </div>
 
@@ -144,7 +149,12 @@
           :class="{ 'is-collected': articleDetail.isCollected }"
           @click="collectArticle"
         >
-          <Icon type="ios-pricetags" size="24" />
+          <Icon
+            type="ios-bookmark"
+            v-if="articleDetail.isCollected"
+            size="24"
+          />
+          <Icon type="ios-bookmark-outline" v-else size="24" />
         </div>
         <div class="other oper-item">
           <Icon type="ios-more" size="24" />
