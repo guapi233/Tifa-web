@@ -1,20 +1,14 @@
 <template>
   <div class="user-article-outermost">
     <div class="article-box">
-      <div class="article-item">
-        <ArticleItem2 />
-      </div>
-      <div class="article-item">
-        <ArticleItem2 />
-      </div>
-      <div class="article-item">
-        <ArticleItem2 />
-      </div>
-      <div class="article-item">
-        <ArticleItem2 />
-      </div>
-      <div class="article-item">
-        <ArticleItem2 />
+      <div class="container">
+        <div
+          class="article-item"
+          v-for="item in articleList"
+          :key="item.articleId"
+        >
+          <ArticleItem2 class="item" :itemObj="item" />
+        </div>
       </div>
     </div>
   </div>
@@ -22,21 +16,36 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { getArticleList } from "@/api/content";
 import ArticleItem2 from "@/components/ArticleItem2.vue";
 
 @Component({
-  components: {
-    ArticleItem2
-  }
+  components: { ArticleItem2 }
 })
-export default class UserArticle extends Vue {}
+export default class UserArticle extends Vue {
+  private articleList: any = [];
+
+  private created() {
+    this.getArticleList();
+  }
+
+  private async getArticleList() {
+    const { usernumber } = this.$route.params;
+    const res: any = await getArticleList({ usernumber });
+
+    if (res) {
+      this.articleList.push(...res);
+      console.log(this.articleList);
+    }
+  }
+}
 </script>
 
 <style lang="scss">
 .user-article-outermost {
   .article-box {
     .article-item {
-      margin: 22px 0;
+      margin: 16px 0;
     }
   }
 }
