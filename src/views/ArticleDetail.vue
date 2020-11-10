@@ -488,54 +488,7 @@ export default class ArticleDetail extends Vue {
       font-size: 16px;
       letter-spacing: 0.2px;
 
-      p {
-        margin: 0 0 20px 0;
-        line-height: 30px;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5 {
-        margin: 30px 0 10px 0;
-      }
-
-      h2 {
-        font-style: normal;
-        font-weight: 600;
-        font-size: 24px;
-        margin-top: 60px;
-        margin-bottom: 26px;
-        line-height: 140%;
-      }
-
-      h3 {
-        font-weight: 600;
-        font-size: 18px;
-        margin-top: 60px;
-        margin-bottom: 16px;
-        line-height: 140%;
-      }
-
-      img {
-        position: relative;
-        text-align: center;
-        outline: none;
-        margin: 40px auto;
-        max-width: 100%;
-      }
-
-      a {
-        text-decoration: none;
-        border-bottom: 1px solid $primaryColor;
-        color: #292525;
-        transition: all 0.2s;
-
-        &:hover {
-          border-width: 2px;
-        }
-      }
+      @import "@/config/articleTheme.scss";
     }
 
     .article-left-side {
