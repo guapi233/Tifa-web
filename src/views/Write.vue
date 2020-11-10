@@ -25,6 +25,11 @@
       </div>
     </Header>
 
+    <Main class="edit-box">
+      <div class="banner-box banner-empty">
+        <Icon type="ios-camera" size="48" />
+      </div>
+    </Main>
     <!-- <RichText /> -->
   </div>
 </template>
@@ -120,6 +125,48 @@ export default class Write extends Vue {}
       .more {
         color: #8590a6;
         cursor: pointer;
+      }
+    }
+  }
+
+  .edit-box {
+    width: 710px;
+    margin: 80px auto;
+
+    .banner-box {
+      min-height: 354px;
+      background-color: #f6f6f6;
+      cursor: pointer;
+      color: grey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner-empty {
+      position: relative;
+
+      &::after {
+        content: "\6DFB\52A0\9898\56FE";
+        color: #999;
+        position: absolute;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        left: 0;
+        bottom: 64px;
+        line-height: 1;
+        opacity: 0;
+        z-index: 0;
+        transform: translateY(-80px);
+        transition: all 0.3s;
+      }
+
+      &:hover:after {
+        font-size: 32px;
+        opacity: 1;
+        transform: translateY(-40px);
       }
     }
   }
