@@ -33,7 +33,6 @@
       <div class="title-box">
         <div v-html="titleVal" class="hidden-block"></div>
         <textarea
-          ref="titleInput"
           class="content"
           v-model="titleVal"
           placeholder="请输入标题（最多50个字）"
