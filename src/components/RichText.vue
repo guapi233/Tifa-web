@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="rich-text-outermost">
     <ckeditor
       :editor="editor"
       v-model="editorData"
@@ -69,7 +69,26 @@ export default class RichText extends Vue {
 </script>
 
 <style lang="scss">
-.ck-editor__editable {
-  min-height: 100vh;
+.rich-text-outermost {
+  .ck-editor__editable {
+    min-height: 600px;
+  }
+
+  .ck-toolbar {
+    border: none !important;
+  }
+
+  .ck-content {
+    border: none !important;
+    box-shadow: none !important;
+    border-top: 1px solid rgba(153, 153, 153, 0.4) !important;
+
+    margin: 30px auto;
+    width: 710px;
+    color: #4c4e4d;
+    font-size: 16px;
+
+    @import "@/config/articleTheme.scss";
+  }
 }
 </style>
