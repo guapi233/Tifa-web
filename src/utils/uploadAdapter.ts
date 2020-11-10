@@ -10,7 +10,7 @@ export default class UploadAdapter {
 
     return new Promise((resolve, reject) => {
       axios.post("/uploadImg", data).then((data: any) => {
-        if (data.res) {
+        if (data.uploaded) {
           resolve({
             default: data.url,
           });
