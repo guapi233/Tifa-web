@@ -29,8 +29,18 @@
       <div class="banner-box banner-empty">
         <Icon type="ios-camera" size="48" />
       </div>
+
+      <div class="title-box">
+        <textarea
+          class="content"
+          placeholder="请输入标题（最多50个字）"
+        ></textarea>
+      </div>
+
+      <div class="editor-area">
+        <RichText />
+      </div>
     </Main>
-    <!-- <RichText /> -->
   </div>
 </template>
 
@@ -130,10 +140,11 @@ export default class Write extends Vue {}
   }
 
   .edit-box {
-    width: 710px;
     margin: 80px auto;
 
     .banner-box {
+      width: 710px;
+      margin: 0 auto 50px;
       min-height: 354px;
       background-color: #f6f6f6;
       cursor: pointer;
@@ -168,6 +179,29 @@ export default class Write extends Vue {}
         opacity: 1;
         transform: translateY(-40px);
       }
+    }
+
+    .title-box {
+      width: 710px;
+      margin: 0 auto 30px;
+      border-bottom: 1px solid rgba(153, 153, 153, 0.4) !important;
+
+      textarea {
+        display: block;
+        font-size: 28px;
+        color: #292525;
+        font-weight: 500;
+        height: 44px;
+        width: 100%;
+        border: none;
+        outline: none;
+        resize: none;
+      }
+    }
+
+    .editor-area {
+      width: 1050px;
+      margin: 0 auto;
     }
   }
 }
