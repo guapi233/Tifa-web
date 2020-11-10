@@ -1,75 +1,127 @@
 <template>
-  <div id="app">
-    <ckeditor
-      :editor="editor"
-      v-model="editorData"
-      :config="editorConfig"
-    ></ckeditor>
+  <div class="write-outermost">
+    <Header class="header-reset header-fixed">
+      <div class="header-container">
+        <a href="/" class="logo">
+          <img src="@/assets/logo.png" alt="" />
+          <span>Tifa</span>
+        </a>
+        <i class="delimit-line"></i>
+        <div class="write-title-wrapper">
+          <div class="write-title">
+            <div class="page-title">写文章</div>
+            <div class="sub-title">草稿已保存</div>
+          </div>
+        </div>
+        <div class="right">
+          <Button class="release">
+            发布
+            <Icon type="ios-arrow-down" size="18" />
+          </Button>
+          <Button type="text" class="more">
+            <Icon type="ios-more" size="28" />
+          </Button>
+        </div>
+      </div>
+    </Header>
+
+    <!-- <RichText /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import CKEditor from "@ckeditor/ckeditor5-vue";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import RichText from "@/components/RichText.vue";
 
-Vue.use(CKEditor);
-
-@Component
-export default class Wrtie extends Vue {
-  private editor = ClassicEditor;
-  private editorData = "<p>Content of the editor.</p>";
-  private editorConfig = {
-    toolbar: [
-      "heading",
-      "|",
-      "bold",
-      "italic",
-      "underline",
-      "strikethrough",
-      "|",
-      "link",
-      "bulletedList",
-      "numberedList",
-      "|",
-      "indent",
-      "outdent",
-      "|",
-      "imageUpload",
-      "imageInsert",
-      "|",
-      "blockQuote",
-      "horizontalLine",
-      "insertTable",
-      "mediaEmbed",
-      "|",
-      "code",
-      "codeBlock",
-      "|",
-      "fontColor",
-      "fontBackgroundColor",
-      "alignment",
-      "|",
-      "undo",
-      "redo"
-    ],
-    ckfinder: {
-      uploadUrl: "http://localhost:3000" + "/uploadFile" // 后端处理上传逻辑返回json数据,包括uploaded(选项true/false)和url两个字段,
-    },
-    language: "zh-cn",
-    image: {
-      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"]
-    },
-    table: {
-      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"]
-    },
-    licenseKey: ""
-  };
-}
+@Component({
+  components: { RichText }
+})
+export default class Write extends Vue {}
 </script>
 
 <style lang="scss">
-.ck-editor__editable {
-  min-height: 100vh;
+.write-outermost {
+  .header-reset {
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(18, 18, 18, 0.1);
+  }
+
+  .header-fixed {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-container {
+    max-width: 1164px;
+    height: 60px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+
+    .logo {
+      img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+    }
+
+    .write-title-wrapper {
+      display: flex;
+      height: 52px;
+      align-items: center;
+      justify-content: center;
+      margin-left: 16px;
+
+      .write-title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+
+        .page-title {
+          margin-right: 20px;
+          color: #121212;
+          font-weight: bold;
+        }
+
+        .sub-title {
+          flex: 1 1;
+          overflow: hidden;
+          color: #999;
+        }
+      }
+    }
+
+    .delimit-line {
+      height: 29px;
+      width: 1px;
+      background-color: #ebebeb;
+      margin-left: 17px;
+    }
+
+    .right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .release {
+        margin-right: 20px;
+
+        i {
+          vertical-align: middle;
+        }
+      }
+
+      .more {
+        color: #8590a6;
+        cursor: pointer;
+      }
+    }
+  }
 }
 </style>
