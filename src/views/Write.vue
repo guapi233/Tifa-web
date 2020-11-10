@@ -31,13 +31,25 @@
       </div>
 
       <div class="title-box">
-        <div v-html="titleVal" class="hidden-block"></div>
-        <textarea
-          class="content"
-          v-model="titleVal"
-          placeholder="请输入标题（最多50个字）"
-          @keydown.enter.prevent="1"
-        ></textarea>
+        <div class="title-wrap">
+          <div v-html="titleVal" class="hidden-block"></div>
+          <textarea
+            class="content"
+            v-model="titleVal"
+            @input="titleChange"
+            placeholder="请输入标题（最多50个字）"
+            @keydown.enter.prevent="1"
+          ></textarea>
+        </div>
+        <div class="input-tip" v-if="titleTipShow && remainTitleInput >= 0">
+          还可以输入 {{ remainTitleInput }} 个字
+        </div>
+        <div
+          class="input-tip warning"
+          v-if="titleTipShow && remainTitleInput < 0"
+        >
+          已超过 {{ -remainTitleInput }} 个字
+        </div>
       </div>
 
       <div class="editor-area">
@@ -57,6 +69,20 @@ import RichText from "@/components/RichText.vue";
 export default class Write extends Vue {
   // 标题内容
   private titleVal = "";
+  // 标题控件
+  private titleTipShow = false;
+  private remainTitleInput = 50;
+
+  private titleChange() {
+    // 检测剩余可输入标题字数
+    this.remainTitleInput = 50 - this.titleVal.length;
+
+    if (this.remainTitleInput <= 10) {
+      this.titleTipShow = true;
+    } else {
+      this.titleTipShow = false;
+    }
+  }
 }
 </script>
 
@@ -195,26 +221,41 @@ export default class Write extends Vue {
       font-size: 28px;
       font-weight: 500;
 
-      .hidden-block {
-        display: block;
-        visibility: hidden;
-        min-height: 44px;
-        margin: 0;
-        word-break: break-all;
+      .title-wrap {
+        .hidden-block {
+          display: block;
+          visibility: hidden;
+          min-height: 44px;
+          margin: 0;
+          word-break: break-all;
+        }
+
+        textarea {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          display: block;
+          color: #292525;
+          width: 100%;
+          border: none;
+          outline: none;
+          resize: none;
+          overflow-y: hidden;
+        }
       }
 
-      textarea {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        display: block;
-        color: #292525;
-        width: 100%;
-        border: none;
-        outline: none;
-        resize: none;
-        overflow-y: hidden;
+      .input-tip {
+        position: relative;
+        z-index: 1;
+        font-size: 14px;
+        text-align: right;
+        margin-bottom: 16px;
+        color: #8590a6;
+      }
+
+      .warning {
+        color: #f1403c;
       }
     }
 
