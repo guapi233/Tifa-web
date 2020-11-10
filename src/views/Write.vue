@@ -31,9 +31,13 @@
       </div>
 
       <div class="title-box">
+        <div v-html="titleVal" class="hidden-block"></div>
         <textarea
+          ref="titleInput"
           class="content"
+          v-model="titleVal"
           placeholder="请输入标题（最多50个字）"
+          @keydown.enter.prevent="1"
         ></textarea>
       </div>
 
@@ -51,7 +55,10 @@ import RichText from "@/components/RichText.vue";
 @Component({
   components: { RichText }
 })
-export default class Write extends Vue {}
+export default class Write extends Vue {
+  // 标题内容
+  private titleVal = "";
+}
 </script>
 
 <style lang="scss">
@@ -185,17 +192,30 @@ export default class Write extends Vue {}
       width: 710px;
       margin: 0 auto 30px;
       border-bottom: 1px solid rgba(153, 153, 153, 0.4) !important;
+      position: relative;
+      font-size: 28px;
+      font-weight: 500;
+
+      .hidden-block {
+        display: block;
+        visibility: hidden;
+        min-height: 44px;
+        margin: 0;
+        word-break: break-all;
+      }
 
       textarea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
         display: block;
-        font-size: 28px;
         color: #292525;
-        font-weight: 500;
-        height: 44px;
         width: 100%;
         border: none;
         outline: none;
         resize: none;
+        overflow-y: hidden;
       }
     }
 
