@@ -4,6 +4,7 @@
       :editor="editor"
       v-model="editorData"
       :config="editorConfig"
+      @ready="onReady"
     ></ckeditor>
   </div>
 </template>
@@ -12,6 +13,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import config from "@/config/index";
+import UploadAdapter from "@/utils/uploadAdapter";
 
 Vue.use(CKEditor);
 
@@ -53,9 +56,9 @@ export default class RichText extends Vue {
       "undo",
       "redo"
     ],
-    ckfinder: {
-      uploadUrl: "http://localhost:3000" + "/uploadFile" // 后端处理上传逻辑返回json数据,包括uploaded(选项true/false)和url两个字段,
-    },
+    // ckfinder: {
+    //   uploadUrl: config.baseUrl + "/uploadImg" // 后端处理上传逻辑返回json数据,包括uploaded(选项true/false)和url两个字段,
+    // },
     language: "zh-cn",
     image: {
       toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"]
@@ -65,6 +68,14 @@ export default class RichText extends Vue {
     },
     licenseKey: ""
   };
+
+  private onReady(editor: any) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (
+      loader: any
+    ) => {
+      return new UploadAdapter(loader);
+    };
+  }
 }
 </script>
 
