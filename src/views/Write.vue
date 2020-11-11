@@ -14,10 +14,16 @@
           </div>
         </div>
         <div class="right">
-          <Button class="release">
+          <Button class="release" v-if="currentRoute === 'Edit'">
             发布
             <Icon type="ios-arrow-down" size="18" />
           </Button>
+          <router-link to="/write" v-else>
+            <Button class="release" type="primary">
+              <Icon type="md-create" />
+              写文章
+            </Button>
+          </router-link>
 
           <Dropdown trigger="click">
             <Button type="text" class="more">
@@ -40,10 +46,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
-export default class Write extends Vue {}
+export default class Write extends Vue {
+  private currentRoute: string | null | undefined;
+
+  private created() {
+    this.changeHeaderBtnShow();
+  }
+
+  @Watch("$route")
+  private onRouteChange(newVal: any, oldVal: any) {
+    this.changeHeaderBtnShow();
+  }
+
+  // 切换顶部导航栏按钮展示
+  private changeHeaderBtnShow() {
+    const { name } = this.$route;
+    this.currentRoute = name;
+  }
+}
 </script>
 
 <style lang="scss">
