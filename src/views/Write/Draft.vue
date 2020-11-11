@@ -2,10 +2,10 @@
   <div class="write-draft-outermost">
     <Main class="draft-box">
       <div class="draft-list">
-        <div class="draft-item">
-          <router-link to="/" class="title">无标题</router-link>
+        <div class="draft-item" v-for="draft in draftList" :key="draft.draftId">
+          <router-link to="/" class="title">{{ draft.title }}</router-link>
           <div class="other-info">
-            <div class="time">9 小时前</div>
+            <div class="time">{{ dateFormat(draft.created) }}</div>
             <div class="separator">·</div>
             <div class="word-number">共 2 字</div>
             <div class="separator">·</div>
@@ -19,9 +19,22 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { getDraftList } from "@/api/content";
+import { dateFormat } from "@/utils/index";
 
 @Component
-export default class Draft extends Vue {}
+export default class Draft extends Vue {
+  private draftList: any = [];
+  private dateFormat = dateFormat;
+
+  private created() {
+    this.getDraftList();
+  }
+
+  private async getDraftList() {
+    this.draftList = await getDraftList();
+  }
+}
 </script>
 
 <style lang="scss">
