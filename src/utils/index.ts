@@ -137,3 +137,44 @@ export const isPublicApi = (url: string) => {
 
   return isPublic;
 };
+
+/**
+ * 防抖
+ * @param fn 代加工函数
+ * @param time 时间间隔
+ * @param immediate 是否立即执行
+ */
+export const debounce = (fn: Function, time: number, immediate = false) => {
+  let timer: any = null;
+
+  // 包裹函数
+  const bundler = (...arg: any) => {
+    // 是否开启立即执行
+    if (immediate) {
+      // 开启立即执行后为下文条目3的执行逻辑
+      clearTimeout(timer);
+      const flag = !timer;
+      if (flag) fn(...arg);
+
+      timer = setTimeout(() => {
+        timer = null;
+        // 如果想隔阂时间结束后同样执行方法，像这样在这里执行下方法即可
+        fn(...arg);
+      }, time);
+    } else {
+      // 不开启立即执行后为下文条目1的执行逻辑
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn(...arg);
+      }, time);
+    }
+  };
+
+  // 取消本次时间隔阂
+  bundler.cancel = () => {
+    clearTimeout(timer);
+    timer = null;
+  };
+
+  return bundler;
+};
