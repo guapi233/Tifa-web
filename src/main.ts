@@ -23,6 +23,9 @@ import {
   Upload,
   Switch,
   Avatar as IAvatar,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
 } from "view-design";
 
 // global style
@@ -47,6 +50,9 @@ Vue.component("Upload", Upload);
 Vue.component("ISwitch", Switch);
 Vue.component("IAvatar", IAvatar);
 Vue.component("Avatar", Avatar);
+Vue.component("Dropdown", Dropdown);
+Vue.component("DropdownMenu", DropdownMenu);
+Vue.component("DropdownItem", DropdownItem);
 
 Vue.prototype.$Message = Message;
 
