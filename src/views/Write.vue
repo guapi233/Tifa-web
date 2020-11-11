@@ -24,7 +24,7 @@
               <Icon type="ios-more" size="28" />
             </Button>
             <DropdownMenu slot="list">
-              <router-link to="/">
+              <router-link to="/draft">
                 <DropdownItem>
                   草稿
                 </DropdownItem>
