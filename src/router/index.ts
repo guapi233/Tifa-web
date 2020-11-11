@@ -5,10 +5,12 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import homeRoutes from "./rules/home";
+import writeRoutes from "./rules/write";
 import otherRoutes from "./rules/other";
 import store from "@/store";
 
 const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
+const Write = () => import(/* webpackChunkName: "Write" */ "@/views/Write.vue");
 
 Vue.use(VueRouter);
 
@@ -17,6 +19,11 @@ const routes: Array<RouteConfig> = [
     path: "/",
     component: Home,
     children: homeRoutes,
+  },
+  {
+    path: "/write",
+    component: Write,
+    children: writeRoutes,
   },
   ...otherRoutes,
 ];
