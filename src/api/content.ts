@@ -77,3 +77,7 @@ export const getDraftList = async () => {
 export const delDraft = async (draftId: string) => {
   return axios.get(`/content/delDraft?draftId=${draftId}`);
 };
+
+export const saveDraft = async (draftObj: any) => {
+  return axios.post("/content/saveDraft", draftObj);
+};
