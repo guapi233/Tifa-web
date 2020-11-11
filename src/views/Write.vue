@@ -8,9 +8,12 @@
         </a>
         <i class="delimit-line"></i>
         <div class="write-title-wrapper">
-          <div class="write-title">
+          <div class="write-title" v-if="currentRoute === 'Edit'">
             <div class="page-title">写文章</div>
             <div class="sub-title">草稿已保存</div>
+          </div>
+          <div class="write-title" v-else>
+            <div class="page-title">草稿</div>
           </div>
         </div>
         <div class="right">
