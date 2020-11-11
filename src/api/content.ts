@@ -73,3 +73,7 @@ export const getCollectionList = async (usernumber: string) => {
 export const getDraftList = async () => {
   return axios.get("/content/getDraftList");
 };
+
+export const delDraft = async (draftId: string) => {
+  return axios.get(`/content/delDraft?draftId=${draftId}`);
+};
