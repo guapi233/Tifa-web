@@ -161,6 +161,8 @@ export default class Write extends Vue {
 
     this.$Message.success("发布成功");
     this.$router.replace(`/article/${res.articleId}`);
+    // 清空vuex中关于文章的缓存
+    this.$store.commit("clearArticleInfo");
   }
 }
 </script>
