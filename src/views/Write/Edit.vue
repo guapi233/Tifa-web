@@ -62,7 +62,7 @@
       </div>
 
       <div class="editor-area">
-        <RichText />
+        <RichText :save="saveDraft" @input="onInput" />
       </div>
     </Main>
   </div>
@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { saveDraft } from "@/api/content";
-import { getSid } from "@/utils/index";
+import { getSid, debounce } from "@/utils/index";
 import RichText from "@/components/RichText/index.vue";
 import config from "@/config";
 
@@ -82,12 +82,20 @@ export default class Edit extends Vue {
   // 文章内容
   private articleObj = {
     title: "",
-    content: "",
     banner: "",
   };
   // 标题控件
   private titleTipShow = false;
   private remainTitleInput = 50;
+  // draftId
+  private draftId = "";
+
+  private created() {
+    // 读取草稿Id，没有则 新建
+    const { draftId } = this.$route.params;
+
+    this.draftId = draftId || getSid();
+  }
 
   // 题图上传
   private headers = {
@@ -112,6 +120,7 @@ export default class Edit extends Vue {
   }
 
   // 监听标题变化
+  private debounceSaveDraft = debounce(this.saveDraft, 1500);
   private titleChange() {
     // 检测剩余可输入标题字数
     this.remainTitleInput = 50 - this.articleObj.title.length;
@@ -121,6 +130,12 @@ export default class Edit extends Vue {
     } else {
       this.titleTipShow = false;
     }
+
+    // 修改草稿状态栏
+    this.$store.commit("setWriteSubTitle", "草稿保存中...");
+
+    // 保存草稿
+    this.debounceSaveDraft();
   }
 
   // 移除题图
@@ -129,12 +144,28 @@ export default class Edit extends Vue {
     this.$Message.info("移除题图");
   }
 
+  // 监听输入
+  private onInput() {
+    this.$store.commit("setWriteSubTitle", "草稿保存中...");
+  }
+
   // 保存草稿
-  private async saveDraft() {
-    const res = await saveDraft({
+  private async saveDraft(context: any = {}) {
+    const { text, plainText } = context;
+
+    const payload: any = {
       ...this.articleObj,
-      draftId: getSid(),
-    });
+      draftId: this.draftId,
+    };
+
+    text && (payload.content = text);
+    plainText && (payload.words = plainText.length);
+
+    const res = await saveDraft(payload);
+
+    if (res) {
+      this.$store.commit("setWriteSubTitle", "草稿已保存");
+    }
   }
 }
 </script>
