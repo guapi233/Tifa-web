@@ -10,7 +10,7 @@
         <div class="write-title-wrapper">
           <div class="write-title" v-if="currentRoute === 'Edit'">
             <div class="page-title">写文章</div>
-            <div class="sub-title">草稿已保存</div>
+            <div class="sub-title">{{ $store.state.writeSubTitle }}</div>
           </div>
           <div class="write-title" v-else>
             <div class="page-title">草稿</div>
@@ -34,9 +34,7 @@
             </Button>
             <DropdownMenu slot="list">
               <router-link to="/draft">
-                <DropdownItem>
-                  草稿
-                </DropdownItem>
+                <DropdownItem> 草稿 </DropdownItem>
               </router-link>
             </DropdownMenu>
           </Dropdown>
