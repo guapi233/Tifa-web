@@ -1,14 +1,20 @@
 <template>
   <div class="rich-text-outermost">
-    <ckeditor :editor="editor" v-model="editorData" @ready="onReady"></ckeditor>
+    <ckeditor
+      :editor="editor"
+      :config="editorConfig"
+      v-model="editorData"
+      @ready="onReady"
+    ></ckeditor>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import CustomEditor from "./core/ckeditor.js";
 import UploadAdapter from "@/utils/uploadAdapter";
+import viewToPlainText from "@ckeditor/ckeditor5-clipboard/src/utils/viewtoplaintext";
 
 @Component({
   components: {
@@ -16,10 +22,18 @@ import UploadAdapter from "@/utils/uploadAdapter";
   },
 })
 export default class RichText extends Vue {
-  @Prop({ default: "" }) private value!: string;
   private editor = CustomEditor;
-  private editorData = "";
+  private editorData = "<p>啊啊啊</p>";
+  private editorConfig = {
+    autosave: {
+      waitingTime: 1500,
+      save(editor: any) {
+        console.log("??");
+      },
+    },
+  };
 
+  // CKEdit 初始化
   private onReady(editor: any) {
     editor.plugins.get("FileRepository").createUploadAdapter = (
       loader: any

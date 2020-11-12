@@ -62,7 +62,7 @@
       </div>
 
       <div class="editor-area">
-        <RichText v-model="articleObj.content" />
+        <RichText />
       </div>
     </Main>
   </div>
