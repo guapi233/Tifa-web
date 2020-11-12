@@ -5,9 +5,9 @@
         <div class="draft-item" v-for="draft in draftList" :key="draft.draftId">
           <router-link to="/" class="title">{{ draft.title }}</router-link>
           <div class="other-info">
-            <div class="time">{{ dateFormat(draft.created) }}</div>
+            <div class="time">{{ dateFormat(draft.updated) }}</div>
             <div class="separator">·</div>
-            <div class="word-number">共 2 字</div>
+            <div class="word-number">共 {{ draft.words }} 字</div>
             <div class="separator">·</div>
             <div class="delete" @click="openModal1(draft)">删除</div>
           </div>
