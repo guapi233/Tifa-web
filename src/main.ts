@@ -27,6 +27,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Modal,
+  Select,
+  Option,
 } from "view-design";
 
 // global style
@@ -55,6 +57,8 @@ Vue.component("Dropdown", Dropdown);
 Vue.component("DropdownMenu", DropdownMenu);
 Vue.component("DropdownItem", DropdownItem);
 Vue.component("Modal", Modal);
+Vue.component("Select", Select);
+Vue.component("Option", Option);
 
 Vue.prototype.$Message = Message;
 
