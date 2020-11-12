@@ -4,7 +4,7 @@
     <div class="article-header">
       <div class="gray-bg-box"></div>
       <div class="article-banner">
-        <img :src="baseUrl + articleDetail.banner" alt="" />
+        <img :src="bannerPic" alt="" />
       </div>
       <div class="article-title-box">
         <div class="article-title">
@@ -252,7 +252,7 @@ import {
   getCommentList,
   addLike,
   getLikeList,
-  addCollection
+  addCollection,
 } from "@/api/content";
 import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
@@ -260,7 +260,7 @@ import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
 
 @Component({
-  components: { ArticleItem3, Comment }
+  components: { ArticleItem3, Comment },
 })
 export default class ArticleDetail extends Vue {
   private sideBarLeft = "0";
@@ -272,6 +272,18 @@ export default class ArticleDetail extends Vue {
   private likeList: any = [];
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
+
+  // 题图处理
+  private get bannerPic() {
+    if (
+      this.articleDetail.banner &&
+      this.articleDetail.banner.startsWith("http")
+    ) {
+      return this.articleDetail.banner;
+    } else {
+      return this.baseUrl + this.articleDetail.banner;
+    }
+  }
 
   //作者信息
   private get author() {
@@ -337,7 +349,7 @@ export default class ArticleDetail extends Vue {
       limit: 20,
       skip,
       sort: this.commentSort,
-      usernumber
+      usernumber,
     });
 
     if (res) {
