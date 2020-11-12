@@ -3,7 +3,7 @@
     <div class="update-cont">
       <div class="img-box">
         <router-link :to="`/article/${article.articleId}`">
-          <img :src="baseUrl + article.banner" alt="" />
+          <img :src="banner" alt="" />
         </router-link>
       </div>
       <div class="card-content">
@@ -14,7 +14,7 @@
           <div class="left">
             <div class="pic-box">
               <router-link :to="`/user/${author.usernumber}`">
-                <img class="updates-pic" :src="baseUrl + author.pic" alt="" />
+                <img class="updates-pic" :src="pic" alt="" />
                 <span>{{ author.name }}</span>
               </router-link>
             </div>
@@ -53,6 +53,20 @@ export default class ArticleItem2 extends Vue {
 
   private get author() {
     return this.itemObj.author;
+  }
+
+  private get pic() {
+    if (!this.author.pic) return "";
+    return this.author.pic.startsWith("http")
+      ? this.author.pic
+      : this.baseUrl + this.author.pic;
+  }
+
+  private get banner() {
+    if (!this.article.banner) return "";
+    return this.article.banner.startsWith("http")
+      ? this.article.banner
+      : this.baseUrl + this.article.banner;
   }
 }
 </script>
