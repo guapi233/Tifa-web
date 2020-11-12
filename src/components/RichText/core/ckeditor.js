@@ -30,7 +30,7 @@ import ImageUpload from "@ckeditor/ckeditor5-image/src/imageupload.js";
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic.js";
 import Link from "@ckeditor/ckeditor5-link/src/link.js";
 import List from "@ckeditor/ckeditor5-list/src/list.js";
-import Markdown from "@ckeditor/ckeditor5-markdown-gfm/src/markdown.js";
+// import Markdown from "@ckeditor/ckeditor5-markdown-gfm/src/markdown.js";
 import MediaEmbed from "@ckeditor/ckeditor5-media-embed/src/mediaembed.js";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph.js";
 import PasteFromOffice from "@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice";
@@ -68,7 +68,8 @@ Editor.builtinPlugins = [
   Italic,
   Link,
   List,
-  Markdown,
+  // （慎重开启）使CKEdit产出内容转变为Markdown，可能会导致某些功能不可用（比如图片靠右，因为markdown没有这种语法）
+  // Markdown,
   MediaEmbed,
   Paragraph,
   PasteFromOffice,
