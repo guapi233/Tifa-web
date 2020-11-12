@@ -10,7 +10,13 @@ export default new Vuex.Store({
     token: getStorage("token"),
     writeTitle: "",
     writeSubTitle: "",
-    articleTags: [],
+    articleObj: {
+      title: "",
+      banner: "",
+      content: "",
+      tags: [],
+    },
+    draftId: "",
   },
   mutations: {
     setUserInfoAndToken(
@@ -29,11 +35,11 @@ export default new Vuex.Store({
     setWriteSubTitle(state, txt: string) {
       state.writeSubTitle = txt;
     },
-    setArticleTags(state, tags: any) {
-      state.articleTags = tags;
+    setArticleObj(state, { key, value }) {
+      (state.articleObj as any)[key] = value;
     },
-    clearArticleTags(state) {
-      state.articleTags = [];
+    setDraftId(state, id: string) {
+      state.draftId = id;
     },
   },
   actions: {},
