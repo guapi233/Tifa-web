@@ -74,6 +74,10 @@ export const getDraftList = async () => {
   return axios.get("/content/getDraftList");
 };
 
+export const getDraftDetail = async (draftId: string) => {
+  return axios.get(`/content/getDraftDetail?draftId=${draftId}`);
+};
+
 export const delDraft = async (draftId: string) => {
   return axios.get(`/content/delDraft?draftId=${draftId}`);
 };
