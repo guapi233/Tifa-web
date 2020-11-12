@@ -62,12 +62,12 @@
             <img src="@/assets/logo.png" alt="" />
           </div>
           <div class="official">
-            <a href="/"><Icon class="search" type="logo-github" size="24"/></a>
+            <a href="/"><Icon class="search" type="logo-github" size="24" /></a>
             <a href="/"
               ><Icon class="search" type="logo-javascript" size="24"
             /></a>
-            <a href="/"><Icon class="search" type="logo-html5" size="24"/></a>
-            <a href="/"><Icon class="search" type="logo-nodejs" size="24"/></a>
+            <a href="/"><Icon class="search" type="logo-html5" size="24" /></a>
+            <a href="/"><Icon class="search" type="logo-nodejs" size="24" /></a>
           </div>
           <div class="websit-info">
             <div data-v-0908746e="" class="link">
@@ -141,11 +141,12 @@
     </Layout>
 
     <div class="fixed">
-      <div class="write-fixed">
-        <div class="writer">
-          <Icon type="md-create" size="24" />
-        </div>
-      </div>
+      <router-link to="/write">
+        <div class="write-fixed">
+          <div class="writer">
+            <Icon type="md-create" size="24" />
+          </div></div
+      ></router-link>
       <div class="top-fixed" @click="toTop">
         <div class="toper">
           <Icon type="md-arrow-up" size="24" />
