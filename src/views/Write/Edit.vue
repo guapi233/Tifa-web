@@ -62,7 +62,7 @@
       </div>
 
       <div class="editor-area">
-        <RichText />
+        <RichText v-model="articleObj.content" />
       </div>
     </Main>
   </div>
@@ -70,17 +70,20 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import RichText from "@/components/RichText.vue";
+import { saveDraft } from "@/api/content";
+import { getSid } from "@/utils/index";
+import RichText from "@/components/RichText/index.vue";
 import config from "@/config";
 
 @Component({
-  components: { RichText }
+  components: { RichText },
 })
 export default class Edit extends Vue {
   // 文章内容
   private articleObj = {
     title: "",
-    banner: ""
+    content: "",
+    banner: "",
   };
   // 标题控件
   private titleTipShow = false;
@@ -88,7 +91,7 @@ export default class Edit extends Vue {
 
   // 题图上传
   private headers = {
-    Authorization: "bearer " + this.$store.state.token
+    Authorization: "bearer " + this.$store.state.token,
   };
   private get uploadUrl() {
     return config.baseUrl + "/uploadImg";
@@ -124,6 +127,14 @@ export default class Edit extends Vue {
   private removeBanner() {
     this.articleObj.banner = "";
     this.$Message.info("移除题图");
+  }
+
+  // 保存草稿
+  private async saveDraft() {
+    const res = await saveDraft({
+      ...this.articleObj,
+      draftId: getSid(),
+    });
   }
 }
 </script>
