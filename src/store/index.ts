@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     userInfo: getStorage("userInfo") || {},
     token: getStorage("token"),
+    writeTitle: "",
     writeSubTitle: "",
   },
   mutations: {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
 
       state.userInfo = userInfo;
       token && (state.token = token);
+    },
+    setWriteTitle(state, txt: string) {
+      state.writeTitle = txt;
     },
     setWriteSubTitle(state, txt: string) {
       state.writeSubTitle = txt;
