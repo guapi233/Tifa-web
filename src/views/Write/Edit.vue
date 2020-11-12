@@ -111,6 +111,8 @@ export default class Edit extends Vue {
     if (res.isOk) {
       this.$Message.success("上传成功");
       this.articleObj.banner = res.data.url;
+      // 保存草稿
+      this.debounceSaveDraft();
     } else {
       this.$Message.error("上传失败");
     }
