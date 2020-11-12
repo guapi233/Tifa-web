@@ -7,6 +7,25 @@ p {
   line-height: 30px;
 }
 
+// 覆盖iview对 ul ol 造成的影响
+ul,
+ol {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
 h1,
 h2,
 h3,
