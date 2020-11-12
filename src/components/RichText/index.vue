@@ -5,6 +5,7 @@
       :config="editorConfig"
       v-model="editorData"
       @ready="onReady"
+      @input="onInput"
     ></ckeditor>
   </div>
 </template>
@@ -55,6 +56,11 @@ export default class RichText extends Vue {
     ) => {
       return new UploadAdapter(loader);
     };
+  }
+
+  // 监听输入
+  private onInput() {
+    this.$emit("input");
   }
 }
 </script>
