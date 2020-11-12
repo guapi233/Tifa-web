@@ -22,7 +22,7 @@
             class="release-box"
             @click.stop="1"
           >
-            <Button class="release" @click="publish">
+            <Button class="release" @click="openPublish">
               发布
               <Icon type="ios-arrow-down" size="18" />
             </Button>
@@ -54,7 +54,7 @@
                     </div>
                   </div>
                   <div class="publish-btn">
-                    <Button type="primary">确定</Button>
+                    <Button type="primary" @click="publish">确定</Button>
                   </div>
                 </div>
               </div>
@@ -87,6 +87,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+import { addArticle } from "@/api/content";
 
 @Component
 export default class Write extends Vue {
@@ -99,7 +100,11 @@ export default class Write extends Vue {
     return this.$store.state.articleTags;
   }
   private set tags(newVal: any) {
-    this.$store.commit("setArticleTags", newVal);
+    // 同步vuex
+    this.$store.commit("setArticleObj", {
+      key: "tags",
+      value: newVal,
+    });
   }
 
   // 文章标签列表
@@ -130,9 +135,32 @@ export default class Write extends Vue {
     },
   ];
 
-  // 发布文章
-  private publish() {
-    this.popoverShow = !this.popoverShow;
+  // 打开发布文章区域
+  private openPublish() {
+    if (!this.$store.state.articleObj.content) {
+      this.$Message.error("请输入正文");
+    } else if (!this.$store.state.articleObj.title) {
+      this.$Message.error("请输入文章标题");
+    } else {
+      this.popoverShow = true;
+    }
+  }
+  // 发布
+  private async publish() {
+    if (this.$store.state.writeSubTitle !== "草稿已保存") return;
+
+    const res: any = await addArticle({
+      ...this.$store.state.articleObj,
+      draftId: this.$store.state.draftId,
+    });
+
+    if (!res) {
+      this.$Message.error("发布失败，请稍后再试");
+      return;
+    }
+
+    this.$Message.success("发布成功");
+    this.$router.replace(`/article/${res.articleId}`);
   }
 }
 </script>
