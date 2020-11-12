@@ -92,7 +92,12 @@ export default class Edit extends Vue {
   private titleTipShow = false;
   private remainTitleInput = 50;
   // draftId
-  private draftId = "";
+  private get draftId() {
+    return this.$store.state.draftId;
+  }
+  private set draftId(newVal: string) {
+    this.$store.commit("setDraftId", newVal);
+  }
 
   private created() {
     this.initData();
@@ -114,6 +119,20 @@ export default class Edit extends Vue {
       this.articleObj["title"] = res["title"];
       this.articleObj["banner"] = res["banner"];
       this.initContent = res["content"];
+
+      // 同步vuex
+      this.$store.commit("setArticleObj", {
+        key: "title",
+        value: this.articleObj.title,
+      });
+      this.$store.commit("setArticleObj", {
+        key: "banner",
+        value: this.articleObj.banner,
+      });
+      this.$store.commit("setArticleObj", {
+        key: "content",
+        value: this.initContent,
+      });
     }
   }
 
@@ -128,6 +147,12 @@ export default class Edit extends Vue {
     if (res.isOk) {
       this.$Message.success("上传成功");
       this.articleObj.banner = res.data.url;
+
+      // 同步vuex
+      this.$store.commit("setArticleObj", {
+        key: "banner",
+        value: res.data.url,
+      });
       // 保存草稿
       this.debounceSaveDraft();
     } else {
@@ -150,9 +175,13 @@ export default class Edit extends Vue {
       this.titleTipShow = false;
     }
 
+    // 同步vuex
+    this.$store.commit("setArticleObj", {
+      key: "title",
+      value: this.articleObj.title,
+    });
     // 修改草稿状态栏
     this.$store.commit("setWriteSubTitle", "草稿保存中...");
-
     // 保存草稿
     this.debounceSaveDraft();
   }
@@ -162,6 +191,11 @@ export default class Edit extends Vue {
     this.articleObj.banner = "";
     this.$Message.info("移除题图");
 
+    // 同步vuex
+    this.$store.commit("setArticleObj", {
+      key: "banner",
+      value: "",
+    });
     // 保存草稿
     this.debounceSaveDraft();
   }
@@ -180,9 +214,17 @@ export default class Edit extends Vue {
       draftId: this.draftId,
     };
 
-    text && (payload.content = text);
+    typeof text !== "undefined" && (payload.content = text);
     plainText && (payload.words = plainText.length);
 
+    // 同步vuex
+    if (typeof text !== "undefined") {
+      this.$store.commit("setArticleObj", {
+        key: "content",
+        value: text,
+      });
+    }
+    // 保存草稿
     const res = await saveDraft(payload);
 
     if (res) {
