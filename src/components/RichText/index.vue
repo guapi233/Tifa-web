@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import CustomEditor from "./core/ckeditor.js";
 import UploadAdapter from "@/utils/uploadAdapter";
-import viewToPlainText from "@ckeditor/ckeditor5-clipboard/src/utils/viewtoplaintext";
+import { viewToPlainText } from "@ckeditor/ckeditor5-clipboard/src/utils/viewtoplaintext";
 
 @Component({
   components: {
@@ -22,13 +22,19 @@ import viewToPlainText from "@ckeditor/ckeditor5-clipboard/src/utils/viewtoplain
   },
 })
 export default class RichText extends Vue {
+  @Prop({ default: null }) save!: Function | null;
   private editor = CustomEditor;
   private editorData = "<p>啊啊啊</p>";
   private editorConfig = {
     autosave: {
       waitingTime: 1500,
-      save(editor: any) {
-        console.log("??");
+      save: (editor: any) => {
+        const contentArea: any = document.querySelector(".ck.ck-content");
+        this.save &&
+          this.save({
+            text: this.editorData,
+            plainText: contentArea.textContent,
+          });
       },
     },
   };
