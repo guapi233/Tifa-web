@@ -38,6 +38,10 @@ export default new Vuex.Store({
     setArticleObj(state, { key, value }) {
       (state.articleObj as any)[key] = value;
     },
+    clearArticleInfo(state) {
+      (state.articleObj as any) = {};
+      state.draftId = "";
+    },
     setDraftId(state, id: string) {
       state.draftId = id;
     },
