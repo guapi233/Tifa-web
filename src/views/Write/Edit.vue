@@ -95,11 +95,14 @@ export default class Edit extends Vue {
   private draftId = "";
 
   private created() {
-    this.init();
+    this.initData();
+
+    // 初始化页面标题
+    this.$store.commit("setWriteTitle", "Edit");
   }
 
   // 初始化 内容数据
-  private async init() {
+  private async initData() {
     // 读取草稿Id，没有则 新建
     const { draftId } = this.$route.params;
 

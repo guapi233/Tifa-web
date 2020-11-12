@@ -51,21 +51,8 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class Write extends Vue {
-  private currentRoute: string | null | undefined;
-
-  private created() {
-    this.changeHeaderBtnShow();
-  }
-
-  @Watch("$route")
-  private onRouteChange(newVal: any, oldVal: any) {
-    this.changeHeaderBtnShow();
-  }
-
-  // 切换顶部导航栏按钮展示
-  private changeHeaderBtnShow() {
-    const { name } = this.$route;
-    this.currentRoute = name;
+  private get currentRoute() {
+    return this.$store.state.writeTitle;
   }
 }
 </script>

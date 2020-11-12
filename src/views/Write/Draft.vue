@@ -43,6 +43,9 @@ export default class Draft extends Vue {
 
   private created() {
     this.getDraftList();
+
+    // 初始化页面标题
+    this.$store.commit("setWriteTitle", "Draft");
   }
 
   // 打开删除模态框
