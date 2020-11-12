@@ -8,6 +8,7 @@ import homeRoutes from "./rules/home";
 import writeRoutes from "./rules/write";
 import otherRoutes from "./rules/other";
 import store from "@/store";
+import jwt from "jsonwebtoken";
 
 const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
 const Write = () => import(/* webpackChunkName: "Write" */ "@/views/Write.vue");
@@ -40,6 +41,13 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requireAuth)) {
     if (!store.state.token) {
       next("/login");
+    } else {
+      // 验证 token 是否过期
+      const { exp } = jwt.decode(store.state.token);
+
+      if (Date.now() > exp * 1000) {
+        next("/login");
+      }
     }
   }
   next();
