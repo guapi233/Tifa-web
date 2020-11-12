@@ -85,3 +85,7 @@ export const delDraft = async (draftId: string) => {
 export const saveDraft = async (draftObj: any) => {
   return axios.post("/content/saveDraft", draftObj);
 };
+
+export const addArticle = async (articleObj: any) => {
+  return axios.post("/content/addArticle", articleObj);
+};
