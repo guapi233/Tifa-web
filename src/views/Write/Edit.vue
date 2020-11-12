@@ -161,6 +161,9 @@ export default class Edit extends Vue {
   private removeBanner() {
     this.articleObj.banner = "";
     this.$Message.info("移除题图");
+
+    // 保存草稿
+    this.debounceSaveDraft();
   }
 
   // 监听输入
