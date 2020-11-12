@@ -23,6 +23,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/write",
     component: Write,
+    meta: { requireAuth: true },
     children: writeRoutes,
   },
   ...otherRoutes,
