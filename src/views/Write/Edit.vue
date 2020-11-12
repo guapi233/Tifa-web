@@ -8,7 +8,6 @@
           :headers="headers"
           :show-upload-list="false"
           :max-size="5000000"
-          :before-upload="beforeUpload"
           :on-success="uploadSuccess"
           :on-err="uploadFail"
         >
@@ -24,7 +23,6 @@
               :headers="headers"
               :show-upload-list="false"
               :max-size="5000000"
-              :before-upload="beforeUpload"
               :on-success="uploadSuccess"
               :on-err="uploadFail"
             >
@@ -122,9 +120,6 @@ export default class Edit extends Vue {
   };
   private get uploadUrl() {
     return config.baseUrl + "/uploadImg";
-  }
-  private beforeUpload() {
-    console.log("??");
   }
   private uploadSuccess(res: any) {
     if (res.isOk) {
