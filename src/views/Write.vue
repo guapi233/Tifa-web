@@ -1,5 +1,5 @@
 <template>
-  <div class="write-outermost">
+  <div class="write-outermost" @click="popoverShow = false">
     <Header class="header-reset header-fixed">
       <div class="header-container">
         <a href="/" class="logo">
@@ -17,10 +17,49 @@
           </div>
         </div>
         <div class="right">
-          <Button class="release" v-if="currentRoute === 'Edit'">
-            发布
-            <Icon type="ios-arrow-down" size="18" />
-          </Button>
+          <div
+            v-if="currentRoute === 'Edit'"
+            class="release-box"
+            @click.stop="1"
+          >
+            <Button class="release" @click="publish">
+              发布
+              <Icon type="ios-arrow-down" size="18" />
+            </Button>
+            <transition name="fade">
+              <div class="popover" v-if="popoverShow">
+                <span class="arrow"></span>
+                <div class="content">
+                  <div class="category-title">发布文章</div>
+                  <div class="category-content">
+                    绑定合适的话题，能方便分类检索，文章也更容易让读者发下
+                  </div>
+                  <div class="category-box">
+                    <div class="category-list">
+                      <div class="category-selector">
+                        <Select
+                          v-model="tags"
+                          filterable
+                          multiple
+                          placeholder="给文章打上标签吧"
+                        >
+                          <Option
+                            v-for="item in categoryList"
+                            :value="item.value"
+                            :key="item.value"
+                            >{{ item.label }}</Option
+                          >
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="publish-btn">
+                    <Button type="primary">确定</Button>
+                  </div>
+                </div>
+              </div>
+            </transition>
+          </div>
           <router-link to="/write" v-else>
             <Button class="release" type="primary">
               <Icon type="md-create" />
@@ -51,8 +90,49 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class Write extends Vue {
+  private popoverShow = false;
   private get currentRoute() {
     return this.$store.state.writeTitle;
+  }
+
+  private get tags() {
+    return this.$store.state.articleTags;
+  }
+  private set tags(newVal: any) {
+    this.$store.commit("setArticleTags", newVal);
+  }
+
+  // 文章标签列表
+  private categoryList = [
+    {
+      value: "游戏",
+      label: "游戏",
+    },
+    {
+      value: "生活",
+      label: "生活",
+    },
+    {
+      value: "科技",
+      label: "科技",
+    },
+    {
+      value: "影视",
+      label: "影视",
+    },
+    {
+      value: "兴趣",
+      label: "兴趣",
+    },
+    {
+      value: "热点",
+      label: "热点",
+    },
+  ];
+
+  // 发布文章
+  private publish() {
+    this.popoverShow = !this.popoverShow;
   }
 }
 </script>
@@ -127,11 +207,87 @@ export default class Write extends Vue {
       justify-content: flex-end;
       align-items: center;
 
-      .release {
+      .release-box {
         margin-right: 20px;
+        position: relative;
 
-        i {
-          vertical-align: middle;
+        .release {
+          i {
+            vertical-align: middle;
+          }
+        }
+
+        .popover {
+          transform: translateX(-50%);
+          position: fixed;
+          top: 70px;
+          line-height: 1;
+          cursor: default;
+          width: 320px;
+          min-height: 236px;
+          height: auto;
+          opacity: 1;
+          margin-top: -4px;
+          border-radius: 4px;
+          margin-left: -12px;
+          z-index: 2;
+          outline: 0;
+          box-shadow: 0 5px 20px rgba(18, 18, 18, 0.1);
+          background: #fff;
+          border: 1px solid #ebebeb;
+
+          .arrow {
+            position: fixed;
+            top: -9px;
+            right: 100px;
+            display: block;
+            width: 0;
+            height: 0;
+            border-color: transparent transparent #ebebeb;
+            border-style: solid;
+            border-width: 0 8px 8px;
+
+            &::after {
+              content: "";
+              border-bottom-color: #fff;
+              position: fixed;
+              top: -9px;
+              right: 100px;
+              display: block;
+              width: 0;
+              height: 0;
+              border-color: transparent transparent #fff;
+              border-style: solid;
+              border-width: 0 8px 8px;
+            }
+          }
+
+          .content {
+            .category-title {
+              font-size: 18px;
+              padding: 16px;
+              font-weight: 600;
+              color: #121212;
+            }
+
+            .category-content {
+              max-height: 270px;
+              overflow: auto;
+              padding: 0 16px;
+              font-size: 14px;
+              color: grey;
+              line-height: 1.7;
+            }
+
+            .category-box {
+              padding: 16px;
+            }
+
+            .publish-btn {
+              padding: 16px;
+              text-align: right;
+            }
+          }
         }
       }
 
