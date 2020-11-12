@@ -3,7 +3,9 @@
     <Main class="draft-box">
       <div class="draft-list">
         <div class="draft-item" v-for="draft in draftList" :key="draft.draftId">
-          <router-link to="/" class="title">{{ draft.title }}</router-link>
+          <router-link :to="`/draft/${draft.draftId}`" class="title">{{
+            draft.title
+          }}</router-link>
           <div class="other-info">
             <div class="time">{{ dateFormat(draft.updated) }}</div>
             <div class="separator">·</div>
