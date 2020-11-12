@@ -62,7 +62,11 @@
       </div>
 
       <div class="editor-area">
-        <RichText :save="saveDraft" @input="onInput" />
+        <RichText
+          :save="saveDraft"
+          @input="onInput"
+          :initContent="initContent"
+        />
       </div>
     </Main>
   </div>
@@ -70,7 +74,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { saveDraft } from "@/api/content";
+import { saveDraft, getDraftDetail } from "@/api/content";
 import { getSid, debounce } from "@/utils/index";
 import RichText from "@/components/RichText/index.vue";
 import config from "@/config";
@@ -84,6 +88,8 @@ export default class Edit extends Vue {
     title: "",
     banner: "",
   };
+  // 富文本的初始内容，不起双向绑定的作用
+  private initContent = "";
   // 标题控件
   private titleTipShow = false;
   private remainTitleInput = 50;
@@ -91,10 +97,23 @@ export default class Edit extends Vue {
   private draftId = "";
 
   private created() {
+    this.init();
+  }
+
+  // 初始化 内容数据
+  private async init() {
     // 读取草稿Id，没有则 新建
     const { draftId } = this.$route.params;
 
     this.draftId = draftId || getSid();
+
+    // 如果存在 draftId 的话，读取草稿中的信息
+    const res: any = await getDraftDetail(draftId);
+    if (res) {
+      this.articleObj["title"] = res["title"];
+      this.articleObj["banner"] = res["banner"];
+      this.initContent = res["content"];
+    }
   }
 
   // 题图上传
