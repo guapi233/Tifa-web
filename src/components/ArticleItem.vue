@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <img :src="baseUrl + articleObj.banner" alt="" />
+        <img :src="bannerPic" alt="" />
       </router-link>
     </div>
   </div>
@@ -44,23 +44,30 @@ import { countFormat, dateFormat } from "@/utils/index";
 
 @Component
 export default class ArticleItem extends Vue {
-  @Prop({ type: Object }) private articleObj!: object;
+  @Prop({ type: Object }) private articleObj!: any;
   private baseUrl = config.baseUrl;
 
   private get viewCount() {
-    return countFormat((this.articleObj as any).viewCount);
+    return countFormat(this.articleObj.viewCount);
   }
 
   private get likeCount() {
-    return countFormat((this.articleObj as any).likeCount);
+    return countFormat(this.articleObj.likeCount);
   }
 
   private get commentCount() {
-    return countFormat((this.articleObj as any).commentCount);
+    return countFormat(this.articleObj.commentCount);
   }
 
   private get createdDate() {
-    return dateFormat((this.articleObj as any).created);
+    return dateFormat(this.articleObj.created);
+  }
+
+  private get bannerPic() {
+    if (!this.articleObj.banner) return "";
+    return this.articleObj.banner.startsWith("http")
+      ? this.articleObj.banner
+      : this.baseUrl + this.articleObj.banner;
   }
 }
 </script>
