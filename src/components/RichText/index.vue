@@ -3,7 +3,7 @@
     <ckeditor
       :editor="editor"
       :config="editorConfig"
-      v-model="editorData"
+      :value="initContent"
       @ready="onReady"
       @input="onInput"
     ></ckeditor>
@@ -25,9 +25,9 @@ let that: any = null;
   },
 })
 export default class RichText extends Vue {
+  @Prop({ default: "" }) initContent!: string;
   @Prop({ default: null }) save!: Function | null;
   private editor = CustomEditor;
-  private editorData = "";
   private editorConfig = {
     // 自动保存
     autosave: {
@@ -37,7 +37,7 @@ export default class RichText extends Vue {
 
         that.save &&
           that.save({
-            text: that.editorData,
+            text: editor.getData(),
             plainText: contentArea.textContent,
           });
       },
