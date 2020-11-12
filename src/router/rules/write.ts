@@ -18,4 +18,9 @@ export default [
     name: "Draft",
     component: Draft,
   },
+  {
+    path: "/draft/:draftId",
+    name: "DraftItem",
+    component: Edit,
+  },
 ];
