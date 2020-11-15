@@ -75,13 +75,18 @@
         @click="toTitleHere"
       >
         <div class="directory-container" v-for="nav in navList" :key="nav.id">
-          <div class="item" :data-top="nav.id">
+          <div
+            class="item"
+            :data-top="nav.id"
+            :class="{ 'active-nav': activeNav[0].id === nav.id }"
+          >
             <div class="circle"></div>
             <div class="title">{{ nav.val }}</div>
           </div>
           <div class="sub-directory-container">
             <div
               class="item sub-directory"
+              :class="{ 'active-nav': activeNav[1].id === navChild.id }"
               v-for="navChild in nav.children"
               :key="navChild.id"
               :data-top="navChild.id"
@@ -283,9 +288,33 @@ export default class ArticleDetail extends Vue {
   private likeList: any = [];
   private navList: any = [];
   private slider = slidePage();
+  private scrollTop =
+    document.documentElement.scrollTop || document.body.scrollTop;
   @Ref("articleContent") private articleContent!: any;
   @Ref("articleBody") private articleBody!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
+
+  // 当前选中的 一级nav & 二级nav
+  private get activeNav() {
+    const h2Actives = this.navList.filter((nav: any) => {
+      return nav.id <= this.scrollTop;
+    });
+
+    if (!h2Actives.length) {
+      return [{ id: "xx" }, { id: "xx" }];
+    }
+
+    const h3Actives = h2Actives[h2Actives.length - 1].children.filter(
+      (nav: any) => {
+        return nav.id <= this.scrollTop;
+      }
+    );
+
+    return [
+      h2Actives[h2Actives.length - 1] || {},
+      h3Actives[h3Actives.length - 1] || {},
+    ];
+  }
 
   // 题图处理
   private get bannerPic() {
@@ -298,7 +327,6 @@ export default class ArticleDetail extends Vue {
       return this.baseUrl + this.articleDetail.banner;
     }
   }
-
   //作者信息
   private get author() {
     return this.articleDetail.author;
@@ -405,6 +433,9 @@ export default class ArticleDetail extends Vue {
     } else {
       this.sideBarPos = "abs1";
     }
+
+    // 更新 scrollTop 属性
+    this.scrollTop = scrollTop;
   }
   // 解析文章内容中的标签栏
   private analysisArticleContent() {
@@ -703,6 +734,17 @@ export default class ArticleDetail extends Vue {
             .title {
               color: #655e5e;
             }
+          }
+        }
+
+        .active-nav {
+          .circle {
+            background-color: #8e8787;
+          }
+
+          .title {
+            color: #655e5e;
+            opacity: 1;
           }
         }
 
