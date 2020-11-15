@@ -195,7 +195,7 @@ export default class ArticleItem2 extends Vue {
     }
 
     &:hover .img-box img {
-      height: 110%;
+      height: 130%;
     }
   }
 }

@@ -127,7 +127,7 @@ export default class ClassName extends Vue {}
       width: 264px;
 
       img {
-        height: 110%;
+        height: 130%;
         cursor: pointer;
       }
 
