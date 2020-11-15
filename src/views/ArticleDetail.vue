@@ -26,7 +26,7 @@
 
     <!-- 文章主体 -->
     <div class="article-body" ref="articleBody">
-      <div ref="articleContent" class="article-content">
+      <div class="article-content" ref="articleContent">
         <div v-html="articleDetail.content"></div>
       </div>
 
@@ -69,18 +69,25 @@
       </div>
 
       <!-- 右侧工具栏 -->
-      <div class="article-right-side" :class="`side-r-${sideBarPos}`">
-        <div class="directory-container">
-          <div class="item">
+      <div
+        class="article-right-side"
+        :class="`side-r-${sideBarPos}`"
+        @click="toTitleHere"
+      >
+        <div class="directory-container" v-for="nav in navList" :key="nav.id">
+          <div class="item" :data-top="nav.id">
             <div class="circle"></div>
-            <div class="title">本周社区热榜</div>
+            <div class="title">{{ nav.val }}</div>
           </div>
           <div class="sub-directory-container">
-            <div class="item sub-directory">
+            <div
+              class="item sub-directory"
+              v-for="navChild in nav.children"
+              :key="navChild.id"
+              :data-top="navChild.id"
+            >
               <div class="circle h3"></div>
-              <div class="title">
-                🏅️《国内 17 座大城市毕业生补贴最高十万，秋招的你想去哪？》
-              </div>
+              <div class="title">{{ navChild.val }}</div>
             </div>
           </div>
         </div>
@@ -248,7 +255,7 @@
 
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
-import { dateFormat, countFormat, debounce } from "@/utils/index";
+import { dateFormat, countFormat, debounce, slidePage } from "@/utils/index";
 import {
   getArticleDetail,
   getCommentList,
@@ -274,6 +281,8 @@ export default class ArticleDetail extends Vue {
   private commentSort = "likeCount";
   private canGetComment = true;
   private likeList: any = [];
+  private navList: any = [];
+  private slider = slidePage();
   @Ref("articleContent") private articleContent!: any;
   @Ref("articleBody") private articleBody!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
@@ -327,6 +336,7 @@ export default class ArticleDetail extends Vue {
       this.resetSideBarLeft = this.resetSideBarLeft.bind(this);
       window.addEventListener("resize", this.resetSideBarLeft);
       window.addEventListener("scroll", this.resetSideBarPos);
+      this.analysisArticleContent();
     });
   }
 
@@ -395,6 +405,68 @@ export default class ArticleDetail extends Vue {
     } else {
       this.sideBarPos = "abs1";
     }
+  }
+  // 解析文章内容中的标签栏
+  private analysisArticleContent() {
+    const articleBodyTop = this.articleBody.offsetTop;
+    // 1. 获取所有内容标签
+    const allNodes = this.articleContent.children[0].children;
+
+    // 2. 筛选h2、h3标签
+    const titleList = Array.from(allNodes).filter((node: any) => {
+      return node.nodeName === "H2" || node.nodeName === "H3";
+    });
+
+    // 3. 组件目录结构
+    const h2List: any = [];
+    let current = 0;
+    titleList.forEach((node: any) => {
+      if (node.nodeName === "H2" && !h2List[current]) {
+        h2List[current] = {
+          id: articleBodyTop + node.offsetTop - 84,
+          val: node.textContent,
+          children: [],
+        };
+      } else if (node.nodeName === "H2") {
+        h2List[++current] = {
+          id: articleBodyTop + node.offsetTop - 84,
+          val: node.textContent,
+          children: [],
+        };
+      } else if (node.nodeName === "H3" && !h2List[current]) {
+        h2List[current] = {
+          id: articleBodyTop + node.offsetTop - 84,
+          val: "",
+          children: [
+            {
+              id: articleBodyTop + node.offsetTop - 84,
+              val: node.textContent,
+            },
+          ],
+        };
+      } else if (node.nodeName === "H3") {
+        h2List[current].children.push({
+          id: articleBodyTop + node.offsetTop - 84,
+          val: node.textContent,
+        });
+      }
+    });
+
+    // 4. 渲染至页面
+    this.navList = h2List;
+  }
+  // 移动页面至对应标题处
+  private toTitleHere(e: any) {
+    // 1. 从冒泡路径上找到附带 data-set 的元素
+    const current = e.path.filter((target: any) => {
+      return target.className && target.className.includes("item");
+    })[0];
+
+    // 2. 如果没找到则直接终止
+    if (!current) return;
+
+    // 3. 移动页面至 元素身上附带的自定义高度值那里
+    this.slider(Number(current.dataset.top));
   }
 
   // 给文章点赞
@@ -576,10 +648,10 @@ export default class ArticleDetail extends Vue {
       right: 40px;
       z-index: 90;
       padding: 10px 0;
-      width: 220px;
+      width: 250px;
       padding-left: 40px;
       max-height: 400px;
-      overflow: hidden;
+      overflow: auto;
       margin-top: -10px;
 
       .directory-container {
