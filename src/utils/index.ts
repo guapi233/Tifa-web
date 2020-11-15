@@ -144,7 +144,12 @@ export const isPublicApi = (url: string) => {
  * @param time 时间间隔
  * @param immediate 是否立即执行
  */
-export const debounce = (fn: Function, time: number, immediate = false) => {
+export const debounce = (
+  fn: Function,
+  time: number,
+  immediate = false,
+  all = false
+) => {
   let timer: any = null;
 
   // 包裹函数
@@ -159,7 +164,7 @@ export const debounce = (fn: Function, time: number, immediate = false) => {
       timer = setTimeout(() => {
         timer = null;
         // 如果想隔阂时间结束后同样执行方法，像这样在这里执行下方法即可
-        fn(...arg);
+        all && fn(...arg);
       }, time);
     } else {
       // 不开启立即执行后为下文条目1的执行逻辑
