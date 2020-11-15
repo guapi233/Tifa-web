@@ -45,6 +45,7 @@ export const slidePage = (scrollTiming = 300) => {
   let timer = 0;
 
   return (des = 0) => {
+    des = Number(des) || 0; // 防止直接传入模板中，des变成eventObj
     cancelAnimationFrame(timer);
 
     const b = document.body.scrollTop || document.documentElement.scrollTop;
