@@ -9,6 +9,7 @@ import writeRoutes from "./rules/write";
 import otherRoutes from "./rules/other";
 import store from "@/store";
 import jwt from "jsonwebtoken";
+import app from "@/main";
 
 const Home = () => import(/* webpackChunkName: "Home" */ "@/views/Home.vue");
 const Write = () => import(/* webpackChunkName: "Write" */ "@/views/Write.vue");
@@ -47,6 +48,7 @@ router.beforeEach((to, from, next) => {
 
       if (Date.now() > exp * 1000) {
         next("/login");
+        app.$Message.error("登录已失效，请重新登录");
       }
     }
   }
