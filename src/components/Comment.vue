@@ -59,14 +59,15 @@ import { addComment } from "@/api/content";
 @Component({
   components: {
     CommentItem,
-    CommentReply
-  }
+    CommentReply,
+  },
 })
 export default class Comment extends Vue {
   @Prop({ default: () => [] }) private commentList!: any;
   @Prop({ default: 0 }) private commentCount!: number;
   @Prop({ default: "" }) private targetId!: string;
   @Prop({ default: "likeCount" }) private commentSort!: string;
+  @Prop({ type: Boolean }) private canGetComment!: boolean;
 
   // 输入框内容 & 输入框展示变量
   private inputVal = "";
@@ -106,7 +107,7 @@ export default class Comment extends Vue {
       targetId: this.targetId,
       replyId: "*",
       content: this.inputVal,
-      type: 0
+      type: 0,
     });
 
     if (res) {
@@ -132,7 +133,7 @@ export default class Comment extends Vue {
       content,
       commentId,
       commentItem,
-      secondLevelCommentId
+      secondLevelCommentId,
     } = commentInfo;
     const res = await addComment({
       targetId: commentId,
@@ -140,7 +141,7 @@ export default class Comment extends Vue {
       content,
       type: 1,
       targetType: 0,
-      secondLevelCommentId
+      secondLevelCommentId,
     });
 
     if (res) {
@@ -160,6 +161,8 @@ export default class Comment extends Vue {
 
   // 切换评论展示方式
   private changeSort() {
+    if (!this.canGetComment) return;
+
     const sort = this.commentSort === "created" ? "likeCount" : "created";
     this.$emit("update:commentSort", sort);
 

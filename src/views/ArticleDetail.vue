@@ -224,8 +224,9 @@
         :targetId="articleId"
         :commentCount="articleDetail.commentCount"
         :commentSort.sync="commentSort"
-        @changeSort="getCommentList"
-        @loadmore="getCommentList"
+        :canGetComment="canGetComment"
+        @changeSort="debouncedGetCommentList"
+        @loadmore="debouncedGetCommentList"
       />
 
       <!-- 推荐阅读 -->
@@ -246,7 +247,7 @@
 
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
-import { dateFormat, countFormat } from "@/utils/index";
+import { dateFormat, countFormat, debounce } from "@/utils/index";
 import {
   getArticleDetail,
   getCommentList,
@@ -269,6 +270,7 @@ export default class ArticleDetail extends Vue {
   private articleDetail: any = null;
   private commentList: any = [];
   private commentSort = "likeCount";
+  private canGetComment = true;
   private likeList: any = [];
   @Ref("articleContent") private articleContent!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
@@ -313,7 +315,7 @@ export default class ArticleDetail extends Vue {
     const { articleId } = this.$route.params;
     this.articleId = articleId;
     await this.getArticleDetail();
-    await this.getCommentList(0);
+    await this.debouncedGetCommentList(0);
     await this.getLikeList();
 
     // 监听窗口边框 调整左侧工具栏
@@ -343,6 +345,7 @@ export default class ArticleDetail extends Vue {
 
   // 获取评论列表
   private async getCommentList(skip: number) {
+    this.canGetComment = false;
     const { usernumber } = this.$store.state.userInfo;
     const res: any = await getCommentList({
       targetId: this.articleId,
@@ -355,7 +358,9 @@ export default class ArticleDetail extends Vue {
     if (res) {
       this.commentList.push(...res);
     }
+    this.canGetComment = true;
   }
+  private debouncedGetCommentList = debounce(this.getCommentList, 1000, true);
 
   // 重置左侧工具栏的left属性
   private resetSideBarLeft() {
