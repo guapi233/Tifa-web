@@ -41,10 +41,10 @@ export const delStorage = (key: string) => {
  * @param { Number } scrollTiming 持续时长，默认300ms
  */
 
-export const slidePage = (des = 0, scrollTiming = 300) => {
+export const slidePage = (scrollTiming = 300) => {
   let timer = 0;
 
-  return () => {
+  return (des = 0) => {
     cancelAnimationFrame(timer);
 
     const b = document.body.scrollTop || document.documentElement.scrollTop;
