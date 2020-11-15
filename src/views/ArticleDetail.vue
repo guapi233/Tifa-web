@@ -25,7 +25,7 @@
     </div>
 
     <!-- 文章主体 -->
-    <div class="article-body">
+    <div class="article-body" ref="articleBody">
       <div ref="articleContent" class="article-content">
         <div v-html="articleDetail.content"></div>
       </div>
@@ -34,6 +34,7 @@
       <div
         ref="leftSideBar"
         class="article-left-side"
+        :class="`side-${sideBarPos}`"
         v-show="sideBarLeft !== '0'"
         :style="{ left: sideBarLeft }"
       >
@@ -68,7 +69,7 @@
       </div>
 
       <!-- 右侧工具栏 -->
-      <div class="article-right-side">
+      <div class="article-right-side" :class="`side-r-${sideBarPos}`">
         <div class="directory-container">
           <div class="item">
             <div class="circle"></div>
@@ -265,6 +266,7 @@ import config from "@/config/index";
 })
 export default class ArticleDetail extends Vue {
   private sideBarLeft = "0";
+  private sideBarPos = "abs1";
   private baseUrl = config.baseUrl;
   private articleId = "";
   private articleDetail: any = null;
@@ -273,6 +275,7 @@ export default class ArticleDetail extends Vue {
   private canGetComment = true;
   private likeList: any = [];
   @Ref("articleContent") private articleContent!: any;
+  @Ref("articleBody") private articleBody!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
 
   // 题图处理
@@ -323,6 +326,7 @@ export default class ArticleDetail extends Vue {
       this.resetSideBarLeft();
       this.resetSideBarLeft = this.resetSideBarLeft.bind(this);
       window.addEventListener("resize", this.resetSideBarLeft);
+      window.addEventListener("scroll", this.resetSideBarPos);
     });
   }
 
@@ -368,6 +372,29 @@ export default class ArticleDetail extends Vue {
       this.articleContent.offsetLeft -
       (this.leftSideBar.clientWidth + 170) +
       "px";
+  }
+  // 重置两侧工具栏定位
+  private resetSideBarPos() {
+    const articleTop = this.articleBody.offsetTop;
+    const articleHeight = this.articleBody.offsetHeight;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    const viewportHeight =
+      document.documentElement.clientHeight || document.body.clientHeight;
+
+    if (
+      scrollTop >=
+      articleTop +
+        articleHeight -
+        Math.floor(viewportHeight * 0.7) +
+        this.leftSideBar.offsetHeight
+    ) {
+      this.sideBarPos = "abs2";
+    } else if (scrollTop >= articleTop / 2) {
+      this.sideBarPos = "fixed";
+    } else {
+      this.sideBarPos = "abs1";
+    }
   }
 
   // 给文章点赞
@@ -442,7 +469,7 @@ export default class ArticleDetail extends Vue {
 
     .article-banner {
       width: 710px;
-      height: 354px;
+      min-height: 354px;
       margin: 0 auto;
 
       img {
@@ -509,8 +536,6 @@ export default class ArticleDetail extends Vue {
     }
 
     .article-left-side {
-      position: absolute;
-      top: 0;
       transform: translateY(0);
       bottom: auto;
       text-align: center;
@@ -626,6 +651,29 @@ export default class ArticleDetail extends Vue {
           opacity: 1;
         }
       }
+    }
+
+    .side-fixed,
+    .side-r-fixed {
+      position: fixed;
+      top: 30%;
+    }
+
+    .side-abs1,
+    .side-r-abs1 {
+      position: absolute;
+      top: 0;
+      bottom: auto;
+    }
+
+    .side-abs2 {
+      position: absolute;
+      top: auto;
+      bottom: 0;
+    }
+
+    .side-r-abs2 {
+      display: none;
     }
   }
 
