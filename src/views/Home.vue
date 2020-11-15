@@ -158,13 +158,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { toPageTop } from "@/utils/index";
+import { slidePage } from "@/utils/index";
 import config from "@/config/index";
 import { delStorage } from "@/utils/index";
 
 @Component
 export default class Home extends Vue {
-  private toTop = toPageTop();
+  private toTop = slidePage();
   private userToolsShow = false;
   private get token() {
     return this.$store.state.token;
