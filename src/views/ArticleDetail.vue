@@ -47,7 +47,7 @@
           @click="likeArticle"
         ></Button>
         <div class="count">{{ likeCount }}</div>
-        <div class="comment-icon item">
+        <div class="comment-icon item" @click="toComment">
           <Icon type="md-text" size="28" />
         </div>
         <div class="count">{{ commentCount }}</div>
@@ -220,7 +220,7 @@
     </div>
 
     <!-- 广告、评论区、推荐阅读 -->
-    <div class="bg-grey">
+    <div class="bg-grey" ref="commentAnchor">
       <!-- 广告 -->
       <div class="advertisement-box">
         <router-link to="/">
@@ -293,6 +293,7 @@ export default class ArticleDetail extends Vue {
   @Ref("articleContent") private articleContent!: any;
   @Ref("articleBody") private articleBody!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
+  @Ref("commentAnchor") private commentAnchor!: any;
 
   // 当前选中的 一级nav & 二级nav
   private get activeNav() {
@@ -498,6 +499,10 @@ export default class ArticleDetail extends Vue {
 
     // 3. 移动页面至 元素身上附带的自定义高度值那里
     this.slider(Number(current.dataset.top));
+  }
+  // 移动至评论区
+  private toComment() {
+    this.slider(this.commentAnchor.offsetTop);
   }
 
   // 给文章点赞
