@@ -1,8 +1,27 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view v-if="routerLive" />
   </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component, Provide } from "vue-property-decorator";
+
+@Component
+export default class App extends Vue {
+  private routerLive = true;
+
+  // 重装组件
+  @Provide()
+  private reload() {
+    this.routerLive = false;
+
+    this.$nextTick(() => {
+      this.routerLive = true;
+    });
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
