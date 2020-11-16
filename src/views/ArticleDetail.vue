@@ -687,8 +687,12 @@ export default class ArticleDetail extends Vue {
       width: 250px;
       padding-left: 40px;
       max-height: 400px;
-      overflow: auto;
       margin-top: -10px;
+      overflow: hidden;
+
+      &:hover {
+        overflow: auto;
+      }
 
       .directory-container {
         .item {
