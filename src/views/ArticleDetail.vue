@@ -372,6 +372,7 @@ export default class ArticleDetail extends Vue {
   private beforeDestroy() {
     // 销毁监听器
     window.removeEventListener("resize", this.resetSideBarLeft);
+    window.removeEventListener("scroll", this.resetSideBarPos);
   }
 
   // 获取文章详情
