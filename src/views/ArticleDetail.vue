@@ -162,7 +162,14 @@
       </div>
       <div class="right">
         <div class="forward oper-item">
-          <Icon type="ios-share" size="24" />
+          <Poptip placement="top">
+            <Icon type="ios-share" size="24" />
+            <template #content>
+              <div class="share-box">
+                <Icon type="ios-contacts" size="24" @click="shareToQQ" />
+              </div>
+            </template>
+          </Poptip>
         </div>
         <div
           class="collection oper-item"
@@ -175,6 +182,9 @@
             size="24"
           />
           <Icon type="ios-bookmark-outline" v-else size="24" />
+        </div>
+        <div class="setting-item oper-item">
+          <Icon type="md-cog" size="24" />
         </div>
         <div class="other oper-item">
           <Icon type="ios-more" size="24" />
@@ -699,7 +709,10 @@ export default class ArticleDetail extends Vue {
 
       .item {
         margin-top: 20px;
-        cursor: pointer;
+
+        i {
+          cursor: pointer;
+        }
 
         i:hover {
           color: $primaryColor;
@@ -935,12 +948,15 @@ export default class ArticleDetail extends Vue {
         width: 40px;
         height: 40px;
         color: $contentColor;
-        cursor: pointer;
         transition: 0.3s;
         line-height: 40px;
         text-align: center;
 
-        &:hover {
+        i {
+          cursor: pointer;
+        }
+
+        i:hover {
           color: $primaryColor;
         }
       }
