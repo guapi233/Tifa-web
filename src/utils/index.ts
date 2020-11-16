@@ -126,6 +126,19 @@ export const dateFormat = (date: string | number) => {
 };
 
 /**
+ * 格式化图片
+ * @param src 路径
+ */
+export const imgFormat = (src: string) => {
+  if (!src || typeof src !== "string") return "";
+
+  if (src.startsWith("http")) {
+    return src;
+  }
+  return config.baseUrl + src;
+};
+
+/**
  * 是否为公共api
  * @param url 路径
  */
