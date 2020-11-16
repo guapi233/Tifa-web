@@ -89,3 +89,21 @@ export const saveDraft = async (draftObj: any) => {
 export const addArticle = async (articleObj: any) => {
   return axios.post("/content/addArticle", articleObj);
 };
+
+/**
+ * 获取文章详情页中推荐文章
+ * @param articleId 文章Id
+ * @param tags 标签
+ * @param limit 条目数
+ */
+export const getRecArticle = async (
+  articleId: string,
+  tags: string[],
+  limit: number
+) => {
+  const tagsStr = tags.join("|");
+
+  return axios.get(
+    `/public/getRecArticle?articleId=${articleId}&tags=${tagsStr}&limit=${limit}`
+  );
+};
