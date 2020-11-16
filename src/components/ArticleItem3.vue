@@ -2,24 +2,21 @@
   <div class="article-item3-outermost">
     <div class="article-item">
       <div class="img-box">
-        <img
-          src="https://cdn.sspai.com/2020/10/28/ebb20c9ea3f59e25b5de03eccdeb80e4.jpg?imageMogr2/auto-orient/quality/95/thumbnail/!800x400r/gravity/Center/crop/800x400/interlace/1"
-          alt=""
-        />
+        <img :src="imgFormat(articleObj.banner)" alt="" />
       </div>
       <div class="card-content">
         <router-link to="/" class="title">
-          如何选择适合你的 iPad Pro？这是我的回答
+          {{ articleObj.title }}
         </router-link>
         <div class="card-bottom">
-          <router-link class="author" to="/">
-            <Avatar size="24" />
+          <router-link class="author" :to="`/user/${author.usernumber}`">
+            <Avatar size="24" :src="imgFormat(author.pic)" />
 
-            <span class="name">zachal</span>
+            <span class="name">{{ author.name }}</span>
           </router-link>
           <div class="right">
             <Icon type="md-thumbs-up" size="20" />
-            <span>60</span>
+            <span>{{ articleObj.likeCount }}</span>
           </div>
         </div>
       </div>
@@ -28,10 +25,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { imgFormat } from "@/utils/index";
 
 @Component
-export default class ClassName extends Vue {}
+export default class ClassName extends Vue {
+  @Prop({ default: () => ({}) }) private articleObj!: any;
+  private imgFormat = imgFormat;
+
+  private get author() {
+    return this.articleObj.author;
+  }
+}
 </script>
 
 <style lang="scss">
