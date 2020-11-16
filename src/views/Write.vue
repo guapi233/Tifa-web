@@ -60,7 +60,7 @@
               </div>
             </transition>
           </div>
-          <router-link to="/write" v-else>
+          <router-link class="release-box" to="/write" v-else>
             <Button class="release" type="primary">
               <Icon type="md-create" />
               写文章
