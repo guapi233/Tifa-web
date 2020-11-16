@@ -253,11 +253,12 @@
       <div class="recommend-read">
         <div class="header">推荐阅读</div>
         <div class="read-container">
-          <div class="article-card">
-            <ArticleItem3 />
-          </div>
-          <div class="article-card">
-            <ArticleItem3 />
+          <div
+            class="article-card"
+            v-for="rec in recArticleList"
+            :key="rec.articleId"
+          >
+            <ArticleItem3 :articleObj="rec" />
           </div>
         </div>
       </div>
@@ -274,6 +275,7 @@ import {
   addLike,
   getLikeList,
   addCollection,
+  getRecArticle,
 } from "@/api/content";
 import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
@@ -289,6 +291,7 @@ export default class ArticleDetail extends Vue {
   private baseUrl = config.baseUrl;
   private articleId = "";
   private articleDetail: any = null;
+  private recArticleList = [];
   private commentList: any = [];
   private commentSort = "likeCount";
   private canGetComment = true;
@@ -326,10 +329,9 @@ export default class ArticleDetail extends Vue {
 
   // 题图处理
   private get bannerPic() {
-    if (
-      this.articleDetail.banner &&
-      this.articleDetail.banner.startsWith("http")
-    ) {
+    if (!this.articleDetail.banner) return "";
+
+    if (this.articleDetail.banner.startsWith("http")) {
       return this.articleDetail.banner;
     } else {
       return this.baseUrl + this.articleDetail.banner;
@@ -363,6 +365,7 @@ export default class ArticleDetail extends Vue {
     const { articleId } = this.$route.params;
     this.articleId = articleId;
     await this.getArticleDetail();
+    await this.getRecArticle();
     await this.debouncedGetCommentList(0);
     await this.getLikeList();
 
@@ -392,6 +395,16 @@ export default class ArticleDetail extends Vue {
     } else {
       this.articleDetail = res;
     }
+  }
+  // 获取推荐文章
+  private async getRecArticle() {
+    const res: any = await getRecArticle(
+      this.articleDetail.articleId,
+      this.articleDetail.tags,
+      6
+    );
+
+    this.recArticleList = res;
   }
 
   // 获取评论列表
