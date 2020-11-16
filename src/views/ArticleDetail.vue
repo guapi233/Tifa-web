@@ -184,7 +184,17 @@
           <Icon type="ios-bookmark-outline" v-else size="24" />
         </div>
         <div class="setting-item oper-item">
-          <Icon type="md-cog" size="24" />
+          <Dropdown trigger="click">
+            <Icon type="md-cog" size="24" />
+            <DropdownMenu slot="list">
+              <DropdownItem>修改文章</DropdownItem>
+              <DropdownItem divided selected>允许任何人评论</DropdownItem>
+              <DropdownItem>允许关注我的人评论</DropdownItem>
+              <DropdownItem>允许我关注的人评论</DropdownItem>
+              <DropdownItem>关闭评论</DropdownItem>
+              <DropdownItem divided>删除</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
         <div class="other oper-item">
           <Icon type="ios-more" size="24" />
