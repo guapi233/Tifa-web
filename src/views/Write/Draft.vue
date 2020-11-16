@@ -11,20 +11,19 @@
             <div class="separator">·</div>
             <div class="word-number">共 {{ draft.words }} 字</div>
             <div class="separator">·</div>
-            <div class="delete" @click="openModal1(draft)">删除</div>
+
+            <Poptip
+              confirm
+              placement="right"
+              title="确定要删除这个草稿吗？"
+              @on-ok="delDraft(draft)"
+            >
+              <div class="delete">删除</div>
+            </Poptip>
           </div>
         </div>
       </div>
     </Main>
-
-    <Modal
-      v-model="modal1"
-      title="删除草稿"
-      @on-ok="delDraft"
-      @on-cancel="cancelDel"
-    >
-      <p>确定要删除这个草稿吗？</p>
-    </Modal>
   </div>
 </template>
 
@@ -37,9 +36,6 @@ import { dateFormat } from "@/utils/index";
 export default class Draft extends Vue {
   private draftList: any = [];
   private dateFormat = dateFormat;
-  // 当前要删除的元素
-  private currentDel: any = null;
-  private modal1 = false;
 
   private created() {
     this.getDraftList();
@@ -48,32 +44,17 @@ export default class Draft extends Vue {
     this.$store.commit("setWriteTitle", "Draft");
   }
 
-  // 打开删除模态框
-  private openModal1(draft: any) {
-    // 设置当前点击的元素为准备删除的草稿
-    this.currentDel = draft;
-    // 打开模态框
-    this.modal1 = true;
-  }
-
   // 确定删除草稿
-  private async delDraft() {
-    if (!this.currentDel) return;
-    const res: any = await delDraft(this.currentDel.draftId);
+  private async delDraft(currentDel: any) {
+    if (!currentDel) return;
+    const res: any = await delDraft(currentDel.draftId);
 
     if (res) {
       this.draftList = this.draftList.filter((item: any) => {
-        return item !== this.currentDel;
+        return item !== currentDel;
       });
       this.$Message.success(res);
     }
-    // 情况待删变量
-    this.currentDel = null;
-  }
-
-  // 取消删除草稿
-  private async cancelDel() {
-    this.currentDel = null;
   }
 
   // 获取草稿列表
