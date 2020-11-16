@@ -2,10 +2,12 @@
   <div class="article-item3-outermost">
     <div class="article-item">
       <div class="img-box">
-        <img :src="imgFormat(articleObj.banner)" alt="" />
+        <router-link :to="`/article/${articleObj.articleId}`">
+          <img :src="imgFormat(articleObj.banner)" alt="" />
+        </router-link>
       </div>
       <div class="card-content">
-        <router-link to="/" class="title">
+        <router-link :to="`/article/${articleObj.articleId}`" class="title">
           {{ articleObj.title }}
         </router-link>
         <div class="card-bottom">
