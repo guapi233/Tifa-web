@@ -52,7 +52,14 @@
         </div>
         <div class="count">{{ commentCount }}</div>
         <div class="forward-icon item">
-          <Icon type="ios-share" size="28" />
+          <Poptip placement="right">
+            <Icon type="ios-share" size="28" />
+            <template #content>
+              <div class="share-box">
+                <Icon type="ios-contacts" size="28" @click="shareToQQ" />
+              </div>
+            </template>
+          </Poptip>
         </div>
         <div
           class="collection-icon item"
@@ -556,6 +563,13 @@ export default class ArticleDetail extends Vue {
       this.author.isFollowed = 0;
     }
   }
+
+  // 分享文章至QQ
+  private shareToQQ() {
+    window.open(
+      `http://connect.qq.com/widget/shareqq/index.html?url=${window.location.href}&sharesource=qzone&title=TIFA COMMUNITY&pics=${this.articleDetail.banner}&summary=${this.articleDetail.title}&desc=TIFA`
+    );
+  }
 }
 </script>
 
@@ -667,7 +681,7 @@ export default class ArticleDetail extends Vue {
         margin-top: 20px;
         cursor: pointer;
 
-        &:hover {
+        i:hover {
           color: $primaryColor;
         }
       }
