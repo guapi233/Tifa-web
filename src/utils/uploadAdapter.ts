@@ -1,3 +1,7 @@
+/**
+ * 自定义 CKEditor图片上传适配器
+ */
+
 import axios from "@/utils/axios";
 
 export default class UploadAdapter {
