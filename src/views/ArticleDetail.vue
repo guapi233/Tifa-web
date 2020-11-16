@@ -267,7 +267,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Vue, Ref, Watch, Inject } from "vue-property-decorator";
 import { dateFormat, countFormat, debounce, slidePage } from "@/utils/index";
 import {
   getArticleDetail,
@@ -304,6 +304,13 @@ export default class ArticleDetail extends Vue {
   @Ref("articleBody") private articleBody!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
   @Ref("commentAnchor") private commentAnchor!: any;
+  @Inject("reload") private reload!: any;
+
+  // 监听 param变化，做好卸载重装组件的准备
+  @Watch("$route")
+  onRouteChange(newVal: any) {
+    this.reload();
+  }
 
   // 当前选中的 一级nav & 二级nav
   private get activeNav() {
