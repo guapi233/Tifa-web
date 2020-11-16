@@ -36,6 +36,9 @@ import {
 import "view-design/dist/styles/iview.css";
 import "@/config/iviewTheme.less";
 
+// global directive
+import { highlight } from "@/utils/directive";
+
 Vue.component("Button", Button);
 Vue.component("Input", Input);
 Vue.component("IInput", Input); // 使用符合规范的标签名 再次注册一遍 Input（原因：Input无法正常使用双标签，会被代码检查干掉）
@@ -61,6 +64,8 @@ Vue.component("Modal", Modal);
 Vue.component("Select", Select);
 Vue.component("Option", Option);
 Vue.component("Poptip", Poptip);
+
+Vue.directive("highlight", highlight);
 
 Vue.prototype.$Message = Message;
 
