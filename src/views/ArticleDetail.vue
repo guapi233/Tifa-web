@@ -192,7 +192,9 @@
               <DropdownItem>允许关注我的人评论</DropdownItem>
               <DropdownItem>允许我关注的人评论</DropdownItem>
               <DropdownItem>关闭评论</DropdownItem>
-              <DropdownItem divided>删除</DropdownItem>
+              <DropdownItem divided @click.native="delModalShow = true"
+                >删除</DropdownItem
+              >
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -283,6 +285,11 @@
         </div>
       </div>
     </div>
+
+    <!-- 删除文章模态框 -->
+    <Modal v-model="delModalShow" title="提示" @on-ok="delArticle">
+      <p>确定要删除这篇文章吗？</p>
+    </Modal>
   </div>
 </template>
 
@@ -296,6 +303,7 @@ import {
   getLikeList,
   addCollection,
   getRecArticle,
+  delArticle,
 } from "@/api/content";
 import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
@@ -320,6 +328,7 @@ export default class ArticleDetail extends Vue {
   private slider = slidePage();
   private scrollTop =
     document.documentElement.scrollTop || document.body.scrollTop;
+  private delModalShow = false;
   @Ref("articleContent") private articleContent!: any;
   @Ref("articleBody") private articleBody!: any;
   @Ref("leftSideBar") private leftSideBar!: any;
@@ -391,7 +400,10 @@ export default class ArticleDetail extends Vue {
   private async mounted() {
     const { articleId } = this.$route.params;
     this.articleId = articleId;
-    await this.getArticleDetail();
+    const res = await this.getArticleDetail();
+
+    if (res) return;
+
     await this.getRecArticle();
     await this.debouncedGetCommentList(0);
     await this.getLikeList();
@@ -419,6 +431,7 @@ export default class ArticleDetail extends Vue {
 
     if (!res) {
       this.$router.replace("/whoops");
+      return true;
     } else {
       this.articleDetail = res;
     }
@@ -569,6 +582,20 @@ export default class ArticleDetail extends Vue {
 
     // 重新加载点赞列表
     this.getLikeList();
+  }
+
+  // 删除文章
+  private async delArticle() {
+    const res = await delArticle(this.articleDetail.articleId);
+
+    if (!res) {
+      return this.$Message.error("删除失败");
+    }
+
+    this.$Message.success("成功删除文章");
+    this.$router.replace(
+      `/user/${this.$store.state.userInfo.usernumber}/article`
+    );
   }
 
   // 获取给文章点赞的列表
