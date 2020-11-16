@@ -11,6 +11,7 @@ import {
   Form,
   FormItem,
   Tooltip,
+  Poptip,
   Message,
   Layout,
   Header,
@@ -59,6 +60,7 @@ Vue.component("DropdownItem", DropdownItem);
 Vue.component("Modal", Modal);
 Vue.component("Select", Select);
 Vue.component("Option", Option);
+Vue.component("Poptip", Poptip);
 
 Vue.prototype.$Message = Message;
 
