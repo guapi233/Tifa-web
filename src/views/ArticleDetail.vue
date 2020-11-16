@@ -27,7 +27,7 @@
     <!-- 文章主体 -->
     <div class="article-body" ref="articleBody">
       <div class="article-content" ref="articleContent">
-        <div v-html="articleDetail.content"></div>
+        <div v-highlight v-html="articleDetail.content"></div>
       </div>
 
       <!-- 左侧工具栏 -->
