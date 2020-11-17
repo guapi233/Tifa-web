@@ -23,7 +23,7 @@
             @click.stop="1"
           >
             <Button class="release" @click="openPublish">
-              发布
+              {{ $store.state.isEdit ? "更新" : "发布" }}
               <Icon type="ios-arrow-down" size="18" />
             </Button>
             <transition name="fade">
@@ -87,7 +87,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { addArticle } from "@/api/content";
+import { addArticle, modifyArticle } from "@/api/content";
 
 @Component
 export default class Write extends Vue {
@@ -97,7 +97,7 @@ export default class Write extends Vue {
   }
 
   private get tags() {
-    return this.$store.state.articleTags;
+    return this.$store.state.articleObj["tags"];
   }
   private set tags(newVal: any) {
     // 同步vuex
@@ -149,18 +149,34 @@ export default class Write extends Vue {
   private async publish() {
     if (this.$store.state.writeSubTitle !== "草稿已保存") return;
 
-    const res: any = await addArticle({
-      ...this.$store.state.articleObj,
-      draftId: this.$store.state.draftId,
-    });
+    let res: any = null;
+    const isEdit = this.$store.state.isEdit;
+    const tip = isEdit ? "更新" : "发布";
+
+    if (isEdit) {
+      res = await modifyArticle({
+        ...this.$store.state.articleObj,
+        draftId: this.$store.state.draftId,
+      });
+
+      // 重置 vuex 状态
+      this.$store.commit("setEdit", false);
+    } else {
+      res = await addArticle({
+        ...this.$store.state.articleObj,
+        draftId: this.$store.state.draftId,
+      });
+    }
 
     if (!res) {
-      this.$Message.error("发布失败，请稍后再试");
+      this.$Message.error(`${tip}失败，请稍后再试`);
       return;
     }
 
-    this.$Message.success("发布成功");
-    this.$router.replace(`/article/${res.articleId}`);
+    this.$Message.success(`${tip}成功`);
+    this.$router.replace(
+      `/article/${res.articleId || this.$store.state.draftId}`
+    );
     // 清空vuex中关于文章的缓存
     this.$store.commit("clearArticleInfo");
   }

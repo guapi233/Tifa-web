@@ -113,6 +113,8 @@ export default class Edit extends Vue {
 
     this.draftId = draftId || getSid();
 
+    if (!draftId) return;
+
     // 如果存在 draftId 的话，读取草稿中的信息
     const res: any = await getDraftDetail(draftId);
     if (res) {
@@ -133,6 +135,7 @@ export default class Edit extends Vue {
         key: "content",
         value: this.initContent,
       });
+      this.$store.commit("setEdit", res["isEdit"]);
     }
   }
 

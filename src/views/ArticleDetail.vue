@@ -187,7 +187,9 @@
           <Dropdown trigger="click">
             <Icon type="md-cog" size="24" />
             <DropdownMenu slot="list">
-              <DropdownItem>修改文章</DropdownItem>
+              <DropdownItem @click.native="modifyArticle"
+                >修改文章</DropdownItem
+              >
               <DropdownItem divided selected>允许任何人评论</DropdownItem>
               <DropdownItem>允许关注我的人评论</DropdownItem>
               <DropdownItem>允许我关注的人评论</DropdownItem>
@@ -304,6 +306,8 @@ import {
   addCollection,
   getRecArticle,
   delArticle,
+  saveDraft,
+  existDraft,
 } from "@/api/content";
 import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
@@ -595,6 +599,30 @@ export default class ArticleDetail extends Vue {
     this.$router.replace(
       `/user/${this.$store.state.userInfo.usernumber}/article`
     );
+  }
+
+  // 修改文章
+  private async modifyArticle() {
+    const { title, content, banner, words } = this.articleDetail;
+    const draftId = this.articleDetail.articleId;
+
+    // 1. 查询草稿是否存在，如果存在直接跳转
+    const isExist = await existDraft(draftId);
+    if (isExist) return this.$router.push(`/draft/${draftId}`);
+
+    // 2. 不存在新建草稿后再跳转
+    const res = await saveDraft({
+      draftId,
+      title,
+      content,
+      banner,
+      words,
+    });
+
+    if (!res) {
+      return this.$Message.error("操作失败");
+    }
+    this.$router.push(`/draft/${draftId}`);
   }
 
   // 获取给文章点赞的列表
