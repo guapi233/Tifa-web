@@ -198,3 +198,20 @@ export const debounce = (
 
   return bundler;
 };
+
+/**
+ * 从冒泡序列中，查找身上携带 指定dataset 的DOM元素
+ * @param arr DOM集合
+ * @param key dataset's key
+ */
+export const selectEle = (arr: any[], key: string) => {
+  let result = null;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].dataset && typeof arr[i].dataset[key] !== "undefined") {
+      result = arr[i];
+    }
+  }
+
+  return result;
+};
