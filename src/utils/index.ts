@@ -156,7 +156,8 @@ export const isPublicApi = (url: string) => {
  * 防抖
  * @param fn 代加工函数
  * @param time 时间间隔
- * @param immediate 是否立即执行
+ * @param immediate 是否立即执行（默认false）
+ * @param all 开始立即执行后是否还需要尾部执行（默认false）
  */
 export const debounce = (
   fn: Function,
