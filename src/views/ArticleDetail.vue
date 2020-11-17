@@ -201,7 +201,15 @@
           </Dropdown>
         </div>
         <div class="other oper-item">
-          <Icon type="ios-more" size="24" />
+          <Dropdown trigger="click">
+            <Icon type="ios-more" size="24" />
+
+            <DropdownMenu slot="list">
+              <DropdownItem @click.native="reportShow = true"
+                >举报此文章</DropdownItem
+              >
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </div>
     </div>
@@ -292,6 +300,12 @@
     <Modal v-model="delModalShow" title="提示" @on-ok="delArticle">
       <p>确定要删除这篇文章吗？</p>
     </Modal>
+    <!-- 举报文章模态框  -->
+    <ReportModal
+      :type="1"
+      :targetId="articleDetail.articleId"
+      :show.sync="reportShow"
+    />
   </div>
 </template>
 
@@ -311,13 +325,16 @@ import {
 } from "@/api/content";
 import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
+import ReportModal from "@/components/ReportModal";
 import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
 
 @Component({
-  components: { ArticleItem3, Comment },
+  components: { ArticleItem3, Comment, ReportModal },
 })
 export default class ArticleDetail extends Vue {
+  private reportShow = false;
+
   private sideBarLeft = "0";
   private sideBarPos = "abs1";
   private baseUrl = config.baseUrl;
