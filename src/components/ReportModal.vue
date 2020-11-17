@@ -17,9 +17,9 @@
       <div class="report-modal-list" @click="toInputReport" v-if="!contentShow">
         <div
           class="report-item"
-          v-for="category in categoryList"
+          v-for="(category, index) in categoryList"
           :key="category.category"
-          :data-category="category.category"
+          :data-index="index"
         >
           <p>{{ category.name }}</p>
           <Icon type="ios-arrow-forward" size="18" />
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="report-sketch">
-          <p>{{ categoryList[category].sketch }}</p>
+          <p>{{ categoryList[current].sketch }}</p>
         </div>
       </div>
       <div v-else></div>
@@ -63,11 +63,16 @@ export default class ReportModal extends Vue {
   @Prop({ default: false }) private show!: boolean;
   @Prop({ default: 0 }) private type!: number;
   @Prop({ default: "" }) private targetId!: string;
+  @Prop({ default: false }) private user!: boolean;
 
   private contentShow = false;
-  private category = "0";
+  // 当前选中的条目
+  private current = "0";
+  // 当前的举报类型
+  private category: string | number = "0";
   private content = "";
-  private categoryList = [
+  // 文章等内容信息举报类型
+  private categoryListContent = [
     {
       category: 0,
       name: "垃圾广告信息",
@@ -110,6 +115,36 @@ export default class ReportModal extends Vue {
         "社区禁止通过各种方式比如利益诱导（赞同、反对、分享行为后对用户有奖励）、威胁逼迫等形式干预用户在社区站内的赞同、关注等，影响内容在站内正常流通。请在举报时简述理由，感谢您与我们共同维护社区氛围。",
     },
   ];
+  // 用户举报类型
+  private categoryListUser = [
+    {
+      category: 7,
+      name: "冒充我或他人",
+      sketch:
+        "当您发现知乎上存在涉嫌侵犯您个人合法权益的内容时，您可以立马向我们提出诉求，请在举报时阐述相关细节，我们会尽快核实并做出处理。",
+    },
+    {
+      category: 8,
+      name: "垃圾广告账号",
+      sketch:
+        "未经平台允许，社区禁止使用帐号的任何功能发布含有产品售卖信息、牟利性外链及违规推广等信息或引导用户至第三方平台进行交易。请在举报时简述理由，感谢您与我们共同维护社区的良好氛围。",
+    },
+    {
+      category: 9,
+      name: "个人信息不符合规范",
+      sketch:
+        "用户名、头像、封面图、个人形象词包含联系方式；或高风险行业帐号的用户信息中包含联系方式；或用户名易与帐号使用状态、使用者身份产生混淆和误解。请在举报时简述原因，感谢您的支持。",
+    },
+  ];
+
+  // 当前用作渲染的类型列表
+  private get categoryList() {
+    if (this.user !== false) {
+      return this.categoryListUser;
+    }
+
+    return this.categoryListContent;
+  }
 
   private get modalShow() {
     return this.show;
@@ -120,12 +155,15 @@ export default class ReportModal extends Vue {
 
   // 点及举报类型后，输入举报内容
   private toInputReport(e: any) {
-    const box = selectEle(e.path, "category");
+    // 1. 查询冒泡序列上的 dataset
+    const box = selectEle(e.path, "index");
     if (!box) return;
 
-    const { category } = box.dataset;
+    const { index } = box.dataset;
 
-    this.category = category;
+    // 2. 赋值 category，current， 打开contentShow
+    this.category = this.categoryList[index].category;
+    this.current = index;
     this.contentShow = true;
   }
 
