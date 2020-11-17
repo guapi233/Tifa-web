@@ -183,7 +183,7 @@
           />
           <Icon type="ios-bookmark-outline" v-else size="24" />
         </div>
-        <div class="setting-item oper-item">
+        <div class="setting-item oper-item" v-if="isAuthor">
           <Dropdown trigger="click">
             <Icon type="md-cog" size="24" />
             <DropdownMenu slot="list">
@@ -366,7 +366,10 @@ export default class ArticleDetail extends Vue {
       h3Actives[h3Actives.length - 1] || {},
     ];
   }
-
+  // 当前用户是否为文章作者
+  private get isAuthor() {
+    return this.$store.state.userInfo.usernumber === this.articleDetail.author;
+  }
   // 题图处理
   private get bannerPic() {
     if (!this.articleDetail.banner) return "";
@@ -401,6 +404,7 @@ export default class ArticleDetail extends Vue {
     return countFormat(this.articleDetail.commentCount);
   }
 
+  // 入口
   private async mounted() {
     const { articleId } = this.$route.params;
     this.articleId = articleId;
@@ -421,7 +425,6 @@ export default class ArticleDetail extends Vue {
       this.analysisArticleContent();
     });
   }
-
   private beforeDestroy() {
     // 销毁监听器
     window.removeEventListener("resize", this.resetSideBarLeft);
