@@ -12,7 +12,7 @@ export default new Vuex.Store({
     // 编辑页标题 & 副标题
     writeTitle: "",
     writeSubTitle: "",
-    // 文章编辑信息 & 草稿Id
+    // 文章编辑信息 & 草稿Id & 当前草稿是否用于编辑
     articleObj: {
       title: "",
       banner: "",
@@ -20,6 +20,7 @@ export default new Vuex.Store({
       tags: [],
     },
     draftId: "",
+    isEdit: false,
   },
   mutations: {
     // 设置用户信息与token
@@ -58,6 +59,11 @@ export default new Vuex.Store({
     // 设置当前所在的草稿Id
     setDraftId(state, id: string) {
       state.draftId = id;
+    },
+
+    // 设置编辑标志符
+    setEdit(state, isEdit: boolean) {
+      state.isEdit = isEdit;
     },
   },
   actions: {},
