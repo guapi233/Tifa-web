@@ -267,8 +267,8 @@
         :commentCount="articleDetail.commentCount"
         :commentSort.sync="commentSort"
         :canGetComment="canGetComment"
-        @changeSort="debouncedGetCommentList"
-        @loadmore="debouncedGetCommentList"
+        @changeSort="getCommentList"
+        @loadmore="getCommentList"
       />
 
       <!-- 推荐阅读 -->
@@ -295,7 +295,7 @@
 
 <script lang="ts">
 import { Component, Vue, Ref, Watch, Inject } from "vue-property-decorator";
-import { dateFormat, countFormat, debounce, slidePage } from "@/utils/index";
+import { dateFormat, countFormat, slidePage } from "@/utils/index";
 import {
   getArticleDetail,
   getCommentList,
@@ -405,7 +405,7 @@ export default class ArticleDetail extends Vue {
     if (res) return;
 
     await this.getRecArticle();
-    await this.debouncedGetCommentList(0);
+    await this.getCommentList(0);
     await this.getLikeList();
 
     // 监听窗口边框 调整左侧工具栏
@@ -464,7 +464,6 @@ export default class ArticleDetail extends Vue {
     }
     this.canGetComment = true;
   }
-  private debouncedGetCommentList = debounce(this.getCommentList, 1000, true);
 
   // 重置左侧工具栏的left属性
   private resetSideBarLeft() {
