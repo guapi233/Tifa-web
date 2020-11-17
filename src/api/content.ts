@@ -147,6 +147,14 @@ export const saveDraft = async (draftObj: any) => {
 };
 
 /**
+ * 草稿是否存在
+ * @param draftId 草稿Id
+ */
+export const existDraft = async (draftId: string) => {
+  return axios.get(`/content/existDraft?draftId=${draftId}`);
+};
+
+/**
  * 添加文章
  * @param articleObj 文章信息对象
  */
@@ -178,4 +186,12 @@ export const getRecArticle = async (
  */
 export const delArticle = async (articleId: string) => {
   return axios.get(`/content/delArticle?articleId=${articleId}`);
+};
+
+/**
+ * 修改文章
+ * @param articleObj 文章信息对象
+ */
+export const modifyArticle = async (articleObj: any) => {
+  return axios.post("/content/modifyArticle", articleObj);
 };
