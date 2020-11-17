@@ -54,7 +54,12 @@
                     </div>
                   </div>
                   <div class="publish-btn">
-                    <Button type="primary" @click="publish">确定</Button>
+                    <Button
+                      type="primary"
+                      :disabled="canPublish"
+                      @click="publish"
+                      >确定</Button
+                    >
                   </div>
                 </div>
               </div>
@@ -105,6 +110,11 @@ export default class Write extends Vue {
       key: "tags",
       value: newVal,
     });
+  }
+
+  // 是否可以提交
+  private get canPublish() {
+    return !this.$store.state.articleObj["tags"].length;
   }
 
   // 文章标签列表
