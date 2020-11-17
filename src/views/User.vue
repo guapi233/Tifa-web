@@ -161,8 +161,23 @@
             </div>
           </div>
         </div>
+
+        <!-- 屏蔽举报 -->
+        <div class="report-box" v-if="!isSelf">
+          <span class="item">屏蔽用户</span>
+          <span class="separator"> · </span>
+          <span class="item" @click="reportShow = true">举报用户</span>
+        </div>
       </div>
     </div>
+
+    <!-- 举报模态框 -->
+    <ReportModal
+      :show.sync="reportShow"
+      :type="0"
+      :targetId="userInfo.usernumber"
+      user
+    />
   </div>
 </template>
 
@@ -171,15 +186,18 @@ import { Component, Vue } from "vue-property-decorator";
 import { getUserInfo } from "@/api/public";
 import UserTitle from "@/components/UserTitle.vue";
 import { followUser } from "@/api/user";
+import ReportModal from "@/components/ReportModal.vue";
 
 @Component({
-  components: { UserTitle }
+  components: { UserTitle, ReportModal },
 })
 export default class User extends Vue {
   // 用户信息
   private userInfo: any = {};
   // 用户账号
   private usernumber = "";
+  // 举报控件控制变量
+  private reportShow = false;
 
   // 是否是本人信息
   private get isSelf() {
@@ -344,6 +362,17 @@ export default class User extends Vue {
       left: calc(50% + 240px);
       z-index: 99;
       width: 264px;
+
+      .report-box {
+        color: #8590a6;
+        cursor: pointer;
+
+        .item {
+          &:hover {
+            color: $primaryColor;
+          }
+        }
+      }
     }
 
     .overview {
