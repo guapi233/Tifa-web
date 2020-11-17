@@ -195,3 +195,11 @@ export const delArticle = async (articleId: string) => {
 export const modifyArticle = async (articleObj: any) => {
   return axios.post("/content/modifyArticle", articleObj);
 };
+
+/**
+ * 举报
+ * @param reportObj 举报信息对象
+ */
+export const addReport = async (reportObj: any) => {
+  return axios.post("/content/addReport", reportObj);
+};
