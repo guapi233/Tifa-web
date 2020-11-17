@@ -39,9 +39,9 @@
     <template #footer>
       <div class="report-footer" v-if="contentShow">
         <div class="report-oper-box">
-          <div class="item back"><Button long>返回</Button></div>
+          <div class="item back"><Button long @click="back">返回</Button></div>
           <div class="item report">
-            <Button type="primary" long>举报</Button>
+            <Button type="primary" long @click="report">举报</Button>
           </div>
         </div>
         <div class="report-sketch">
@@ -56,10 +56,13 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { selectEle } from "@/utils/index";
+import { addReport } from "@/api/content";
 
 @Component
 export default class ReportModal extends Vue {
   @Prop({ default: false }) private show!: boolean;
+  @Prop({ default: 0 }) private type!: number;
+  @Prop({ default: "" }) private targetId!: string;
 
   private contentShow = false;
   private category = "0";
@@ -113,6 +116,29 @@ export default class ReportModal extends Vue {
 
     this.category = category;
     this.contentShow = true;
+  }
+
+  // 返回至 选择举报类型
+  private back() {
+    this.category = "";
+    this.content = "";
+    this.contentShow = false;
+  }
+
+  // 举报
+  private async report() {
+    const res: any = await addReport({
+      type: this.type,
+      category: this.category,
+      targetId: this.targetId,
+      content: this.content,
+    });
+
+    this.$Message.success(res);
+    this.category = "";
+    this.content = "";
+    this.contentShow = false;
+    this.$emit("update:show", false);
   }
 }
 </script>
