@@ -40,6 +40,12 @@
                 <Icon type="md-thumbs-up" size="20" />
                 <span>{{ commentObj.likeCount }}</span>
               </div>
+              <div
+                class="oper-item report"
+                @click="report(commentObj.commentId)"
+              >
+                <span>举报</span>
+              </div>
             </div>
           </div>
         </div>
@@ -99,6 +105,12 @@
                     <Icon type="md-thumbs-up" size="20" />
                     <span>{{ child.likeCount }}</span>
                   </div>
+                  <div
+                    class="oper-item report"
+                    @click="report(child.commentId)"
+                  >
+                    <span>举报</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -140,6 +152,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 举报模态框 -->
+    <ReportModal :show.sync="reporShow" :type="2" :targetId="targetId" />
   </div>
 </template>
 
@@ -148,23 +163,27 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { dateFormat } from "@/utils/index";
 import { addLike } from "@/api/content";
 import ReplyArea from "@/components/ReplyArea.vue";
+import ReportModal from "@/components/ReportModal.vue";
 
 @Component({
-  components: { ReplyArea }
+  components: { ReplyArea, ReportModal },
 })
 export default class CommentItem extends Vue {
   @Prop({ default: () => ({}) }) private commentObj!: any;
   // 当前展示的二级评论回复框的评论Id
   @Prop({ default: () => null }) private secondReplyShowId!: any;
   private dateFormat = dateFormat;
+  // 举报模态框 控制符
+  private reporShow = false;
+  private targetId = "";
   // 输入框内容
   private inputVal = "";
   // 二级评论 @对象信息
   private commentReplyTip: any = {
     author: {
       name: "加载中...",
-      usernumber: "whoops"
-    }
+      usernumber: "whoops",
+    },
   };
   // 当前的回复对象是否 为 2级评论对象
   private secondLevelCommentId = "";
@@ -206,7 +225,7 @@ export default class CommentItem extends Vue {
       content: this.inputVal,
       commentId: this.commentObj.commentId,
       commentItem: this,
-      secondLevelCommentId: this.secondLevelCommentId
+      secondLevelCommentId: this.secondLevelCommentId,
     };
 
     this.$emit("secondReply", payload);
@@ -236,6 +255,12 @@ export default class CommentItem extends Vue {
       comment.likeCount--;
       comment.isLiked = 0;
     }
+  }
+
+  // 举报评论
+  private async report(targetId: string) {
+    this.targetId = targetId;
+    this.reporShow = true;
   }
 }
 </script>
@@ -382,6 +407,10 @@ export default class CommentItem extends Vue {
           margin-top: 16px;
           min-height: 20px;
 
+          &:hover .report {
+            display: block;
+          }
+
           .oper-item {
             cursor: pointer;
             display: flex;
@@ -392,6 +421,10 @@ export default class CommentItem extends Vue {
             span {
               margin-left: 5px;
             }
+          }
+
+          .report {
+            display: none;
           }
 
           .commentLiked {
