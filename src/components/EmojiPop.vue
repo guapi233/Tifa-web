@@ -18,7 +18,10 @@
           </div>
         </div>
         <div class="emoji-category-list">
-          <div class="emoji-category-item active-emoji-category">
+          <div
+            class="emoji-category-item active-emoji-category"
+            @click="pushEmoji"
+          >
             <img
               src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64"
               title="[微笑]"
@@ -56,10 +59,49 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import axios from "@/utils/axios";
 
 @Component
 export default class EmojiModal extends Vue {
   private num = new Array(80);
+  private aa = [
+    {
+      id: 1,
+      text: "[微笑]",
+      url:
+        "http://i0.hdslb.com/bfs/emote/685612eadc33f6bc233776c6241813385844f182.png@88w_88h.webp",
+    },
+    {
+      id: 1902,
+      text: "[呲牙]",
+      url:
+        "http://i0.hdslb.com/bfs/emote/b5a5898491944a4268360f2e7a84623149672eb6.png@88w_88h.webp",
+    },
+    {
+      id: 1950,
+      text: "[OK]",
+      url:
+        "http://i0.hdslb.com/bfs/emote/4683fd9ffc925fa6423110979d7dcac5eda297f4.png@88w_88h.webp",
+    },
+    {
+      id: 1956,
+      text: "[星星眼]",
+      url:
+        "http://i0.hdslb.com/bfs/emote/63c9d1a31c0da745b61cdb35e0ecb28635675db2.png@88w_88h.webp",
+    },
+  ];
+  private async pushEmoji() {
+    const res = await axios({
+      method: "POST",
+      url: "/public/getBiEmoji",
+      data: {
+        emojiList: this.aa,
+      },
+      timeout: 60000,
+    });
+
+    console.log(res);
+  }
 }
 </script>
 

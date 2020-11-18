@@ -39,9 +39,11 @@
             <Button shape="circle" class="reply-btn" @click="onSubmit"
               >评论</Button
             >
-            <div class="upload">
-              <Icon type="md-images" size="16" />
-            </div>
+            <EmojiPop>
+              <div class="upload">
+                <Icon type="md-images" size="16" />
+              </div>
+            </EmojiPop>
           </div>
         </div>
       </div>
@@ -51,8 +53,11 @@
 
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from "vue-property-decorator";
+import EmojiPop from "@/components/EmojiPop.vue";
 
-@Component
+@Component({
+  components: { EmojiPop },
+})
 export default class CommentReply extends Vue {
   @Ref("replyInput") private replyInput!: any;
   @Prop({ default: "userInfo" }) private userInfo!: any;
