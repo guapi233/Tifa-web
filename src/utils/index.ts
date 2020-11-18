@@ -215,3 +215,17 @@ export const selectEle = (arr: any[], key: string) => {
 
   return result;
 };
+
+/**
+ * 鉴别一个元素是否处于视口（默认不判断顶部）
+ * @param elm dom
+ */
+export const atViewport = (elm: any) => {
+  const elmBottom =
+    (elm.offsetTop || elm.parentNode.offsetTop) + elm.offsetHeight;
+  const scrollTop =
+    document.documentElement.scrollTop || document.body.scrollTop;
+  const viewportBottom = scrollTop + document.documentElement.clientHeight;
+
+  return elmBottom <= viewportBottom;
+};
