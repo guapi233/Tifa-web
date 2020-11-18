@@ -25,11 +25,15 @@ data.forEach((olgCategory) => {
   // 2.2 过滤EMOJI信息
   category.emote = olgCategory.emote.map((emoji) => {
     // 2.2.1 颜文字无需上传至服务器
-    const url = emoji.type !== 4 ? emoji.url + "@88w_88h.webp" : emoji.url;
+    let url = emoji.type !== 4 ? emoji.url + "@88w_88h.webp" : emoji.url;
     if (emoji.type !== 4) {
       allWebP.push(url);
     }
 
+    url = url.replace(
+      "http://i0.hdslb.com/bfs/emote/",
+      "http://localhost:3000/img/"
+    );
     return {
       id: emoji.id,
       text: emoji.text,
