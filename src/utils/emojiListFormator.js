@@ -13,17 +13,23 @@ const newData = [];
 const allWebP = [];
 data = JSON.parse(data).packages;
 
-data.forEach((olgCategory) => {
+data.forEach((oldCategory) => {
   // 2.1 创建新的EMOJI大类（过滤信息）
+  let url =
+    oldCategory.url.replace(
+      "http://i0.hdslb.com/bfs/emote/",
+      "http://localhost:3000/img/"
+    ) + "@88w_88h.webp";
+
   let category = {
-    id: olgCategory.id,
-    text: olgCategory.text,
-    url: olgCategory.url + "@88w_88h.webp",
+    id: oldCategory.id,
+    text: oldCategory.text,
+    url,
   };
   allWebP.push(category.url);
 
   // 2.2 过滤EMOJI信息
-  category.emote = olgCategory.emote.map((emoji) => {
+  category.emote = oldCategory.emote.map((emoji) => {
     // 2.2.1 颜文字无需上传至服务器
     let url = emoji.type !== 4 ? emoji.url + "@88w_88h.webp" : emoji.url;
     if (emoji.type !== 4) {
