@@ -119,6 +119,7 @@
         <!-- 二级评论回复框 -->
         <div
           class="comment-replyer"
+          ref="commentReplyer"
           v-show="secondReplyShowId === commentObj.commentId"
         >
           <div class="reply-box">
@@ -159,8 +160,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { dateFormat } from "@/utils/index";
+import { Component, Vue, Prop, Ref } from "vue-property-decorator";
+import { dateFormat, slidePage, atViewport } from "@/utils/index";
 import { addLike } from "@/api/content";
 import ReplyArea from "@/components/ReplyArea.vue";
 import ReportModal from "@/components/ReportModal.vue";
@@ -172,7 +173,9 @@ export default class CommentItem extends Vue {
   @Prop({ default: () => ({}) }) private commentObj!: any;
   // 当前展示的二级评论回复框的评论Id
   @Prop({ default: () => null }) private secondReplyShowId!: any;
+  @Ref("commentReplyer") private commentReplyer!: any;
   private dateFormat = dateFormat;
+  private slider = slidePage(300);
   // 举报模态框 控制符
   private reporShow = false;
   private targetId = "";
@@ -210,6 +213,13 @@ export default class CommentItem extends Vue {
   ) {
     // 修改当前展示的输入框
     this.$emit("update:secondReplyShowId", this.commentObj.commentId);
+
+    // 移动至输入框
+    this.$nextTick(() => {
+      if (!atViewport(this.commentReplyer)) {
+        this.slider(this.commentReplyer.offsetTop - 250);
+      }
+    });
 
     // 获取当前 @的人的信息
     this.commentReplyTip = commentInfo;
