@@ -29,12 +29,17 @@
           <div class="backdrop">
             <div class="highlights"></div>
           </div>
-          <textarea
+          <!-- <textarea
             ref="replyInput"
             :value="inputVal"
             @input="inputChange"
             class="reply-input"
-          ></textarea>
+          ></textarea> -->
+          <Ctextarea
+            @input="inputChange"
+            @onReady="textareaLoaded"
+            class="reply-input"
+          />
           <div class="handle-box">
             <Button shape="circle" class="reply-btn" @click="onSubmit"
               >评论</Button
@@ -53,27 +58,35 @@
 
 <script lang="ts">
 import { Component, Vue, Ref, Prop } from "vue-property-decorator";
+import Ctextarea from "@/components/Ctextarea.vue";
 import EmojiPop from "@/components/EmojiPop.vue";
 
 @Component({
-  components: { EmojiPop },
+  components: { Ctextarea, EmojiPop },
 })
 export default class CommentReply extends Vue {
-  @Ref("replyInput") private replyInput!: any;
   @Prop({ default: "userInfo" }) private userInfo!: any;
   @Prop({ default: false }) private replyShow!: boolean;
   @Prop({ default: "" }) private inputVal!: string;
+  // 文本域工具
+  private inputFocus!: Function;
+
+  // 输入框加载完毕
+  private textareaLoaded(tools: any) {
+    const { focus } = tools;
+    this.inputFocus = focus;
+  }
 
   // 输入框值变换时 通知父组件
   private inputChange(e: any) {
-    this.$emit("update:inputVal", e.target.value);
+    this.$emit("update:inputVal", e.target.textContent);
   }
 
   // 显示回复输入框
   private replyToShow() {
     this.$emit("update:replyShow", true);
     this.$nextTick(() => {
-      this.replyInput.focus();
+      this.inputFocus();
     });
   }
 
