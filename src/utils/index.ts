@@ -229,3 +229,22 @@ export const atViewport = (elm: any) => {
 
   return elmBottom <= viewportBottom;
 };
+
+/**
+ * 一个元素中是否含有另一个元素（不是父子）
+ * @param wrap 外层
+ * @param elm 内部元素
+ */
+export const hasElm = (wrap: any, elm: any) => {
+  let result = false;
+
+  while (elm.parentNode) {
+    if (elm.parentNode === wrap) {
+      result = true;
+      break;
+    }
+    elm = elm.parentNode;
+  }
+
+  return result;
+};
