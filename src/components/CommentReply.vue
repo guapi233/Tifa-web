@@ -37,8 +37,10 @@
           ></textarea> -->
           <Ctextarea
             @input="inputChange"
+            :value="inputVal"
             @onReady="textareaLoaded"
             class="reply-input"
+            placeholder="和小伙伴们一起探讨下吧"
           />
           <div class="handle-box">
             <Button shape="circle" class="reply-btn" @click="onSubmit"
@@ -79,7 +81,7 @@ export default class CommentReply extends Vue {
 
   // 输入框值变换时 通知父组件
   private inputChange(e: any) {
-    this.$emit("update:inputVal", e.target.textContent);
+    this.$emit("update:inputVal", e.target.innerHTML);
   }
 
   // 显示回复输入框
