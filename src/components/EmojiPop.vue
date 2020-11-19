@@ -1,5 +1,6 @@
 <template>
   <Poptip
+    v-model="visible"
     trigger="click"
     placement="bottom"
     title="哈哈"
@@ -54,6 +55,7 @@ export default class EmojiModal extends Vue {
   @Prop({ default: () => ({}) }) private selected!: Function;
   private emojiList = emojiList;
   private activeCategory = 0;
+  private visible = false;
 
   // 当前展示的EMOJI列表
   private get showList() {
@@ -69,15 +71,19 @@ export default class EmojiModal extends Vue {
     // 没找到就没有然后了
     if (!elm) return;
 
+    // 调整EMOJI信息
     const [type, url] = elm.dataset["emoji"].split("哎呀分割");
-
     const size = elm.children[0].clientWidth;
 
+    // 执行插入EMOJI回调，将选中的EMOJI信息传入
     this.selected({
       type,
       url,
       size,
     });
+
+    // 关闭弹框
+    this.visible = false;
   }
 }
 </script>
