@@ -73,7 +73,7 @@ export default class EmojiModal extends Vue {
 
     // 调整EMOJI信息
     const [type, url] = elm.dataset["emoji"].split("哎呀分割");
-    const size = elm.children[0].clientWidth;
+    const size = elm.children[0].clientWidth >= 50 ? "big" : "small";
 
     // 执行插入EMOJI回调，将选中的EMOJI信息传入
     this.selected({

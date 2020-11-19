@@ -101,14 +101,13 @@ export default class CommentReply extends Vue {
     const { url, type, size } = emojiObj;
 
     // 判断是否为颜文字
-    let elm;
-    if (type === 4) {
-      elm = document.createTextNode(url);
+    let elm: any;
+    if (type === "3") {
+      elm = url;
     } else {
       elm = document.createElement("img");
       elm.src = url;
-      elm.style.width = size + "px";
-      elm.style.height = size + "px";
+      elm.className = `emoji-size-${size}`;
     }
 
     // 查询EMOJI
@@ -216,6 +215,18 @@ export default class CommentReply extends Vue {
         border: none;
         font-weight: 400;
         line-height: 1.6;
+
+        .emoji-size-big {
+          width: 40px;
+          height: 40px;
+          vertical-align: text-bottom;
+        }
+
+        .emoji-size-small {
+          width: 20px;
+          height: 20px;
+          vertical-align: text-bottom;
+        }
       }
 
       .handle-box {
