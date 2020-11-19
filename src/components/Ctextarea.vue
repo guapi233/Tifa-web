@@ -4,7 +4,6 @@
     ref="ctextarea"
     contenteditable
     v-on="$listeners"
-    @input="onInput"
   ></div>
 </template>
 
@@ -13,7 +12,6 @@ import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 
 @Component
 export default class Ctextarea extends Vue {
-  @Prop({ default: "" }) private value!: any;
   @Ref("ctextarea") private ctextarea!: any;
   private selection: any = window.getSelection();
 
@@ -22,10 +20,6 @@ export default class Ctextarea extends Vue {
     this.$emit("onReady", {
       focus: this.focus,
     });
-  }
-
-  private onInput() {
-    console.log(this.selection);
   }
 
   // 文本域聚焦
@@ -37,10 +31,17 @@ export default class Ctextarea extends Vue {
 
     // 2. 调整光标位置
     const range = this.selection?.getRangeAt(0);
-    range?.setStart(
-      this.ctextarea.childNodes[0] || this.ctextarea,
-      this.ctextarea.textContent.length
-    );
+    // 2.1 光标可能处于的元素：①ctextarea；②ctextarea的文本节点；③ctextarea中div的文本节点
+    const lastChild: any = Array.from(this.ctextarea.childNodes).pop();
+    let startNode = lastChild || this.ctextarea;
+    startNode = startNode.childNodes[0] || startNode;
+    // 2.2 光标的位置：如果分段了就处在最后段的最后，否则为ctextarea全部内容的最后
+    const startPos = lastChild
+      ? lastChild.textContent.length
+      : this.ctextarea.textContent.length;
+
+    // 3. 设置光标位置
+    range?.setStart(startNode, startPos);
   }
 }
 </script>
