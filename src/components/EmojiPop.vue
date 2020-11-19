@@ -65,6 +65,10 @@ export default class EmojiModal extends Vue {
   // 点击添加EMOJI
   private pushEmoji(e: any) {
     const elm = selectEle(e.path, "emoji");
+
+    // 没找到就没有然后了
+    if (!elm) return;
+
     const [type, url] = elm.dataset["emoji"].split("哎呀分割");
 
     const size = elm.children[0].clientWidth;
