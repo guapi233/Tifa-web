@@ -84,6 +84,7 @@ export default class EmojiModal extends Vue {
 
 <style lang="scss">
 .emoji-pop-box {
+  user-select: none;
   .emoji-pop-list {
     display: flex;
     flex-wrap: wrap;
@@ -160,6 +161,10 @@ export default class EmojiModal extends Vue {
 
   .ivu-poptip-body {
     padding: 0;
+  }
+
+  .ivu-poptip-title-inner {
+    user-select: none;
   }
 }
 </style>
