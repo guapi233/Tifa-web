@@ -24,9 +24,7 @@
         </div>
         <div class="comment-content-box">
           <div class="comment-content">
-            <div class="comment-txt">
-              {{ commentObj.content }}
-            </div>
+            <div class="comment-txt" v-html="commentObj.content"></div>
             <div class="oper-box">
               <div class="oper-item" @click="secondReplyShow(commentObj)">
                 <Icon type="md-text" size="20" />
@@ -410,6 +408,18 @@ export default class CommentItem extends Vue {
           font-size: 16px;
           color: #4c4e4d;
           word-wrap: break-word;
+
+          .emoji-size-big {
+            width: 40px;
+            height: 40px;
+            vertical-align: text-bottom;
+          }
+
+          .emoji-size-small {
+            width: 20px;
+            height: 20px;
+            vertical-align: text-bottom;
+          }
         }
 
         .oper-box {
