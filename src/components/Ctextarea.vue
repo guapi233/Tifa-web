@@ -1,6 +1,7 @@
 <template>
   <div
     class="ctextarea"
+    :class="{ placeholder: !value }"
     ref="ctextarea"
     contenteditable
     v-on="$listeners"
@@ -12,6 +13,7 @@ import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 
 @Component
 export default class Ctextarea extends Vue {
+  @Prop({ default: "" }) private value!: string;
   @Ref("ctextarea") private ctextarea!: any;
   private selection: any = window.getSelection();
 
@@ -48,6 +50,17 @@ export default class Ctextarea extends Vue {
 
 <style lang="scss">
 .ctextarea {
+  position: relative;
   outline: none;
+}
+
+.placeholder {
+  &::before {
+    content: attr(placeholder);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #99a2aa;
+  }
 }
 </style>
