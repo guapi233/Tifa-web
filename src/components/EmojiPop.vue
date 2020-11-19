@@ -9,8 +9,13 @@
     <slot />
     <template #content>
       <div class="emoji-pop-box">
-        <div class="emoji-pop-list">
-          <div class="emoji-pop-item" v-for="emoji in showList" :key="emoji.id">
+        <div class="emoji-pop-list" @click="pushEmoji">
+          <div
+            class="emoji-pop-item"
+            v-for="emoji in showList"
+            :key="emoji.id"
+            :data-emoji="`${activeCategory}哎呀分割${emoji.url}`"
+          >
             <span v-if="emojiList[activeCategory].id === 4" class="emoticon">{{
               emoji.url
             }}</span>
@@ -39,18 +44,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import emojiList from "@/assets/emoji.js";
+import { selectEle } from "@/utils";
 
 @Component
 export default class EmojiModal extends Vue {
+  // 选择后需要执行的回调
+  @Prop({ default: () => ({}) }) private selected!: Function;
   private emojiList = emojiList;
   private activeCategory = 0;
 
+  // 当前展示的EMOJI列表
   private get showList() {
     if (!this.emojiList || !this.emojiList[this.activeCategory]) return [];
 
     return this.emojiList[this.activeCategory].emote;
+  }
+
+  // 点击添加EMOJI
+  private pushEmoji(e: any) {
+    const elm = selectEle(e.path, "emoji");
+    const [type, url] = elm.dataset["emoji"].split("哎呀分割");
+
+    const size = elm.children[0].clientWidth;
+
+    this.selected({
+      type,
+      url,
+      size,
+    });
   }
 }
 </script>

@@ -36,8 +36,7 @@
             class="reply-input"
           ></textarea> -->
           <Ctextarea
-            @input="inputChange"
-            :value="inputVal"
+            :value.sync="value"
             @onReady="textareaLoaded"
             class="reply-input"
             placeholder="和小伙伴们一起探讨下吧"
@@ -46,9 +45,9 @@
             <Button shape="circle" class="reply-btn" @click="onSubmit"
               >评论</Button
             >
-            <EmojiPop>
+            <EmojiPop @click.native="inputFocus" :selected="insertEmoji">
               <div class="upload">
-                <Icon type="md-images" size="16" />
+                <Icon type="md-images" size="16" @click="inputFocus" />
               </div>
             </EmojiPop>
           </div>
@@ -70,18 +69,23 @@ export default class CommentReply extends Vue {
   @Prop({ default: "userInfo" }) private userInfo!: any;
   @Prop({ default: false }) private replyShow!: boolean;
   @Prop({ default: "" }) private inputVal!: string;
-  // 文本域工具
-  private inputFocus!: Function;
+  // 文本域工具（占位，在 textareaLoaded 被重新赋值)
+  private inputFocus = () => 1;
+  private insertElm = (elm: any) => 1;
+
+  // 嫁接 父组件 与 自定义文本域 的中间变量
+  private get value() {
+    return this.inputVal;
+  }
+  private set value(newVal: string) {
+    this.$emit("update:inputVal", newVal);
+  }
 
   // 输入框加载完毕
   private textareaLoaded(tools: any) {
-    const { focus } = tools;
+    const { focus, insertElm } = tools;
     this.inputFocus = focus;
-  }
-
-  // 输入框值变换时 通知父组件
-  private inputChange(e: any) {
-    this.$emit("update:inputVal", e.target.innerHTML);
+    this.insertElm = insertElm;
   }
 
   // 显示回复输入框
@@ -90,6 +94,25 @@ export default class CommentReply extends Vue {
     this.$nextTick(() => {
       this.inputFocus();
     });
+  }
+
+  // 插入表情
+  private insertEmoji(emojiObj: any) {
+    const { url, type, size } = emojiObj;
+
+    // 判断是否为颜文字
+    let elm;
+    if (type === 4) {
+      elm = document.createTextNode(url);
+    } else {
+      elm = document.createElement("img");
+      elm.src = url;
+      elm.style.width = size + "px";
+      elm.style.height = size + "px";
+    }
+
+    // 查询EMOJI
+    this.insertElm(elm);
   }
 
   // 提交评论

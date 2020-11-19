@@ -3,6 +3,7 @@
     class="ctextarea"
     :class="{ placeholder: !value }"
     ref="ctextarea"
+    @input="onInput"
     contenteditable
     v-on="$listeners"
   ></div>
@@ -21,7 +22,29 @@ export default class Ctextarea extends Vue {
     // 对外暴露工具方法
     this.$emit("onReady", {
       focus: this.focus,
+      insertElm: this.insertElm,
     });
+  }
+
+  private insertElm(element: any) {
+    // 1. 判断光标存在的元素，根据不同类型的元素做出不同的处理（光标可能处于的节点类型在 focus 函数中有表明）
+    if (this.selection.anchorNode === this.ctextarea) {
+      // 1.1 在空的文本域中直接插入元素
+      this.ctextarea.appendChild(document.createTextNode(""));
+      this.ctextarea.insertAdjacentElement("afterbegin", element);
+    } else {
+      // 1.1 从selection获取当前光标的状态
+      const { anchorNode, anchorOffset } = this.selection;
+      // 1.2 从光标处切割文本节点
+
+      const afterNode = anchorNode.splitText(anchorOffset);
+      // 1.3 在切开的两个文本节点间插入元素
+      afterNode.parentNode.insertBefore(element, afterNode);
+    }
+
+    // 2. 提醒父组件内容状态变化 & 重新固定光标
+    this.$emit("update:value", this.ctextarea.innerHTML);
+    this.focus();
   }
 
   // 文本域聚焦
@@ -44,6 +67,11 @@ export default class Ctextarea extends Vue {
 
     // 3. 设置光标位置
     range?.setStart(startNode, startPos);
+  }
+
+  // 监听输入
+  private onInput(e: any) {
+    this.$emit("update:value", e.target.innerHTML);
   }
 }
 </script>
