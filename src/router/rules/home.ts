@@ -8,11 +8,13 @@ const ArticleDetail = () =>
 import userRoutes from "./user";
 import settingRoutes from "./setting";
 import hometabRoutes from "./hometab";
+import messageRoutes from "./message";
 
 export default [
   hometabRoutes,
   userRoutes,
   settingRoutes,
+  messageRoutes,
   {
     path: "/article/:articleId",
     name: "Article",

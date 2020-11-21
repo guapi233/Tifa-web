@@ -1,5 +1,5 @@
 /**
- * 除了 Home 外的 其他一级路由
+ * 除了 Home、Write 外的 其他一级路由
  */
 
 const Login = () => import(/* webpackChunkName: "Login" */ "@/views/Login.vue");
