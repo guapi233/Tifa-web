@@ -147,6 +147,31 @@ export default class Message extends Vue {
       .content {
         padding-top: 10px;
         height: calc(100% - 42px);
+
+        .total {
+          height: 100%;
+          background-color: #fff;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px 0 rgba(121, 146, 185, 0.14);
+          padding: 24px 16px;
+          overflow: auto;
+
+          .divider {
+            width: calc(100% - 44px);
+            height: 1px;
+            border-bottom: 1px solid #e5e9ef;
+            position: relative;
+            left: 60px;
+          }
+        }
+
+        .wrap {
+          &:first-child {
+            .item {
+              padding-top: 0;
+            }
+          }
+        }
       }
     }
   }
