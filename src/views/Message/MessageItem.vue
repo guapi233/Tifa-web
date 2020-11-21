@@ -12,8 +12,17 @@
         <div class="middle">？了</div>
         <div class="bottom">
           <span class="time">11:50</span>
-          <span class="reply"> <Icon type="md-text" size="16" />回复</span>
+          <span
+            class="reply"
+            @click="replyShow = !replyShow"
+            :class="{ showed: replyShow }"
+          >
+            <Icon type="md-text" size="16" />回复</span
+          >
           <span class="like"><Icon type="md-thumbs-up" size="16" />点赞</span>
+          <div class="reply-box" v-show="replyShow">
+            <ReplyArea @onSubmit="1" :value.sync="inputVal" />
+          </div>
         </div>
       </div>
       <div class="right-box">
@@ -26,11 +35,15 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Avatar from "@/components/Avatar.vue";
+import ReplyArea from "@/components/ReplyArea.vue";
 
 @Component({
-  components: { Avatar },
+  components: { Avatar, ReplyArea },
 })
-export default class MessageItem extends Vue {}
+export default class MessageItem extends Vue {
+  private inputVal = "";
+  private replyShow = false;
+}
 </script>
 
 <style lang="scss">
@@ -91,10 +104,21 @@ export default class MessageItem extends Vue {}
           &:hover {
             color: $primaryColor;
           }
+
+          i {
+            margin-right: 1px;
+          }
         }
 
-        i {
-          margin-right: 1px;
+        .showed {
+          color: $primaryColor;
+        }
+
+        .reply-box {
+          padding: 10px;
+          background-color: rgba(153, 153, 153, 0.041);
+          width: 100%;
+          cursor: text;
         }
       }
     }
