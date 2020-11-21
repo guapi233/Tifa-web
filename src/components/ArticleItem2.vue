@@ -104,8 +104,7 @@ export default class ArticleItem2 extends Vue {
         transform: translate(-50%, -50%);
         min-width: 100%;
         width: auto;
-        height: 100%;
-        transition: width 0.2s ease-out, height 0.2s ease-out;
+        transition: .2s ease-in-out;
       }
     }
 
@@ -195,7 +194,7 @@ export default class ArticleItem2 extends Vue {
     }
 
     &:hover .img-box img {
-      height: 130%;
+      transform: translate(-50%, -50%) scale(1.3);
     }
   }
 }
