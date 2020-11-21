@@ -84,9 +84,7 @@
             </div>
             <div class="comment-content-box">
               <div class="comment-content">
-                <div class="comment-txt">
-                  {{ child.content }}
-                </div>
+                <div class="comment-txt" v-html="child.content"></div>
                 <div class="oper-box">
                   <div
                     class="oper-item"
@@ -144,7 +142,7 @@
                 </div>
               </div>
               <div class="content-box">
-                <ReplyArea @onSubmit="submitReply" v-model="inputVal" />
+                <ReplyArea @onSubmit="submitReply" :value.sync="inputVal" />
               </div>
             </div>
           </div>
