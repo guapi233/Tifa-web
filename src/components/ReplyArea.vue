@@ -3,35 +3,78 @@
     <div class="backdrop">
       <div class="highlights"></div>
     </div>
-    <textarea
+    <!-- <textarea
       :value="value"
       @input="inputChange"
       class="reply-input"
-    ></textarea>
+    ></textarea> -->
+    <Ctextarea
+      :value.sync="inputVal"
+      @onReady="textareaLoaded"
+      class="reply-input"
+      placeholder="和小伙伴们一起探讨下吧"
+    />
     <div class="handle-box">
       <Button shape="circle" class="reply-btn" @click="onSubmit">评论</Button>
-      <div class="upload">
-        <Icon type="md-images" size="16" />
-      </div>
+      <EmojiPop @click.native="inputFocus" :selected="insertEmoji">
+        <div class="upload">
+          <Icon type="md-images" size="16" />
+        </div>
+      </EmojiPop>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import Ctextarea from "@/components/Ctextarea.vue";
+import EmojiPop from "@/components/EmojiPop.vue";
 
-@Component
+@Component({
+  components: { Ctextarea, EmojiPop },
+})
 export default class ReplyArea extends Vue {
   @Prop({ default: "" }) private value!: string;
+  // 文本域工具（占位，在 textareaLoaded 被重新赋值)
+  private inputFocus = () => 1;
+  private insertElm = (elm: any) => 1;
 
-  // 输入框值变换时 通知父组件
-  private inputChange(e: any) {
-    this.$emit("input", e.target.value);
+  // 嫁接 父组件 与 自定义文本域 的中间变量
+  private get inputVal() {
+    return this.value;
+  }
+  private set inputVal(newVal: string) {
+    this.$emit("update:value", newVal);
+  }
+
+  // 输入框加载完毕
+  private textareaLoaded(tools: any) {
+    const { focus, insertElm } = tools;
+    this.inputFocus = focus;
+    this.insertElm = insertElm;
+  }
+
+  // 插入表情
+  private insertEmoji(emojiObj: any) {
+    const { url, type, size } = emojiObj;
+
+    // 判断是否为颜文字
+    let elm: any;
+    if (type === "3") {
+      elm = url;
+    } else {
+      elm = document.createElement("img");
+      elm.src = url;
+      elm.className = `emoji-size-${size}`;
+    }
+
+    // 查询EMOJI
+    this.insertElm(elm);
   }
 
   // 提交评论
   private onSubmit() {
-    if (this.value === "") {
+    if (this.inputVal === "") {
       this.$Message.error("输入内容不能为空");
     } else {
       this.$emit("onSubmit");
@@ -90,6 +133,20 @@ export default class ReplyArea extends Vue {
     border: none;
     font-weight: 400;
     line-height: 1.6;
+
+    .emoji-size-big {
+      width: 40px;
+      height: 40px;
+      margin: 0 2px;
+      vertical-align: text-bottom;
+    }
+
+    .emoji-size-small {
+      width: 20px;
+      height: 20px;
+      margin: 0 2px;
+      vertical-align: text-bottom;
+    }
   }
 
   .handle-box {
