@@ -8,19 +8,26 @@
         <div class="tab-list">
           <router-link
             class="tab"
-            v-for="tab in tabList"
+            v-for="(tab, index) in tabList"
             :key="tab.path"
             :to="tab.path"
             exact-active-class="active"
+            @click.native="acTabIndex = index"
           >
             {{ tab.name }}
           </router-link>
         </div>
+        <div class="divided-line"></div>
+        <router-link class="setting" to="/setting/mail">
+          <p><Icon type="md-cog" />消息设置</p>
+        </router-link>
       </div>
 
       <div class="right">
-        <div class="title">回复我的</div>
-        <div class="content"></div>
+        <div class="title">{{ acTab.name }}</div>
+        <div class="content">
+          <router-view />
+        </div>
       </div>
     </div>
   </div>
@@ -31,6 +38,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Message extends Vue {
+  private acTabIndex = 0;
   private tabList = [
     {
       path: "/message/",
@@ -53,6 +61,10 @@ export default class Message extends Vue {
       name: "我的私信",
     },
   ];
+
+  private get acTab() {
+    return this.tabList[this.acTabIndex];
+  }
 }
 </script>
 
@@ -99,6 +111,22 @@ export default class Message extends Vue {
         .active {
           color: $primaryColor;
           font-weight: bold;
+        }
+      }
+
+      .divided-line {
+        border-top: 1px solid rgba(153, 153, 153, 0.253);
+        margin: 10px 0;
+      }
+
+      .setting {
+        display: block;
+        padding-left: 30px;
+        height: 40px;
+        line-height: 40px;
+
+        i {
+          margin-right: 5px;
         }
       }
     }
