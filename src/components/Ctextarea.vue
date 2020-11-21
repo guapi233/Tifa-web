@@ -5,6 +5,9 @@
     ref="ctextarea"
     @input="onInput"
     @click="checkClick"
+    @dragover.prevent="1"
+    @drop.prevent="1"
+    @paste.prevent="1"
     contenteditable
     v-on="$listeners"
   ></div>
