@@ -134,8 +134,6 @@ export default class Message extends Vue {
     .right {
       flex: 1;
       padding-left: 10px;
-      display: flex;
-      flex-direction: column;
 
       .title {
         border-radius: 5px;
@@ -148,7 +146,7 @@ export default class Message extends Vue {
 
       .content {
         padding-top: 10px;
-        flex: 1;
+        height: calc(100% - 42px);
       }
     }
   }
