@@ -385,7 +385,7 @@ export default class ArticleDetail extends Vue {
   }
   // 当前用户是否为文章作者
   private get isAuthor() {
-    return this.$store.state.userInfo.usernumber === this.articleDetail.author;
+    return this.$store.state.userInfo.usernumber === this.articleDetail.author.usernumber;
   }
   // 题图处理
   private get bannerPic() {
