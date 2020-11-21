@@ -513,7 +513,7 @@ export default class ArticleDetail extends Vue {
         this.leftSideBar.offsetHeight
     ) {
       this.sideBarPos = "abs2";
-    } else if (scrollTop >= articleTop / 2) {
+    } else if (scrollTop >= articleTop * 0.63) {
       this.sideBarPos = "fixed";
     } else {
       this.sideBarPos = "abs1";
