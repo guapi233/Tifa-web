@@ -1,8 +1,8 @@
 <template>
   <div class="reply-area-outermost">
-    <div class="backdrop">
+    <!-- <div class="backdrop">
       <div class="highlights"></div>
-    </div>
+    </div> -->
     <!-- <textarea
       :value="value"
       @input="inputChange"
@@ -87,7 +87,7 @@ export default class ReplyArea extends Vue {
 .reply-area-outermost {
   position: relative;
 
-  .backdrop {
+  /* .backdrop {
     position: absolute;
     z-index: 1;
     top: 0;
@@ -115,7 +115,7 @@ export default class ReplyArea extends Vue {
       white-space: pre-wrap;
       word-wrap: break-word;
     }
-  }
+  } */
 
   .reply-input {
     position: relative;
