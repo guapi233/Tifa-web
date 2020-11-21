@@ -219,12 +219,14 @@ export default class CommentReply extends Vue {
         .emoji-size-big {
           width: 40px;
           height: 40px;
+          margin: 0 2px;
           vertical-align: text-bottom;
         }
 
         .emoji-size-small {
           width: 20px;
           height: 20px;
+          margin: 0 2px;
           vertical-align: text-bottom;
         }
       }
