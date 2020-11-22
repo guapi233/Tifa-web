@@ -11,7 +11,7 @@
             v-for="(tab, index) in tabList"
             :key="tab.path"
             :to="tab.path"
-            exact-active-class="active"
+            active-class="active"
             @click.native="acTabIndex = index"
           >
             {{ tab.name }}
@@ -41,7 +41,7 @@ export default class Message extends Vue {
   private acTabIndex = 0;
   private tabList = [
     {
-      path: "/message/",
+      path: "/message/reply",
       name: "回复我的",
     },
     {
@@ -57,7 +57,7 @@ export default class Message extends Vue {
       name: "系统通知",
     },
     {
-      path: "/message/whisper",
+      path: "/message/whisper/2",
       name: "我的私信",
     },
   ];
