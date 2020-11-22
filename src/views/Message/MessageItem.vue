@@ -20,7 +20,7 @@
             <Icon type="md-text" size="16" />回复</span
           >
           <span class="like"><Icon type="md-thumbs-up" size="16" />点赞</span>
-          <div class="reply-box" v-show="replyShow">
+          <div class="reply-box" v-if="replyShow">
             <ReplyArea @onSubmit="1" :value.sync="inputVal" />
           </div>
         </div>
