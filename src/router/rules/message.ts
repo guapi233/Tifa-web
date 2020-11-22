@@ -42,7 +42,7 @@ export default {
       component: MessageSystem,
     },
     {
-      path: "whisper",
+      path: "whisper/:wid",
       name: "MessageWhisper",
       component: MessageWhisper,
     },
