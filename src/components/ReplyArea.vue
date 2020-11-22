@@ -12,6 +12,7 @@
       :value.sync="inputVal"
       @onReady="textareaLoaded"
       class="reply-input"
+      :style="{ 'min-height': height + 'px' }"
       placeholder="和小伙伴们一起探讨下吧"
     />
     <div class="handle-box">
@@ -35,6 +36,7 @@ import EmojiPop from "@/components/EmojiPop.vue";
 })
 export default class ReplyArea extends Vue {
   @Prop({ default: "" }) private value!: string;
+  @Prop({ default: 122 }) private height!: number | string;
   // 文本域工具（占位，在 textareaLoaded 被重新赋值)
   private inputFocus = () => 1;
   private insertElm = (elm: any) => 1;
@@ -122,7 +124,6 @@ export default class ReplyArea extends Vue {
     z-index: 2;
     margin-bottom: 20px;
     width: 100%;
-    min-height: 122px;
     height: auto;
     background-color: transparent;
     color: #292525;
