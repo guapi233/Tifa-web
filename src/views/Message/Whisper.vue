@@ -56,7 +56,9 @@
           </div>
         </div>
       </div>
-      <div class="w-input"></div>
+      <div class="w-input">
+        <ReplyArea @onSubmit="1" :value.sync="inputVal" autoFlow height="90" />
+      </div>
     </div>
   </div>
 </template>
@@ -64,12 +66,14 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Avatar from "@/components/Avatar.vue";
+import ReplyArea from "@/components/ReplyArea.vue";
 
 @Component({
-  components: { Avatar },
+  components: { Avatar, ReplyArea },
 })
 export default class MessageWhisper extends Vue {
   private curTab = 1;
+  private inputVal = "";
 
   private created() {
     const { wid } = this.$route.params;
@@ -260,7 +264,7 @@ export default class MessageWhisper extends Vue {
       border-top: 1px solid #d8d8d8;
       border-bottom-right-radius: 4px;
       flex-shrink: 0;
-      padding: 0 16px;
+      padding: 10px 16px 0;
       position: relative;
       z-index: 2;
     }
