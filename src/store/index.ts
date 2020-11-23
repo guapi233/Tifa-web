@@ -1,12 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { getStorage, setStorage } from "@/utils/index";
-import socket from "@/utils/socket";
-console.log(socket);
+import initSocket from "@/utils/socket";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     // 用户信息对象 & 令牌
     userInfo: getStorage("userInfo") || {},
@@ -71,3 +70,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {},
 });
+
+initSocket(store);
+
+export default store;
