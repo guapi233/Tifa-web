@@ -20,7 +20,7 @@ const MessageWhisper = () =>
 export default {
   path: "/message",
   component: Message,
-  redirect: "reply",
+  redirect: "/message/reply",
   children: [
     {
       path: "reply",
