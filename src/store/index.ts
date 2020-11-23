@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { getStorage, setStorage } from "@/utils/index";
+import socket from "@/utils/socket";
+console.log(socket);
 
 Vue.use(Vuex);
 
