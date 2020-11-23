@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref, Watch } from "vue-property-decorator";
 import { hasElm } from "@/utils";
 
 @Component
@@ -107,6 +107,16 @@ export default class Ctextarea extends Vue {
     if (hasElm(this.ctextarea, this.selection.anchorNode)) {
       this.cursorNode = this.selection.anchorNode;
       this.cursorPos = this.selection.anchorOffset;
+    }
+  }
+
+  // 监听 value 是否被清空
+  @Watch("value")
+  private onValueChange(newVal: string) {
+    if (newVal === "") {
+      this.ctextarea.innerHTML = "";
+      this.cursorNode = this.ctextarea;
+      this.cursorPos = 0;
     }
   }
 }
