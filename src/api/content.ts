@@ -223,6 +223,15 @@ export const getUnReadCommentList = async (skip = 0, limit = 20) => {
 };
 
 /**
+ * 获取未读的关注信息列表
+ * @param skip 跳过的页数
+ * @param limit 一页的条目数
+ */
+export const getUnReadFollowList = async (skip = 0, limit = 20) => {
+  return axios.get(`/content/getUnReadFollowList?skip=${skip}&limit=${limit}`);
+};
+
+/**
  * 设置消息已读状态
  * @param type 消息类型
  * @param id 消息ID
