@@ -40,7 +40,7 @@
             >设置已读</span
           >
           <div class="reply-box" v-if="replyShow">
-            <ReplyArea @onSubmit="1" :value.sync="inputVal" />
+            <ReplyArea @onSubmit="reply" :value.sync="inputVal" />
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
 import { dateFormat } from "@/utils/index";
-import { setIsRead, addLike } from "@/api/content";
+import { setIsRead, addLike, addComment } from "@/api/content";
 
 @Component({
   components: { Avatar, ReplyArea },
@@ -89,6 +89,34 @@ export default class MessageItem extends Vue {
       this.$Message.success("点赞成功");
     } else {
       this.$Message.info(res);
+    }
+  }
+
+  // 评论
+  private async reply() {
+    // belong 和 belongType 存在则表明评论的目标为二级评论，而这两个变量时一级评论的Id和type
+    const targetId = this.msgObj.belong || this.msgObj.commentId;
+    const targetType =
+      typeof this.msgObj.belongType === "undefined"
+        ? this.msgObj.type
+        : this.msgObj.belongType;
+
+    const params: any = {
+      targetId,
+      replyId: this.msgObj.targetAuthor,
+      content: this.inputVal,
+      type: 1,
+      targetType,
+    };
+
+    const res = await addComment(params);
+
+    if (res) {
+      this.$Message.success("评论成功");
+
+      // 关闭输入框 & 清空输入内容
+      this.replyShow = false;
+      this.inputVal = "";
     }
   }
 
