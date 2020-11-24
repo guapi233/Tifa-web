@@ -1,48 +1,87 @@
 <template>
-  <div class="message-item-outermost">
+  <div class="message-item-outermost" v-if="msgShow">
     <div class="item">
       <div class="left-box">
-        <Avatar size="46" />
+        <Avatar size="46" :src="authorObj.pic" />
       </div>
       <div class="center-box">
         <div class="top">
-          <span class="name">十二的名字叫难忘</span>
+          <span class="name">{{ authorObj.name }}</span>
           <span class="tip">评论了我的动态</span>
         </div>
-        <div class="middle">？了</div>
+        <div class="middle" v-if="msgObj.reply">{{ msgObj.reply }}</div>
         <div class="bottom">
-          <span class="time">11:50</span>
+          <span class="time">{{ dateFormat(msgObj.created) }}</span>
           <span
             class="reply"
             @click="replyShow = !replyShow"
             :class="{ showed: replyShow }"
+            v-if="replyBox !== false"
           >
             <Icon type="md-text" size="16" />回复</span
           >
-          <span class="like"><Icon type="md-thumbs-up" size="16" />点赞</span>
+          <span class="like" v-if="likeBox !== false"
+            ><Icon type="md-thumbs-up" size="16" />点赞</span
+          >
           <div class="reply-box" v-if="replyShow">
             <ReplyArea @onSubmit="1" :value.sync="inputVal" />
           </div>
+          <span
+            class="set-read"
+            v-if="!msgObj.isRead"
+            title="设置已读后该条信息将不再显示"
+            @click="setIsRead"
+            >设置已读</span
+          >
         </div>
       </div>
       <div class="right-box">
-        <div class="text-box">test</div>
+        <div class="text-box" v-html="msgObj.content"></div>
       </div>
     </div>
+    <div class="divider"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
+import { dateFormat } from "@/utils/index";
+import { setIsRead } from "@/api/content";
 
 @Component({
   components: { Avatar, ReplyArea },
 })
 export default class MessageItem extends Vue {
+  @Prop({ default: () => ({}) }) private msgObj!: any;
+  @Prop({ type: Number }) private type!: number;
+  @Prop({ default: false }) private replyBox!: any;
+  @Prop({ default: false }) private likeBox!: any;
+  private msgShow = true;
   private inputVal = "";
   private replyShow = false;
+  private dateFormat = dateFormat;
+
+  private get authorObj() {
+    console.log(this.msgObj);
+    return this.msgObj.authorObj || {};
+  }
+
+  private async setIsRead() {
+    const idNames = ["likeId", "commentId", "followId"];
+
+    const res: any = await setIsRead(
+      this.type,
+      this.msgObj[idNames[this.type]]
+    );
+
+    if (res) {
+      this.$Message.success(res);
+      this.msgObj.isRead = 1;
+      this.msgShow = false;
+    }
+  }
 }
 </script>
 
@@ -63,6 +102,14 @@ export default class MessageItem extends Vue {
 
     .center-box {
       flex: 1;
+
+      &:hover {
+        .bottom {
+          .set-read {
+            display: inline;
+          }
+        }
+      }
 
       .top {
         margin-bottom: 10px;
@@ -120,6 +167,14 @@ export default class MessageItem extends Vue {
           width: 100%;
           cursor: text;
         }
+
+        .set-read {
+          display: none;
+
+          &:hover {
+            color: $primaryColor;
+          }
+        }
       }
     }
 
@@ -138,6 +193,13 @@ export default class MessageItem extends Vue {
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         color: $contentColor;
+
+        .emoji-size-big,
+        .emoji-size-small {
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
       }
     }
   }
