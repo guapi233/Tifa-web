@@ -109,6 +109,11 @@ export default class MessageItem extends Vue {
       targetType,
     };
 
+    // 只有在评论对象是评论时才携带 二级评论标志
+    if (this.msgObj.type === 1) {
+      params.secondLevelCommentId = this.msgObj.commentId;
+    }
+
     const res = await addComment(params);
 
     if (res) {
