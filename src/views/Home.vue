@@ -18,7 +18,9 @@
                 overflow-count="99"
                 :count="$store.getters.newMes"
               >
-                <Icon type="md-notifications-outline" size="26" />
+                <router-link to="/message/reply"
+                  ><Icon type="md-notifications-outline" size="26"
+                /></router-link>
               </Badge>
               <div
                 class="header-user"
