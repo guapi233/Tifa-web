@@ -6,8 +6,8 @@ const Message = () =>
   import(/* webpackChunkName: "Message" */ "@/views/Message.vue");
 const MessageReply = () =>
   import(/* webpackChunkName: "MessageReply" */ "@/views/Message/Reply.vue");
-const MessageAt = () =>
-  import(/* webpackChunkName: "MessageAt" */ "@/views/Message/At.vue");
+const MessageFollow = () =>
+  import(/* webpackChunkName: "MessageFollow" */ "@/views/Message/Follow.vue");
 const MessageLike = () =>
   import(/* webpackChunkName: "MessageLike" */ "@/views/Message/Like.vue");
 const MessageSystem = () =>
@@ -28,9 +28,9 @@ export default {
       component: MessageReply,
     },
     {
-      path: "at",
-      name: "MessageAt",
-      component: MessageAt,
+      path: "follow",
+      name: "MessageFollow",
+      component: MessageFollow,
     },
     {
       path: "like",
