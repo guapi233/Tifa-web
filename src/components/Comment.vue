@@ -145,17 +145,18 @@ export default class Comment extends Vue {
     });
 
     if (res) {
-      const currentComent = this.commentList.find((comment: any) => {
+      const currentComment = this.commentList.find((comment: any) => {
         return comment.commentId === commentId;
       });
-      currentComent.children.push(res);
+
+      currentComment.children.push(res);
       this.$Message.success("评论成功");
 
       // 关闭输入框 & 清空输入内容 & 评论展示数量 +1
       this.secondReplyShowId = "";
       commentItem.successCallBack();
       this.localCommentCount++;
-      currentComent.commentCount++;
+      currentComment.commentCount++;
     }
   }
 
