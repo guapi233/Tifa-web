@@ -95,11 +95,11 @@ export default class MessageItem extends Vue {
   // 评论
   private async reply() {
     // belong 和 belongType 存在则表明评论的目标为二级评论，而这两个变量时一级评论的Id和type
-    const targetId = this.msgObj.belong || this.msgObj.commentId;
+    // const targetId = this.msgObj.belong || this.msgObj.commentId;
+    const targetId =
+      this.msgObj.type === 1 ? this.msgObj.targetId : this.msgObj.commentId;
     const targetType =
-      typeof this.msgObj.belongType === "undefined"
-        ? this.msgObj.type
-        : this.msgObj.belongType;
+      this.msgObj.type === 1 ? this.msgObj.belongType : this.msgObj.type;
 
     const params: any = {
       targetId,
