@@ -7,7 +7,8 @@
       <div class="center-box">
         <div class="top">
           <span class="name">{{ authorObj.name }}</span>
-          <span class="tip"
+          <span class="tip" v-if="type === 2">关注了我</span>
+          <span class="tip" v-else
             >{{ types[type] }}了我的{{ targetTypes[msgObj.type] }}</span
           >
         </div>
@@ -71,8 +72,8 @@ export default class MessageItem extends Vue {
   private inputVal = "";
   private replyShow = false;
   private dateFormat = dateFormat;
-  // 操作的类型：0为点赞、1为评论
-  private types = ["点赞", "评论"];
+  // 操作的类型：0为点赞、1为评论、2为关注
+  private types = ["点赞", "评论", "关注"];
   // 操作对象的类型：0为文章、1为评论
   private targetTypes = ["文章", "评论"];
 
