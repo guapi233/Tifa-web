@@ -64,7 +64,6 @@ export default class MessageItem extends Vue {
   private dateFormat = dateFormat;
 
   private get authorObj() {
-    console.log(this.msgObj);
     return this.msgObj.authorObj || {};
   }
 
