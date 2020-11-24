@@ -13,11 +13,13 @@
               <Button shape="circle" class="login-btn">登录</Button>
             </router-link>
             <div class="logined-show" v-else>
-              <Icon
-                type="md-notifications-outline"
+              <Badge
                 class="header-notice"
-                size="26"
-              />
+                overflow-count="99"
+                :count="$store.getters.newMes"
+              >
+                <Icon type="md-notifications-outline" size="26" />
+              </Badge>
               <div
                 class="header-user"
                 @mouseenter="userToolsShow = true"
@@ -245,6 +247,9 @@ export default class Home extends Vue {
           .header-notice {
             margin-right: 20px;
             cursor: pointer;
+            width: 26px;
+            height: 26px;
+            line-height: 1;
           }
 
           .header-user {
