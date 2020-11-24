@@ -11,7 +11,7 @@
             >{{ types[type] }}了我的{{ targetTypes[msgObj.type] }}</span
           >
         </div>
-        <div class="middle" v-if="msgObj.reply">{{ msgObj.reply }}</div>
+        <div class="middle" v-if="msgObj.reply" v-html="msgObj.reply"></div>
         <div class="bottom">
           <span class="time">{{ dateFormat(msgObj.created) }}</span>
           <span
@@ -103,7 +103,7 @@ export default class MessageItem extends Vue {
 
     const params: any = {
       targetId,
-      replyId: this.msgObj.targetAuthor,
+      replyId: this.msgObj.authorId,
       content: this.inputVal,
       type: 1,
       targetType,
@@ -146,6 +146,13 @@ export default class MessageItem extends Vue {
     position: relative;
     cursor: pointer;
     display: flex;
+
+    .emoji-size-big,
+    .emoji-size-small {
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+    }
 
     .left-box {
       width: 46px;
@@ -247,13 +254,6 @@ export default class MessageItem extends Vue {
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         color: $contentColor;
-
-        .emoji-size-big,
-        .emoji-size-small {
-          width: 16px;
-          height: 16px;
-          vertical-align: middle;
-        }
       }
     }
   }
