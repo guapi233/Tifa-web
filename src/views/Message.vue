@@ -45,8 +45,8 @@ export default class Message extends Vue {
       name: "回复我的",
     },
     {
-      path: "/message/at",
-      name: "@ 我的",
+      path: "/message/follow",
+      name: "新的关注",
     },
     {
       path: "/message/like",
@@ -62,8 +62,22 @@ export default class Message extends Vue {
     },
   ];
 
+  // 当前选中的路由项
   private get acTab() {
     return this.tabList[this.acTabIndex];
+  }
+
+  private created() {
+    this.setActiceRoute();
+  }
+
+  // 设置当前选中路由的索引
+  private setActiceRoute() {
+    const { fullPath } = this.$route;
+
+    this.tabList.forEach((item, index) => {
+      if (item.path === fullPath) this.acTabIndex = index;
+    });
   }
 }
 </script>
