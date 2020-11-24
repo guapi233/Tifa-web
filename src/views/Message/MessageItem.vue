@@ -7,7 +7,9 @@
       <div class="center-box">
         <div class="top">
           <span class="name">{{ authorObj.name }}</span>
-          <span class="tip">评论了我的动态</span>
+          <span class="tip"
+            >{{ types[type] }}了我的{{ targetTypes[msgObj.type] }}</span
+          >
         </div>
         <div class="middle" v-if="msgObj.reply">{{ msgObj.reply }}</div>
         <div class="bottom">
@@ -62,6 +64,10 @@ export default class MessageItem extends Vue {
   private inputVal = "";
   private replyShow = false;
   private dateFormat = dateFormat;
+  // 操作的类型：0为点赞、1为评论
+  private types = ["点赞", "评论"];
+  // 操作对象的类型：0为文章、1为评论
+  private targetTypes = ["文章", "评论"];
 
   private get authorObj() {
     return this.msgObj.authorObj || {};
