@@ -30,6 +30,7 @@ import {
   Modal,
   Select,
   Option,
+  Badge,
 } from "view-design";
 
 // global style
@@ -64,6 +65,7 @@ Vue.component("Modal", Modal);
 Vue.component("Select", Select);
 Vue.component("Option", Option);
 Vue.component("Poptip", Poptip);
+Vue.component("Badge", Badge);
 
 Vue.directive("highlight", highlight);
 
