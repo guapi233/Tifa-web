@@ -71,7 +71,11 @@
                     child.author.name
                   }}</router-link>
                   <span class="decoration">
-                    <span v-if="child.replyId !== commentObj.authorId"
+                    <span
+                      v-if="
+                        child.replyId !== commentObj.authorId &&
+                        child.replyId !== child.authorId
+                      "
                       >回复
                       <router-link :to="`/user/${child.replyId}`">{{
                         child.reply.name
