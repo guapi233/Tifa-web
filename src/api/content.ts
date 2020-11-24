@@ -203,3 +203,25 @@ export const modifyArticle = async (articleObj: any) => {
 export const addReport = async (reportObj: any) => {
   return axios.post("/content/addReport", reportObj);
 };
+
+/**
+ * 获取未读的点赞列表
+ * @param skip 跳过的页数
+ * @param limit 一页的条目数
+ */
+export const getUnReadLikeList = async (skip = 0, limit = 20) => {
+  return axios.get(`/content/getUnReadLikeList?skip=${skip}&limit=${limit}`);
+};
+
+/**
+ * 设置消息已读状态
+ * @param type 消息类型
+ * @param id 消息ID
+ * @param unRead 当前操作是否为取消已读（默认false）
+ */
+export const setIsRead = async (type: number, id: string, unRead = false) => {
+  let url = `/content/setIsRead?type=${type}&id=${id}`;
+  unRead && (url += `&unRead=${unRead}`);
+
+  return axios.get(url);
+};
