@@ -68,6 +68,7 @@ export default class Comment extends Vue {
   @Prop({ default: "" }) private targetId!: string;
   @Prop({ default: "likeCount" }) private commentSort!: string;
   @Prop({ type: Boolean }) private canGetComment!: boolean;
+  @Prop({ type: String }) private authorId!: string;
 
   // 输入框内容 & 输入框展示变量
   private inputVal = "";
@@ -105,7 +106,7 @@ export default class Comment extends Vue {
   private async submitComment() {
     const res = await addComment({
       targetId: this.targetId,
-      replyId: "*",
+      replyId: this.authorId,
       content: this.inputVal,
       type: 0,
     });

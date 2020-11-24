@@ -274,6 +274,7 @@
       <Comment
         :commentList.sync="commentList"
         :targetId="articleId"
+        :authorId="author.usernumber"
         :commentCount="articleDetail.commentCount"
         :commentSort.sync="commentSort"
         :canGetComment="canGetComment"
@@ -385,7 +386,10 @@ export default class ArticleDetail extends Vue {
   }
   // 当前用户是否为文章作者
   private get isAuthor() {
-    return this.$store.state.userInfo.usernumber === this.articleDetail.author.usernumber;
+    return (
+      this.$store.state.userInfo.usernumber ===
+      this.articleDetail.author.usernumber
+    );
   }
   // 题图处理
   private get bannerPic() {
