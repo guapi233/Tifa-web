@@ -7,7 +7,7 @@
         v-for="commentObj in commentList"
         :key="commentObj.commentId"
       >
-        <MessageItem :msgObj="commentObj" :type="1" />
+        <MessageItem :msgObj="commentObj" :type="1" replyBox likeBox />
       </div>
     </div>
   </div>

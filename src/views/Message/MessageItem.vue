@@ -22,12 +22,16 @@
           >
             <Icon type="md-text" size="16" />回复</span
           >
-          <span class="like" v-if="likeBox !== false"
-            ><Icon type="md-thumbs-up" size="16" />点赞</span
+          <span
+            class="like"
+            v-if="likeBox !== false"
+            :class="{ liked: msgObj.isLiked }"
+            @click="addLike"
           >
-          <div class="reply-box" v-if="replyShow">
-            <ReplyArea @onSubmit="1" :value.sync="inputVal" />
-          </div>
+            <Icon type="md-thumbs-up" size="16" />{{
+              msgObj.isLiked ? "已赞" : "点赞"
+            }}</span
+          >
           <span
             class="set-read"
             v-if="!msgObj.isRead"
@@ -35,6 +39,9 @@
             @click="setIsRead"
             >设置已读</span
           >
+          <div class="reply-box" v-if="replyShow">
+            <ReplyArea @onSubmit="1" :value.sync="inputVal" />
+          </div>
         </div>
       </div>
       <div class="right-box">
@@ -50,7 +57,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
 import { dateFormat } from "@/utils/index";
-import { setIsRead } from "@/api/content";
+import { setIsRead, addLike } from "@/api/content";
 
 @Component({
   components: { Avatar, ReplyArea },
@@ -73,6 +80,19 @@ export default class MessageItem extends Vue {
     return this.msgObj.authorObj || {};
   }
 
+  // 点赞
+  private async addLike() {
+    const res = await addLike(this.msgObj.commentId, 1);
+
+    this.msgObj.isLiked = !this.msgObj.isLiked;
+    if (typeof res === "object") {
+      this.$Message.success("点赞成功");
+    } else {
+      this.$Message.info(res);
+    }
+  }
+
+  // 设置已读状态
   private async setIsRead() {
     const idNames = ["likeId", "commentId", "followId"];
 
@@ -147,12 +167,9 @@ export default class MessageItem extends Vue {
           margin-right: 15px;
         }
 
-        .reply {
-          margin-right: 14px;
-        }
-
         .reply,
         .like {
+          margin-right: 14px;
           &:hover {
             color: $primaryColor;
           }
@@ -160,6 +177,10 @@ export default class MessageItem extends Vue {
           i {
             margin-right: 1px;
           }
+        }
+
+        .liked {
+          color: $primaryColor;
         }
 
         .showed {
