@@ -22,6 +22,16 @@ const store = new Vuex.Store({
     },
     draftId: "",
     isEdit: false,
+    // 新消息通知
+    newlike: 0,
+    newcomment: 0,
+    newfollow: 0,
+  },
+  getters: {
+    newMes(state) {
+      const { newlike, newcomment, newfollow } = state;
+      return newlike + newcomment + newfollow;
+    },
   },
   mutations: {
     // 设置用户信息与token
@@ -65,6 +75,11 @@ const store = new Vuex.Store({
     // 设置编辑标志符
     setEdit(state, isEdit: boolean) {
       state.isEdit = isEdit;
+    },
+
+    // 设置新消息提醒
+    setNewMes(state, { type, val }: { type: string; val: number }) {
+      (state as any)[`new${type}`] = val;
     },
   },
   actions: {},
