@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import SystemItem from "./SystemItem.vue";
-import { getUnReadSystemMesList } from "@/api/content";
+import { getSystemMesList } from "@/api/content";
 import { setIsRead } from "@/api/content";
 
 @Component({
@@ -19,11 +19,11 @@ export default class MessageSystem extends Vue {
   private systemMesList: any = [];
 
   private created() {
-    this.getUnReadSystemMesList();
+    this.getSystemMesList();
   }
 
-  private async getUnReadSystemMesList() {
-    const res: any = await getUnReadSystemMesList();
+  private async getSystemMesList() {
+    const res: any = await getSystemMesList();
 
     this.systemMesList = res;
 

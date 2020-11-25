@@ -6,7 +6,7 @@
     </div>
     <div class="bottom" v-html="msgObj.content"></div>
 
-    <div class="close-box" title="最新的通知">
+    <div class="new-box" title="最新的通知" v-if="msgObj.isNew">
       <Icon type="md-close" size="18" />
     </div>
   </div>
@@ -32,7 +32,7 @@ export default class SystemItem extends Vue {
   border-radius: 5px;
   position: relative;
 
-  .close-box {
+  .new-box {
     position: absolute;
     right: 10px;
     top: 10px;
