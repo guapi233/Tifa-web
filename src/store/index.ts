@@ -26,11 +26,12 @@ const store = new Vuex.Store({
     newlike: 0,
     newcomment: 0,
     newfollow: 0,
+    newsystem: 0,
   },
   getters: {
     newMes(state) {
-      const { newlike, newcomment, newfollow } = state;
-      return newlike + newcomment + newfollow;
+      const { newlike, newcomment, newfollow, newsystem } = state;
+      return newlike + newcomment + newfollow + newsystem;
     },
   },
   mutations: {
@@ -79,7 +80,7 @@ const store = new Vuex.Store({
 
     // 设置新消息提醒
     setNewMes(state, { type, val }: { type: string; val: number }) {
-      (state as any)[`new${type}`] = val;
+      (state as any)[`new${type}`] += val;
     },
   },
   actions: {},
