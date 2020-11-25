@@ -1,8 +1,10 @@
 <template>
   <div class="message-system-outermost">
-    <div class="wrap" v-for="msgObj in systemMesList" :key="msgObj.systemId">
-      <SystemItem :msgObj="msgObj" />
-    </div>
+    <Scroll :onReachBottom="getSystemMesList" :isEnd="isEnd">
+      <div class="wrap" v-for="msgObj in systemMesList" :key="msgObj.systemId">
+        <SystemItem :msgObj="msgObj" />
+      </div>
+    </Scroll>
   </div>
 </template>
 
@@ -17,18 +19,26 @@ import { setIsRead } from "@/api/content";
 })
 export default class MessageSystem extends Vue {
   private systemMesList: any = [];
+  // 控制变量
+  private skip = 0;
+  private isEnd = false;
 
   private created() {
     this.getSystemMesList();
   }
 
   private async getSystemMesList() {
-    const res: any = await getSystemMesList();
+    const res: any = await getSystemMesList(this.skip++);
 
-    this.systemMesList = res;
+    this.systemMesList.push(...res);
+
+    // 如果没数据了
+    if (!res[0]) {
+      this.isEnd = true;
+    }
 
     // 设置已读
-    this.setIsRead();
+    !this.skip && this.setIsRead();
   }
 
   // 设置已读
@@ -43,6 +53,5 @@ export default class MessageSystem extends Vue {
 <style lang="scss">
 .message-system-outermost {
   height: 100%;
-  overflow: auto;
 }
 </style>
