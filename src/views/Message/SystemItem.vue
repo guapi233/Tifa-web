@@ -1,23 +1,22 @@
 <template>
   <div class="messgae-system-item-outermost">
     <div class="top">
-      <span class="system-title"
-        >今晚18:00「B站国创动画发布会」直播即将开启！</span
-      >
-      <span class="system-time">17:30</span>
+      <span class="system-title">{{ msgObj.title }}</span>
+      <span class="system-time">{{ dateFormat(msgObj.created) }}</span>
     </div>
-    <div class="bottom">
-      凡人修仙传、定海浮生录、银河之心、恰同学少年等三十余部动画作品最新情报大公开！还有黄龄等嘉宾带来的精彩表演。快来锁定“哔哩哔哩国创”直播间。看直播，抽惊喜好礼>>
-      网页链接 追番戳>> 网页链接
-    </div>
+    <div class="bottom" v-html="msgObj.content"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { dateFormat } from "@/utils/index";
 
 @Component
-export default class SystemItem extends Vue {}
+export default class SystemItem extends Vue {
+  @Prop({ default: () => ({}) }) private msgObj!: any;
+  private dateFormat = dateFormat;
+}
 </script>
 
 <style lang="scss">
@@ -34,6 +33,7 @@ export default class SystemItem extends Vue {}
     .system-title {
       color: #333;
       font-weight: 700;
+      margin-right: 8px;
     }
 
     .system-time {
