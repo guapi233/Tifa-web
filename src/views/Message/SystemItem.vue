@@ -6,9 +6,7 @@
     </div>
     <div class="bottom" v-html="msgObj.content"></div>
 
-    <div class="new-box" title="最新的通知" v-if="msgObj.isNew">
-      <Icon type="md-close" size="18" />
-    </div>
+    <div class="new-box" title="最新的通知" v-if="msgObj.isNew">NEW</div>
   </div>
 </template>
 
@@ -58,6 +56,10 @@ export default class SystemItem extends Vue {
   .bottom {
     padding-left: 8px;
     color: #666;
+
+    a {
+      color: $primaryColor;
+    }
   }
 }
 </style>
