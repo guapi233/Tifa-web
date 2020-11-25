@@ -1,14 +1,16 @@
 <template>
   <div class="message-at-outermost">
     <div class="total">
-      <div
-        class="wrap"
-        v-for="followObj in followList"
-        :key="followObj.followId"
-      >
-        <MessageItem :msgObj="followObj" :type="2" />
-        <div class="divider"></div>
-      </div>
+      <Scroll :onReachBottom="test" :isEnd="isEnd">
+        <div
+          class="wrap"
+          v-for="followObj in followList"
+          :key="followObj.followId"
+        >
+          <MessageItem :msgObj="followObj" :type="2" />
+          <div class="divider"></div>
+        </div>
+      </Scroll>
     </div>
   </div>
 </template>
@@ -22,7 +24,8 @@ import { getUnReadFollowList } from "@/api/content";
   components: { MessageItem },
 })
 export default class MessageAt extends Vue {
-  private followList = [];
+  private followList: any = [];
+  private isEnd = false;
 
   private created() {
     this.getUnReadFollowList();
@@ -31,7 +34,12 @@ export default class MessageAt extends Vue {
   private async getUnReadFollowList() {
     const res: any = await getUnReadFollowList();
 
-    this.followList = res;
+    this.followList.push(...res);
+
+    // 到底
+    if (!res[0]) {
+      this.isEnd = true;
+    }
   }
 }
 </script>
