@@ -6,16 +6,21 @@
           <p><Icon type="ios-paper-plane" size="16" />消息中心</p>
         </div>
         <div class="tab-list">
-          <router-link
-            class="tab"
+          <Badge
             v-for="(tab, index) in tabList"
             :key="tab.path"
-            :to="tab.path"
-            active-class="active"
-            @click.native="acTabIndex = index"
+            :count="$store.state[tab.badge]"
+            :offset="[20, -20]"
           >
-            {{ tab.name }}
-          </router-link>
+            <router-link
+              class="tab"
+              :to="tab.path"
+              active-class="active"
+              @click.native="acTabIndex = index"
+            >
+              {{ tab.name }}
+            </router-link>
+          </Badge>
         </div>
         <div class="divided-line"></div>
         <router-link class="setting" to="/setting/mail">
@@ -43,22 +48,27 @@ export default class Message extends Vue {
     {
       path: "/message/reply",
       name: "回复我的",
+      badge: "newcomment",
     },
     {
       path: "/message/follow",
       name: "新的关注",
+      badge: "newfollow",
     },
     {
       path: "/message/like",
       name: "收到的赞",
+      badge: "newlike",
     },
     {
       path: "/message/system",
       name: "系统通知",
+      badge: "newsystem",
     },
     {
       path: "/message/whisper/2",
       name: "我的私信",
+      badge: "newwhisper",
     },
   ];
 
