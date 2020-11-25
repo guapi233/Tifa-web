@@ -1,7 +1,9 @@
 <template>
   <div class="message-reply-outermost">
     <div class="total">
-      <Scroll :onReachBottom="getUnReadCommentList" :isEnd="isEnd">
+      <p v-if="!commentList.length">并没有数据哦~</p>
+
+      <Scroll v-else :onReachBottom="getUnReadCommentList" :isEnd="isEnd">
         <div
           class="wrap"
           v-for="commentObj in commentList"

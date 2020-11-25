@@ -1,7 +1,9 @@
 <template>
   <div class="message-at-outermost">
     <div class="total">
-      <Scroll :onReachBottom="getUnReadFollowList" :isEnd="isEnd">
+      <p v-if="!followList.length">并没有数据哦~</p>
+
+      <Scroll v-else :onReachBottom="getUnReadFollowList" :isEnd="isEnd">
         <div
           class="wrap"
           v-for="followObj in followList"

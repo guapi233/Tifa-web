@@ -1,7 +1,9 @@
 <template>
   <div class="message-like-outermost">
     <div class="total">
-      <Scroll :onReachBottom="getUnReadLikeList" :isEnd="isEnd">
+      <p v-if="!likeList.length">并没有数据哦~</p>
+
+      <Scroll v-else :onReachBottom="getUnReadLikeList" :isEnd="isEnd">
         <div class="wrap" v-for="likeObj in likeList" :key="likeObj.likeId">
           <MessageItem :msgObj="likeObj" :type="0" />
         </div>
