@@ -1,9 +1,11 @@
 <template>
   <div class="message-like-outermost">
     <div class="total">
-      <div class="wrap" v-for="likeObj in likeList" :key="likeObj.likeId">
-        <MessageItem :msgObj="likeObj" :type="0" />
-      </div>
+      <Scroll :onReachBottom="getUnReadLikeList" :isEnd="isEnd">
+        <div class="wrap" v-for="likeObj in likeList" :key="likeObj.likeId">
+          <MessageItem :msgObj="likeObj" :type="0" />
+        </div>
+      </Scroll>
     </div>
   </div>
 </template>
@@ -18,15 +20,21 @@ import { getUnReadLikeList } from "@/api/content";
 })
 export default class MessageLike extends Vue {
   private likeList: any = [];
+  private skip = 0;
+  private isEnd = false;
 
   private created() {
     this.getUnReadLikeList();
   }
 
   private async getUnReadLikeList() {
-    const res = await getUnReadLikeList();
+    const res: any = await getUnReadLikeList(this.skip++);
 
-    this.likeList = res;
+    this.likeList.push(...res);
+
+    if (!res[0]) {
+      this.isEnd = true;
+    }
   }
 }
 </script>
