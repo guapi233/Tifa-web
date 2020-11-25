@@ -5,6 +5,7 @@ import store from "./store";
 
 // global components
 import Avatar from "@/components/Avatar.vue";
+import Scroll from "@/components/Scroll.vue";
 import {
   Button,
   Input,
@@ -66,6 +67,7 @@ Vue.component("Select", Select);
 Vue.component("Option", Option);
 Vue.component("Poptip", Poptip);
 Vue.component("Badge", Badge);
+Vue.component("Scroll", Scroll);
 
 Vue.directive("highlight", highlight);
 
