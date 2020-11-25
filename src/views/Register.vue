@@ -65,9 +65,7 @@
       </Form>
       <div class="tools-bar">
         <router-link to="/login"
-          ><Button type="text">
-            已有账号？前往登陆
-          </Button></router-link
+          ><Button type="text"> 已有账号？前往登陆 </Button></router-link
         >
       </div>
     </div>
@@ -90,7 +88,7 @@ export default class Register extends Vue {
     usernumber: "",
     password: "",
     determinPassword: "",
-    captcha: ""
+    captcha: "",
   };
   private validateRules = {
     usernumber: [
@@ -98,21 +96,21 @@ export default class Register extends Vue {
       { min: 6, max: 20, message: "合法的账号长度为6-20位", trigger: "blur" },
       {
         validator: generIsExistInput(this.formData, "/public/exist"),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
     password: [
       { required: true, message: "请输入密码", trigger: "blur" },
-      { min: 6, max: 20, message: "合法的密码长度为6-20位", trigger: "blur" }
+      { min: 6, max: 20, message: "合法的密码长度为6-20位", trigger: "blur" },
     ],
     determinPassword: [
       { required: true, message: "请再次输入密码", trigger: "blur" },
       {
         validator: generDeterminInput(this.formData),
-        trigger: "blur"
-      }
+        trigger: "blur",
+      },
     ],
-    captcha: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+    captcha: [{ required: true, message: "请输入验证码", trigger: "blur" }],
   };
 
   private async created() {
@@ -127,16 +125,17 @@ export default class Register extends Vue {
         // 执行 登录
         const res: any = await register({
           ...this.formData,
-          sid: getStorage("sid")
+          sid: getStorage("sid"),
         });
 
         this.btnLoading = false;
         if (res) {
           this.$store.commit("setUserInfoAndToken", {
             userInfo: res.userInfo,
-            token: res.token
+            token: res.token,
           });
-          this.$router.replace("/");
+          // this.$router.replace("/");
+          window.location.replace("/");
         } else {
           // 登陆失败后重置验证码
           await this.changeCaptcha();

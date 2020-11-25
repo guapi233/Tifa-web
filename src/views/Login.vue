@@ -56,9 +56,7 @@
       <div class="tools-bar">
         <Button type="text">忘记密码？</Button>
         <router-link to="/register"
-          ><Button type="text">
-            还没账号？前往注册
-          </Button></router-link
+          ><Button type="text"> 还没账号？前往注册 </Button></router-link
         >
       </div>
     </div>
@@ -79,14 +77,14 @@ export default class Login extends Vue {
   private formData = {
     usernumber: "",
     password: "",
-    captcha: ""
+    captcha: "",
   };
   private validateRules = {
     usernumber: [
-      { required: true, message: "请输入手机号或邮箱", trigger: "blur" }
+      { required: true, message: "请输入手机号或邮箱", trigger: "blur" },
     ],
     password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-    captcha: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+    captcha: [{ required: true, message: "请输入验证码", trigger: "blur" }],
   };
 
   private async created() {
@@ -101,16 +99,17 @@ export default class Login extends Vue {
         // 执行 登录
         const res: any = await login({
           ...this.formData,
-          sid: getStorage("sid")
+          sid: getStorage("sid"),
         });
 
         this.btnLoading = false;
         if (res) {
           this.$store.commit("setUserInfoAndToken", {
             userInfo: res.userInfo,
-            token: res.token
+            token: res.token,
           });
-          this.$router.replace("/");
+          // this.$router.replace("/");
+          window.location.replace("/");
         } else {
           // 登陆失败后重置验证码
           await this.changeCaptcha();
