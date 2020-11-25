@@ -5,6 +5,10 @@
       <span class="system-time">{{ dateFormat(msgObj.created) }}</span>
     </div>
     <div class="bottom" v-html="msgObj.content"></div>
+
+    <div class="close-box" title="最新的通知">
+      <Icon type="md-close" size="18" />
+    </div>
   </div>
 </template>
 
@@ -26,6 +30,16 @@ export default class SystemItem extends Vue {
   box-shadow: 0 2px 4px 0 rgba(121, 146, 185, 0.14);
   margin-bottom: 10px;
   border-radius: 5px;
+  position: relative;
+
+  .close-box {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: red;
+    padding: 5;
+    cursor: pointer;
+  }
 
   .top {
     margin-bottom: 5px;

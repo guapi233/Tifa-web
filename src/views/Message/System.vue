@@ -10,12 +10,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import SystemItem from "./SystemItem.vue";
 import { getUnReadSystemMesList } from "@/api/content";
+import { setIsRead } from "@/api/content";
 
 @Component({
   components: { SystemItem },
 })
 export default class MessageSystem extends Vue {
-  private systemMesList = [];
+  private systemMesList: any = [];
 
   private created() {
     this.getUnReadSystemMesList();
@@ -25,6 +26,16 @@ export default class MessageSystem extends Vue {
     const res: any = await getUnReadSystemMesList();
 
     this.systemMesList = res;
+
+    // 设置已读
+    this.setIsRead();
+  }
+
+  // 设置已读
+  private async setIsRead() {
+    if (!this.systemMesList[0]) return;
+
+    await setIsRead(3, this.systemMesList[0].systemId);
   }
 }
 </script>
