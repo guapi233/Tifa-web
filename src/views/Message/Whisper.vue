@@ -26,7 +26,7 @@
       <div class="right-wrap" v-else>
         <div class="w-title">{{ curRoom.opposite.name }}</div>
         <div class="w-content">
-          <Scroll>
+          <Scroll at="bottom" v-if="whisperList[0]">
             <WhisperItem
               v-for="msgObj in whisperList"
               :key="msgObj.whisperId"
