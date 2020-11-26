@@ -248,3 +248,25 @@ export const hasElm = (wrap: any, elm: any) => {
 
   return result;
 };
+
+/**
+ * 文本过滤HTML，清空所有HTML标签，但不消除内部内容
+ * @param str 文本
+ * @param replaced 要替换成的文本
+ */
+export const filteHTML = (str: string, replaced = "") => {
+  const reg = /<[^>]*>|<\/[^>]*>/gm;
+
+  return str.replace(reg, replaced);
+};
+
+/**
+ * 过滤文本中的Img标签
+ * @param str 文本
+ * @param replaced 要替换成的文本
+ */
+export const filteImg = (str: string, replaced = "") => {
+  const reg = /<img(.*?)>/g;
+
+  return str.replace(reg, replaced);
+};
