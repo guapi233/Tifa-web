@@ -14,7 +14,7 @@
           <div class="w-info">
             <div class="w-name">{{ room.opposite.name }}</div>
             <div class="w-tip">
-              {{ room.lastMsg.content }}
+              {{ filteTabMsg(room.lastMsg.content) }}
             </div>
           </div>
         </div>
@@ -68,6 +68,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { getRoomList } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
+import { filteHTML, filteImg } from "@/utils/index";
 
 @Component({
   components: { Avatar, ReplyArea },
@@ -97,6 +98,10 @@ export default class MessageWhisper extends Vue {
 
     this.$router.replace(wid);
     this.curTab = wid;
+  }
+  // 过滤提示信息
+  private filteTabMsg(str: string) {
+    return filteHTML(filteImg(str, "[图片]"));
   }
 }
 </script>
