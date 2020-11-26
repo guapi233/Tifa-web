@@ -261,3 +261,15 @@ export const setIsRead = async (type: number, id: string, unRead = false) => {
 export const getRoomList = async (skip = 0, limit = 20) => {
   return axios.get(`/content/getRoomList?skip=${skip}&limit=${limit}`);
 };
+
+/**
+ * 获取私信内容
+ * @param roomId 房间Id
+ * @param skip 跳过的页数
+ * @param limit 一页的条目数
+ */
+export const getWhisperList = async (roomId: string, skip = 0, limit = 20) => {
+  return axios.get(
+    `/content/getWhisperList?roomId=${roomId}&skip=${skip}&limit=${limit}`
+  );
+};
