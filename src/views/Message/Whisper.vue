@@ -5,16 +5,16 @@
       <div class="w-tab-list">
         <div
           class="w-tab-item"
-          v-for="i in 20"
-          :key="i"
-          :class="{ 'w-active': i === curTab }"
-          @click="curTab = i"
+          v-for="room in roomList"
+          :key="room.roomId"
+          :class="{ 'w-active': room.roomId === curTab }"
+          @click="switchTab(room.roomId)"
         >
-          <Avatar class="w-avatar" size="42" />
+          <Avatar class="w-avatar" size="42" :src="room.opposite.pic" />
           <div class="w-info">
-            <div class="w-name">小叶森森</div>
+            <div class="w-name">{{ room.opposite.name }}</div>
             <div class="w-tip">
-              小叶森森感谢你的关注，成为粉丝，祝大家哈哈哈
+              {{ room.lastMsg.content }}
             </div>
           </div>
         </div>
@@ -65,6 +65,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { getRoomList } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
 
@@ -72,12 +73,30 @@ import ReplyArea from "@/components/ReplyArea.vue";
   components: { Avatar, ReplyArea },
 })
 export default class MessageWhisper extends Vue {
-  private curTab = 1;
+  private roomList: any = [];
+  private skip = 0;
+  private curTab = "";
   private inputVal = "";
 
   private created() {
     const { wid } = this.$route.params;
-    this.curTab = Number(wid);
+    wid && (this.curTab = wid);
+
+    this.getRoomList();
+  }
+
+  // 获取私信窗口列表
+  private async getRoomList() {
+    const res: any = await getRoomList(this.skip++);
+
+    this.roomList.push(...res);
+  }
+  // 切换Tab
+  private switchTab(wid: string) {
+    if (wid === this.curTab) return;
+
+    this.$router.replace(wid);
+    this.curTab = wid;
   }
 }
 </script>
