@@ -66,7 +66,7 @@ export default class Message extends Vue {
       badge: "newsystem",
     },
     {
-      path: "/message/whisper/2",
+      path: "/message/whisper/",
       name: "我的私信",
       badge: "newwhisper",
     },
