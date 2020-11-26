@@ -105,6 +105,9 @@ export default class MessageWhisper extends Vue {
   private async getWhisperList() {
     const res: any = await getWhisperList(this.curTab);
     this.whisperList.unshift(...res);
+
+    // 设置时间组
+    this.setWhisperTime(this.whisperList);
   }
   // 切换Tab
   private async switchTab(wid: string) {
@@ -116,8 +119,7 @@ export default class MessageWhisper extends Vue {
 
     // 2. 清空私信列表 & 加载私信列表 & 设置时间组
     this.whisperList = [];
-    await this.getWhisperList();
-    this.setWhisperTime(this.whisperList);
+    this.getWhisperList();
   }
   // 过滤提示信息
   private filteTabMsg(str: string) {
