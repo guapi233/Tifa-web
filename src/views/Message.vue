@@ -180,6 +180,10 @@ export default class Message extends Vue {
           padding: 24px 16px;
           overflow: auto;
 
+          .scroll-outermost {
+            padding-right: 5px;
+          }
+
           .divider {
             width: calc(100% - 44px);
             height: 1px;
