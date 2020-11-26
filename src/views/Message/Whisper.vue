@@ -22,22 +22,30 @@
     </div>
 
     <div class="whisper-right">
-      <div class="w-title">{{ curRoom.opposite.name }}</div>
-      <div class="w-content">
-        <WhisperItem
-          v-for="msgObj in whisperList"
-          :key="msgObj.whisperId"
-          :me="msgObj.authorId === self"
-          :type="msgObj.type"
-          :status="msgObj.status"
-          :opposite="curRoom.opposite"
-          :content="msgObj.content"
-          :createdShow="msgObj.createdShow"
-          :created="msgObj.created"
-        />
-      </div>
-      <div class="w-input">
-        <ReplyArea @onSubmit="1" :value.sync="inputVal" autoFlow height="90" />
+      <p v-if="!curRoom.roomId">放图片的地方</p>
+      <div class="right-wrap" v-else>
+        <div class="w-title">{{ curRoom.opposite.name }}</div>
+        <div class="w-content">
+          <WhisperItem
+            v-for="msgObj in whisperList"
+            :key="msgObj.whisperId"
+            :me="msgObj.authorId === self"
+            :type="msgObj.type"
+            :status="msgObj.status"
+            :opposite="curRoom.opposite"
+            :content="msgObj.content"
+            :createdShow="msgObj.createdShow"
+            :created="msgObj.created"
+          />
+        </div>
+        <div class="w-input">
+          <ReplyArea
+            @onSubmit="1"
+            :value.sync="inputVal"
+            autoFlow
+            height="90"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -201,8 +209,12 @@ export default class MessageWhisper extends Vue {
   .whisper-right {
     flex: 1;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+
+    .right-wrap {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
     .w-title {
       background-color: #fff;
