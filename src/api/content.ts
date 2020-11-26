@@ -252,3 +252,12 @@ export const setIsRead = async (type: number, id: string, unRead = false) => {
 
   return axios.get(url);
 };
+
+/**
+ * 查询用户的私信窗口列表
+ * @param skip 跳过的页数
+ * @param limit 一页的条目数
+ */
+export const getRoomList = async (skip = 0, limit = 20) => {
+  return axios.get(`/content/getRoomList?skip=${skip}&limit=${limit}`);
+};
