@@ -11,6 +11,7 @@ import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 
 @Component
 export default class Scroll extends Vue {
+  @Prop({ default: null }) private onReachTop!: Function;
   @Prop({ default: null }) private onReachBottom!: Function;
   @Prop({ default: false }) private isEnd!: boolean;
   @Prop({ default: "top" }) private at!: string;
@@ -29,7 +30,16 @@ export default class Scroll extends Vue {
   private async handleScroll() {
     if (this.isEnd) return;
 
+    this.onReachTop && this.handleScrollTop();
     this.onReachBottom && this.handleScrollBottom();
+  }
+  // 到顶时触发
+  private async handleScrollTop() {
+    if (this.wrapBox.scrollTop === 0) {
+      this.canScroll = false;
+      await this.onReachTop();
+      this.canScroll = true;
+    }
   }
   // 到底时触发
   private async handleScrollBottom() {
