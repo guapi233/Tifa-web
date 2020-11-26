@@ -3,21 +3,23 @@
     <div class="whisper-left">
       <div class="w-title">近期消息</div>
       <div class="w-tab-list">
-        <div
-          class="w-tab-item"
-          v-for="room in roomList"
-          :key="room.roomId"
-          :class="{ 'w-active': room.roomId === curTab }"
-          @click="switchTab(room.roomId)"
-        >
-          <Avatar class="w-avatar" size="42" :src="room.opposite.pic" />
-          <div class="w-info">
-            <div class="w-name">{{ room.opposite.name }}</div>
-            <div class="w-tip">
-              {{ filteTabMsg(room.lastMsg.content) }}
+        <Scroll :onReachBottom="getRoomList" :isEnd="roomIsEnd">
+          <div
+            class="w-tab-item"
+            v-for="room in roomList"
+            :key="room.roomId"
+            :class="{ 'w-active': room.roomId === curTab }"
+            @click="switchTab(room.roomId)"
+          >
+            <Avatar class="w-avatar" size="42" :src="room.opposite.pic" />
+            <div class="w-info">
+              <div class="w-name">{{ room.opposite.name }}</div>
+              <div class="w-tip">
+                {{ filteTabMsg(room.lastMsg.content) }}
+              </div>
             </div>
           </div>
-        </div>
+        </Scroll>
       </div>
     </div>
 
@@ -72,8 +74,9 @@ import WhisperItem from "./WhisperItem.vue";
 export default class MessageWhisper extends Vue {
   // 左侧窗口列表控制变量
   private roomList: any = [];
-  private skip = 0;
   private curTab = "";
+  private roomSkip = 0;
+  private roomIsEnd = false;
   // 右侧私信内容控制变量
   private whisperList: any = [];
   private inputVal = "";
@@ -104,9 +107,10 @@ export default class MessageWhisper extends Vue {
 
   // 获取私信窗口列表
   private async getRoomList() {
-    const res: any = await getRoomList(this.skip++);
-
+    const res: any = await getRoomList(this.roomSkip++);
     this.roomList.push(...res);
+
+    if (!res[0]) this.roomIsEnd = true;
   }
   // 获取私信内容列表
   private async getWhisperList() {
