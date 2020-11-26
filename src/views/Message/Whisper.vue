@@ -22,7 +22,7 @@
     </div>
 
     <div class="whisper-right">
-      <div class="w-title">十二的名字叫难忘</div>
+      <div class="w-title">{{ curRoom.opposite.name }}</div>
       <div class="w-content">
         <WhisperItem
           v-for="msgObj in whisperList"
@@ -32,6 +32,8 @@
           :status="msgObj.status"
           :opposite="curRoom.opposite"
           :content="msgObj.content"
+          :createdShow="msgObj.createdShow"
+          :created="msgObj.created"
         />
       </div>
       <div class="w-input">
@@ -94,20 +96,36 @@ export default class MessageWhisper extends Vue {
     this.whisperList.unshift(...res);
   }
   // 切换Tab
-  private switchTab(wid: string) {
+  private async switchTab(wid: string) {
     if (wid === this.curTab) return;
 
     // 1. 切换左侧状态栏
     this.$router.replace(wid);
     this.curTab = wid;
 
-    // 2. 加载私信列表
+    // 2. 清空私信列表 & 加载私信列表 & 设置时间组
     this.whisperList = [];
-    this.getWhisperList();
+    await this.getWhisperList();
+    this.setWhisperTime(this.whisperList);
   }
   // 过滤提示信息
   private filteTabMsg(str: string) {
     return filteHTML(filteImg(str, "[图片]"));
+  }
+  // 设置时间组
+  private setWhisperTime(whisperList: any) {
+    let lastWhisperCreated = 0;
+    const threshold = 1000 * 60 * 5;
+
+    whisperList.forEach((whisper: any) => {
+      whisper.created = new Date(whisper.created);
+      // 如果该条消息的创建时间比上条消息的晚5分钟以内，则隐藏该条消息的时间
+      if (whisper.created - lastWhisperCreated < threshold) {
+        whisper.createdShow = false;
+      }
+
+      lastWhisperCreated = whisper.created;
+    });
   }
 }
 </script>

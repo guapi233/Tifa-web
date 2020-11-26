@@ -1,6 +1,6 @@
 <template>
   <div class="whisper-item-outermost">
-    <div class="msg-time">2020年11月21日 14:50</div>
+    <div class="msg-time" v-if="createdShow">{{ dateFormat(created) }}</div>
     <div class="notify-wrapper" v-if="!status">
       <span>{{ content }}</span>
     </div>
@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { dateFormat } from "@/utils/index";
 
 @Component
 export default class WhisperItem extends Vue {
@@ -48,7 +49,10 @@ export default class WhisperItem extends Vue {
   @Prop({ default: 0 }) type!: number; // 消息的类型：0文本、1图片
   @Prop({ default: 1 }) status!: number; // 消息的状态：1存在、0删除
   @Prop({ default: "" }) content!: string; // 内容
+  @Prop({ default: true }) createdShow!: boolean; // 是否展示时间
+  @Prop({ default: "" }) created!: Date; // 创建时间
   @Prop({ default: () => ({}) }) opposite!: any; // 对方的信息
+  private dateFormat = dateFormat;
 
   // 自己的信息
   private get self() {
