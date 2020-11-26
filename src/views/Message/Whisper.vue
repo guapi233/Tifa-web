@@ -24,37 +24,15 @@
     <div class="whisper-right">
       <div class="w-title">十二的名字叫难忘</div>
       <div class="w-content">
-        <div class="msg-time">2020年11月21日 14:50</div>
-        <div class="notify-wrapper"><span>对方撤回了一条消息</span></div>
-        <div class="msg-time">14:50</div>
-        <div class="msg-item is-me">
-          <Avatar class="avatar" size="30" />
-          <div class="message">
-            <div class="message-content not-img">1</div>
-          </div>
-        </div>
-        <div class="msg-item not-me">
-          <Avatar class="avatar" size="30" />
-          <div class="message">
-            <div class="message-content not-img">1</div>
-          </div>
-        </div>
-        <div class="msg-item is-me">
-          <Avatar class="avatar" size="30" />
-          <div class="message img-pad">
-            <div class="message-content">
-              <img src="../../../../timg.jpg" alt="" />
-            </div>
-          </div>
-        </div>
-        <div class="msg-item not-me">
-          <Avatar class="avatar" size="30" />
-          <div class="message img-pad">
-            <div class="message-content">
-              <img src="../../../../timg.jpg" alt="" />
-            </div>
-          </div>
-        </div>
+        <WhisperItem
+          v-for="msgObj in whisperList"
+          :key="msgObj.whisperId"
+          :me="msgObj.authorId === self"
+          :type="msgObj.type"
+          :status="msgObj.status"
+          :opposite="curRoom.opposite"
+          :content="msgObj.content"
+        />
       </div>
       <div class="w-input">
         <ReplyArea @onSubmit="1" :value.sync="inputVal" autoFlow height="90" />
@@ -65,20 +43,38 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getRoomList } from "@/api/content";
+import { filteHTML, filteImg } from "@/utils/index";
+import { getRoomList, getWhisperList } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
-import { filteHTML, filteImg } from "@/utils/index";
+import WhisperItem from "./WhisperItem.vue";
 
 @Component({
-  components: { Avatar, ReplyArea },
+  components: { Avatar, ReplyArea, WhisperItem },
 })
 export default class MessageWhisper extends Vue {
+  // 左侧窗口列表控制变量
   private roomList: any = [];
   private skip = 0;
   private curTab = "";
+  // 右侧私信内容控制变量
+  private whisperList: any = [];
   private inputVal = "";
 
+  // 自己的账号
+  private get self() {
+    return this.$store.state.userInfo.usernumber;
+  }
+  // 当前选中的房间对象
+  private get curRoom() {
+    return (
+      this.roomList.filter((room: any) => {
+        return room.roomId === this.curTab;
+      })[0] || {}
+    );
+  }
+
+  // 入口
   private created() {
     const { wid } = this.$route.params;
     wid && (this.curTab = wid);
@@ -92,12 +88,22 @@ export default class MessageWhisper extends Vue {
 
     this.roomList.push(...res);
   }
+  // 获取私信内容列表
+  private async getWhisperList() {
+    const res: any = await getWhisperList(this.curTab);
+    this.whisperList.unshift(...res);
+  }
   // 切换Tab
   private switchTab(wid: string) {
     if (wid === this.curTab) return;
 
+    // 1. 切换左侧状态栏
     this.$router.replace(wid);
     this.curTab = wid;
+
+    // 2. 加载私信列表
+    this.whisperList = [];
+    this.getWhisperList();
   }
   // 过滤提示信息
   private filteTabMsg(str: string) {
@@ -198,89 +204,6 @@ export default class MessageWhisper extends Vue {
       position: relative;
       overflow-x: hidden;
       overflow-y: scroll;
-
-      .msg-time {
-        padding: 16px 0 16px;
-        text-align: center;
-        color: #999;
-        font-size: 12px;
-        line-height: 22px;
-      }
-
-      .notify-wrapper {
-        display: flex;
-        justify-content: center;
-        padding: 0 10px;
-        color: #b2b2b2;
-        font-size: 12px;
-        line-height: 16px;
-        min-height: 30px;
-
-        span {
-          padding: 2px 20px;
-          background-color: #eaeaea;
-          border-radius: 10px;
-          line-height: 16px;
-          height: 20px;
-        }
-      }
-
-      .msg-item {
-        min-height: 48px;
-        padding: 0 16px 16px;
-        overflow: hidden;
-        position: relative;
-
-        .avatar {
-          float: left;
-        }
-
-        .message {
-          max-width: 480px;
-          margin: 0 10px;
-          position: relative;
-          overflow: hidden;
-          float: left;
-
-          .message-content {
-            line-height: 1.5;
-            font-size: 14px;
-            padding: 8px 16px;
-            word-wrap: break-word;
-            word-break: break-word;
-            border-radius: 0 16px 16px 16px;
-            overflow: hidden;
-            background: #fff;
-          }
-        }
-
-        .img-pad {
-          .message-content {
-            padding: 0;
-            background-color: transparent !important;
-
-            img {
-              max-width: 480px;
-            }
-          }
-        }
-      }
-
-      .is-me {
-        .avatar {
-          float: right;
-        }
-
-        .message {
-          float: right;
-          color: #fff;
-
-          .message-content {
-            background: #80b9f2;
-            border-radius: 16px 0 16px 16px;
-          }
-        }
-      }
     }
 
     .w-input {
