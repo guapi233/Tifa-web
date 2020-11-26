@@ -26,17 +26,19 @@
       <div class="right-wrap" v-else>
         <div class="w-title">{{ curRoom.opposite.name }}</div>
         <div class="w-content">
-          <WhisperItem
-            v-for="msgObj in whisperList"
-            :key="msgObj.whisperId"
-            :me="msgObj.authorId === self"
-            :type="msgObj.type"
-            :status="msgObj.status"
-            :opposite="curRoom.opposite"
-            :content="msgObj.content"
-            :createdShow="msgObj.createdShow"
-            :created="msgObj.created"
-          />
+          <Scroll>
+            <WhisperItem
+              v-for="msgObj in whisperList"
+              :key="msgObj.whisperId"
+              :me="msgObj.authorId === self"
+              :type="msgObj.type"
+              :status="msgObj.status"
+              :opposite="curRoom.opposite"
+              :content="msgObj.content"
+              :createdShow="msgObj.createdShow"
+              :created="msgObj.created"
+            />
+          </Scroll>
         </div>
         <div class="w-input">
           <ReplyArea
@@ -90,6 +92,7 @@ export default class MessageWhisper extends Vue {
     wid && (this.curTab = wid);
 
     this.getRoomList();
+    wid && this.getWhisperList();
   }
 
   // 获取私信窗口列表
@@ -232,8 +235,7 @@ export default class MessageWhisper extends Vue {
     .w-content {
       flex: 1;
       position: relative;
-      overflow-x: hidden;
-      overflow-y: scroll;
+      height: calc(100% - 36px - 162px);
     }
 
     .w-input {
