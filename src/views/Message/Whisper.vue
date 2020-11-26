@@ -26,7 +26,12 @@
       <div class="right-wrap" v-else>
         <div class="w-title">{{ curRoom.opposite.name }}</div>
         <div class="w-content">
-          <Scroll at="bottom" v-if="whisperList[0]">
+          <Scroll
+            at="bottom"
+            :onReachTop="getWhisperList"
+            :isEnd="whisperIsEnd"
+            v-if="whisperList[0]"
+          >
             <WhisperItem
               v-for="msgObj in whisperList"
               :key="msgObj.whisperId"
@@ -72,6 +77,8 @@ export default class MessageWhisper extends Vue {
   // 右侧私信内容控制变量
   private whisperList: any = [];
   private inputVal = "";
+  private whisperSkip = 0;
+  private whisperIsEnd = false;
 
   // 自己的账号
   private get self() {
@@ -103,8 +110,10 @@ export default class MessageWhisper extends Vue {
   }
   // 获取私信内容列表
   private async getWhisperList() {
-    const res: any = await getWhisperList(this.curTab);
+    const res: any = await getWhisperList(this.curTab, this.whisperSkip++);
     this.whisperList.unshift(...res);
+
+    if (!res[0]) this.whisperIsEnd = true;
 
     // 设置时间组
     this.setWhisperTime(this.whisperList);
@@ -117,8 +126,10 @@ export default class MessageWhisper extends Vue {
     this.$router.replace(wid);
     this.curTab = wid;
 
-    // 2. 清空私信列表 & 加载私信列表 & 设置时间组
+    // 2. 清空私信列表 & 清0跳过的页数 & 启动上拉刷新 & 加载私信列表
     this.whisperList = [];
+    this.whisperSkip = 0;
+    this.whisperIsEnd = false;
     this.getWhisperList();
   }
   // 过滤提示信息
