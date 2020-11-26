@@ -11,15 +11,28 @@ import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 
 @Component
 export default class Scroll extends Vue {
-  @Prop({ default: () => 1 }) private onReachBottom!: Function;
+  @Prop({ default: null }) private onReachBottom!: Function;
   @Prop({ default: false }) private isEnd!: boolean;
+  @Prop({ default: "top" }) private at!: string;
   @Ref("wrapBox") private wrapBox!: any;
   @Ref("contentBox") private contentBox!: any;
   private canScroll = true;
 
+  // 入口
+  private mounted() {
+    this.canScroll = false;
+    this.setScrollPos();
+    this.canScroll = true;
+  }
+
+  // 处理滚动
   private async handleScroll() {
     if (this.isEnd) return;
 
+    this.onReachBottom && this.handleScrollBottom();
+  }
+  // 到底时触发
+  private async handleScrollBottom() {
     if (
       this.wrapBox.scrollTop + this.wrapBox.clientHeight >=
       this.contentBox.clientHeight
@@ -29,12 +42,22 @@ export default class Scroll extends Vue {
       this.canScroll = true;
     }
   }
+
+  // 设置滚动条盘位置
+  private setScrollPos() {
+    if (this.at === "bottom") {
+      this.wrapBox.scrollTop =
+        this.contentBox.clientHeight - this.wrapBox.clientHeight;
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 .scroll-outermost {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
+  padding-right: 5px;
 }
 </style>
