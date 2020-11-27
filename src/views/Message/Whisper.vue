@@ -20,6 +20,10 @@
                 {{ filteTabMsg(room.lastMsg.content) }}
               </div>
             </div>
+            <!-- 关闭 -->
+            <div class="w-close-box" title="关闭该私信窗口">
+              <Icon type="md-close" size="18" />
+            </div>
           </div>
         </Scroll>
       </div>
@@ -276,6 +280,14 @@ export default class MessageWhisper extends Vue {
         overflow: hidden;
         cursor: pointer;
 
+        &:hover {
+          background-color: #e4e5e6;
+
+          .w-close-box {
+            transform: translate(0%, -50%);
+          }
+        }
+
         .w-avatar {
           margin-right: 8px;
         }
@@ -302,6 +314,15 @@ export default class MessageWhisper extends Vue {
             text-overflow: ellipsis;
             padding: 8px 0;
           }
+        }
+
+        .w-close-box {
+          position: absolute;
+          top: 50%;
+          transform: translate(-130%, -50%);
+          transition: 0.3s ease;
+          left: 5px;
+          color: red;
         }
       }
 
