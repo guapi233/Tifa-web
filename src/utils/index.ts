@@ -39,16 +39,20 @@ export const delStorage = (key: string) => {
  * 返回一个 用于返回页面顶部 的方法
  * 实现原理可参考：https://github.com/guapi233/Blog/issues/31
  * @param { Number } scrollTiming 持续时长，默认300ms
+ * @param { HTMLObjectElement } scroller 滚动对象（默认为window）
+ * @returns { Function } 返回函数(des 【目标值】)
  */
-
-export const slidePage = (scrollTiming = 300) => {
+export const slidePage = (scrollTiming = 300, scroller: any = window) => {
   let timer = 0;
 
   return (des = 0) => {
     des = Number(des) || 0; // 防止直接传入模板中，des变成eventObj
     cancelAnimationFrame(timer);
 
-    const b = document.body.scrollTop || document.documentElement.scrollTop;
+    const b =
+      scroller === window
+        ? document.body.scrollTop || document.documentElement.scrollTop
+        : scroller.scrollTop;
     const c = des - b;
 
     const startTime = Date.now();
@@ -57,7 +61,7 @@ export const slidePage = (scrollTiming = 300) => {
       const t =
         scrollTiming - Math.max(0, startTime - Date.now() + scrollTiming);
 
-      window.scrollTo(0, b + (c / scrollTiming) * t);
+      scroller.scrollTo(0, b + (c / scrollTiming) * t);
 
       timer = requestAnimationFrame(func);
 
