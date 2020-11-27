@@ -1,5 +1,5 @@
 <template>
-  <div class="reply-area-outermost">
+  <div class="reply-area-outermost" v-on="$listeners">
     <!-- <div class="backdrop">
       <div class="highlights"></div>
     </div> -->
