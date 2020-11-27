@@ -6,7 +6,7 @@
         <Scroll :onReachBottom="getRoomList" :isEnd="roomIsEnd">
           <div
             class="w-tab-item"
-            v-for="room in roomList"
+            v-for="(room, index) in roomList"
             :key="room.roomId"
             :class="{ 'w-active': room.roomId === curTab }"
             @click="switchTab(room.roomId)"
@@ -21,7 +21,11 @@
               </div>
             </div>
             <!-- 关闭 -->
-            <div class="w-close-box" title="关闭该私信窗口">
+            <div
+              class="w-close-box"
+              title="关闭该私信窗口"
+              @click.stop="setRoomShow(index, room.roomId)"
+            >
               <Icon type="md-close" size="18" />
             </div>
           </div>
@@ -76,6 +80,7 @@ import {
   getWhisperList,
   addWhisper,
   setIsRead,
+  setRoomShow,
 } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
@@ -239,6 +244,18 @@ export default class MessageWhisper extends Vue {
       this.setWhisperTime(this.whisperList);
       this.curRoom.lastMsg = msg;
     });
+  }
+  // 关闭窗口
+  private async setRoomShow(index: number, roomId: string) {
+    const res = await setRoomShow(roomId, 0);
+    if (!res) return;
+
+    this.roomList.splice(index, 1);
+    // 当前打开的窗口是否要被删除的窗口
+    if (this.curTab === roomId) {
+      this.$router.replace("/message/whisper/");
+      this.curTab = "";
+    }
   }
 }
 </script>
