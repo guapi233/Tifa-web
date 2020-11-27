@@ -80,6 +80,9 @@ const store = new Vuex.Store({
 
     // 设置新消息提醒
     setNewMes(state, { type, val }: { type: string; val: number }) {
+      // 如果val为0，则代表清空
+      if (val === 0) return ((state as any)[`new${type}`] = 0);
+
       (state as any)[`new${type}`] += val;
     },
   },
