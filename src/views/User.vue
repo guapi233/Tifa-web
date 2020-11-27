@@ -36,7 +36,7 @@
               >
             </div>
             <div class="oper-item">
-              <Button shape="circle">私信</Button>
+              <Button shape="circle" @click="toWhisper">私信</Button>
             </div>
           </div>
         </div>
@@ -184,8 +184,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { getUserInfo } from "@/api/public";
-import UserTitle from "@/components/UserTitle.vue";
 import { followUser } from "@/api/user";
+import { addRoom } from "@/api/content";
+import UserTitle from "@/components/UserTitle.vue";
 import ReportModal from "@/components/ReportModal.vue";
 
 @Component({
@@ -235,6 +236,14 @@ export default class User extends Vue {
     } else if (typeof res === "string") {
       this.$Message.info(res);
       this.userInfo.isFollowed = 0;
+    }
+  }
+  // 发起私信
+  private async toWhisper() {
+    const res = await addRoom(this.userInfo.usernumber);
+
+    if (res) {
+      this.$router.replace(`/message/whisper/${res}`);
     }
   }
 }
