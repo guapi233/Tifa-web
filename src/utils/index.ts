@@ -106,7 +106,10 @@ export const dateFormat = (date: string | number) => {
     return `${Math.floor(difference / 1000 / 60)} 分钟前`;
   } else if (difference > oneHour && difference <= today) {
     return `${Math.floor(difference / 1000 / 60 / 60)} 小时前`;
-  } else if (difference > today && difference <= yesterday) {
+  } else if (
+    new Date(now).getDate() - new Date(date).getDate() === 1 &&
+    difference <= yesterday
+  ) {
     return `昨天 ${dateObj
       .getHours()
       .toString()
