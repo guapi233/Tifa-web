@@ -27,11 +27,12 @@ const store = new Vuex.Store({
     newcomment: 0,
     newfollow: 0,
     newsystem: 0,
+    newwhisper: 0,
   },
   getters: {
     newMes(state) {
-      const { newlike, newcomment, newfollow, newsystem } = state;
-      return newlike + newcomment + newfollow + newsystem;
+      const { newlike, newcomment, newfollow, newsystem, newwhisper } = state;
+      return newlike + newcomment + newfollow + newsystem + newwhisper;
     },
   },
   mutations: {
