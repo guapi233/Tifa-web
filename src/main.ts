@@ -72,6 +72,7 @@ Vue.component("Scroll", Scroll);
 Vue.directive("highlight", highlight);
 
 Vue.prototype.$Message = Message;
+Vue.prototype.$bus = new Vue();
 
 Vue.config.productionTip = false;
 
