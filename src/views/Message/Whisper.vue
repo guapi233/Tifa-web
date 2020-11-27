@@ -66,7 +66,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { filteHTML, filteImg } from "@/utils/index";
-import { getRoomList, getWhisperList, addWhisper } from "@/api/content";
+import {
+  getRoomList,
+  getWhisperList,
+  addWhisper,
+  setIsRead,
+} from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
 import WhisperItem from "./WhisperItem.vue";
@@ -130,6 +135,8 @@ export default class MessageWhisper extends Vue {
 
     // 设置时间组
     this.setWhisperTime(this.whisperList);
+    // 设置已读
+    this.whisperSkip === 1 && this.setIsRead();
 
     return res.length;
   }
@@ -141,7 +148,7 @@ export default class MessageWhisper extends Vue {
     this.$router.replace(wid);
     this.curTab = wid;
 
-    // 2. 清空私信列表 & 清0跳过的页数 & 启动上拉刷新 & 加载私信列表 & 清空新消息数
+    // 2. 清空私信列表 & 清0跳过的页数 & 重新打开上拉加载 & 加载私信列表 & 清空新消息数
     this.whisperList = [];
     this.whisperSkip = 0;
     this.whisperIsEnd = false;
@@ -191,12 +198,20 @@ export default class MessageWhisper extends Vue {
         res.createdShow = false;
       }
 
-      // 添加到数组 & 清空输入框 & 回到底部 & 新消息++
+      // 添加到数组 & 清空输入框 & 回到底部 & 新消息++ & 清空提示
       this.whisperList.push(res);
       this.inputVal = "";
       this.whisperScrollTo && this.whisperScrollTo("bottom", true);
       this.newWhisperCount++;
+      this.setIsRead();
     }
+  }
+  // 设置已读
+  private async setIsRead() {
+    setTimeout(() => {
+      this.curRoom.newMsgCount && setIsRead(4, this.curTab);
+      this.curRoom.newMsgCount = 0;
+    });
   }
 }
 </script>
