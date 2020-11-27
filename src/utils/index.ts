@@ -263,6 +263,7 @@ export const hasElm = (wrap: any, elm: any) => {
  */
 export const filteHTML = (str: string, replaced = "") => {
   const reg = /<[^>]*>|<\/[^>]*>/gm;
+  str = str.replace("&nbsp;", " ");
 
   return str.replace(reg, replaced);
 };
