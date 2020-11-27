@@ -52,6 +52,7 @@
         </div>
         <div class="w-input">
           <ReplyArea
+            @keydown.ctrl.enter="addWhisper"
             @onSubmit="addWhisper"
             :value.sync="inputVal"
             autoFlow
@@ -109,13 +110,20 @@ export default class MessageWhisper extends Vue {
 
   // 入口
   private created() {
+    this.init();
+  }
+
+  // 初始化
+  private async init() {
     const { wid } = this.$route.params;
     wid && (this.curTab = wid);
 
     this.getRoomList();
-    wid && this.getWhisperList();
-  }
+    wid && (await this.getWhisperList());
 
+    // 监听新消息
+    this.installEventBus();
+  }
   // 获取私信窗口列表
   private async getRoomList() {
     const res: any = await getRoomList(this.roomSkip++);
@@ -181,6 +189,8 @@ export default class MessageWhisper extends Vue {
   }
   // 发送私信
   private async addWhisper() {
+    if (this.inputVal === "") return;
+
     const res: any = await addWhisper(
       this.curRoom.oppositeId,
       this.curRoom.roomId,
@@ -198,12 +208,13 @@ export default class MessageWhisper extends Vue {
         res.createdShow = false;
       }
 
-      // 添加到数组 & 清空输入框 & 回到底部 & 新消息++ & 清空提示
+      // 添加到数组 & 清空输入框 & 回到底部 & 新消息++ & 清空提示 & 设置room底部提示为最新消息
       this.whisperList.push(res);
       this.inputVal = "";
       this.whisperScrollTo && this.whisperScrollTo("bottom", true);
       this.newWhisperCount++;
       this.setIsRead();
+      this.curRoom.lastMsg = res;
     }
   }
   // 设置已读
@@ -211,6 +222,18 @@ export default class MessageWhisper extends Vue {
     setTimeout(() => {
       this.curRoom.newMsgCount && setIsRead(4, this.curTab);
       this.curRoom.newMsgCount = 0;
+    });
+  }
+  // 监听EventBus带来的消息
+  private async installEventBus() {
+    // 监听新消息（消息来自vuex）
+    (this as any).$bus.$on("hasNewMsg", (msg: any) => {
+      // 添加数据 & 提示总数++ & 滚动到底部 & 设置时间组 & 设置room底部提示为最新消息
+      this.whisperList.push(msg);
+      this.curRoom.newMsgCount++;
+      this.whisperScrollTo && this.whisperScrollTo("bottom", true);
+      this.setWhisperTime(this.whisperList);
+      this.curRoom.lastMsg = msg;
     });
   }
 }
