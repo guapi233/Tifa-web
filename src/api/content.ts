@@ -273,3 +273,17 @@ export const getWhisperList = async (roomId: string, skip = 0, limit = 20) => {
     `/content/getWhisperList?roomId=${roomId}&skip=${skip}&limit=${limit}`
   );
 };
+
+/**
+ * 发送私信
+ * @param roomId 房间Id
+ * @param content 内容
+ * @param type 内容类型
+ */
+export const addWhisper = async (roomId: string, content: string, type = 0) => {
+  return axios.post("/content/addWhisper", {
+    roomId,
+    content,
+    type,
+  });
+};
