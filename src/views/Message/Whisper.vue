@@ -30,6 +30,7 @@
         <div class="w-content">
           <Scroll
             at="bottom"
+            :onReady="whisperSliderReady"
             :onReachTop="getWhisperList"
             :isEnd="whisperIsEnd"
             v-if="whisperList[0]"
@@ -83,6 +84,8 @@ export default class MessageWhisper extends Vue {
   private whisperSkip = 0;
   private whisperIsEnd = false;
   private threshold = 1000 * 60 * 5;
+  private whisperScrollTo: null | Function = null;
+  private newWhisperCount = 0;
 
   // 自己的账号
   private get self() {
@@ -115,13 +118,18 @@ export default class MessageWhisper extends Vue {
   }
   // 获取私信内容列表
   private async getWhisperList() {
-    const res: any = await getWhisperList(this.curTab, this.whisperSkip++);
+    const res: any = await getWhisperList(
+      this.curTab,
+      this.whisperSkip++ * 20 + this.newWhisperCount
+    );
     this.whisperList.unshift(...res);
 
     if (!res[0]) this.whisperIsEnd = true;
 
     // 设置时间组
     this.setWhisperTime(this.whisperList);
+
+    return res.length;
   }
   // 切换Tab
   private async switchTab(wid: string) {
@@ -131,11 +139,12 @@ export default class MessageWhisper extends Vue {
     this.$router.replace(wid);
     this.curTab = wid;
 
-    // 2. 清空私信列表 & 清0跳过的页数 & 启动上拉刷新 & 加载私信列表
+    // 2. 清空私信列表 & 清0跳过的页数 & 启动上拉刷新 & 加载私信列表 & 清空新消息数
     this.whisperList = [];
     this.whisperSkip = 0;
     this.whisperIsEnd = false;
     this.getWhisperList();
+    this.newWhisperCount = 0;
   }
   // 过滤提示信息
   private filteTabMsg(str: string) {
@@ -156,6 +165,11 @@ export default class MessageWhisper extends Vue {
       lastWhisperCreated = whisper.created;
     });
   }
+  // 私信滚动条初始化完毕
+  private whisperSliderReady(tools: any) {
+    const { scrollTo } = tools;
+    this.whisperScrollTo = scrollTo;
+  }
   // 发送私信
   private async addWhisper() {
     const res: any = await addWhisper(this.curRoom.roomId, this.inputVal);
@@ -163,7 +177,7 @@ export default class MessageWhisper extends Vue {
     if (res) {
       // 判断是否展示时间
       const whisperList = this.whisperList;
-      const msgCreated: any = new Date(res.created);
+      const msgCreated: any = (res.created = new Date(res.created));
       const lastMsgCreated = whisperList.length
         ? whisperList[whisperList.length - 1].created
         : 0;
@@ -171,8 +185,11 @@ export default class MessageWhisper extends Vue {
         res.createdShow = false;
       }
 
-      // 添加到数组
+      // 添加到数组 & 清空输入框 & 回到底部 & 新消息++
       this.whisperList.push(res);
+      this.inputVal = "";
+      this.whisperScrollTo && this.whisperScrollTo("bottom", true);
+      this.newWhisperCount++;
     }
   }
 }
@@ -274,11 +291,16 @@ export default class MessageWhisper extends Vue {
       position: relative;
       height: calc(100% - 36px - 162px);
 
-      .emoji-size-small,
+      .emoji-size-small {
+        width: 24px;
+        height: 24px;
+        vertical-align: text-bottom;
+      }
+
       .emoji-size-big {
-        width: 18px;
-        height: 18px;
-        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        vertical-align: text-bottom;
       }
     }
 
