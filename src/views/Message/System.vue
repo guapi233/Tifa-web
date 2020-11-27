@@ -38,7 +38,7 @@ export default class MessageSystem extends Vue {
     }
 
     // 设置已读
-    !this.skip && this.setIsRead();
+    this.skip === 1 && this.setIsRead();
   }
 
   // 设置已读
