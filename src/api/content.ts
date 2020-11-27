@@ -294,3 +294,12 @@ export const addWhisper = async (
     type,
   });
 };
+
+/**
+ * 开/关私信窗口
+ * @param roomId 窗口Id
+ * @param show 展示状态（1展示、0关闭）
+ */
+export const setRoomShow = async (roomId: string, show: number) => {
+  return axios.get(`/content/setRoomShow?roomId=${roomId}&show=${show}`);
+};
