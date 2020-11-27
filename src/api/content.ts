@@ -303,3 +303,11 @@ export const addWhisper = async (
 export const setRoomShow = async (roomId: string, show: number) => {
   return axios.get(`/content/setRoomShow?roomId=${roomId}&show=${show}`);
 };
+
+/**
+ * 发起私信（创建窗口，有就打开）
+ * @param oppositeId 对方Id
+ */
+export const addRoom = async (oppositeId: string) => {
+  return axios.get(`/content/addRoom?oppositeId=${oppositeId}`);
+};
