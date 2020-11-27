@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { getStorage, setStorage } from "@/utils/index";
 import initSocket from "@/utils/socket";
+import app from "@/main";
 
 Vue.use(Vuex);
 
@@ -80,9 +81,17 @@ const store = new Vuex.Store({
     },
 
     // 设置新消息提醒
-    setNewMes(state, { type, val }: { type: string; val: number }) {
+    setNewMes(state, { type, val }: { type: string; val: any }) {
       // 如果val为0，则代表清空
       if (val === 0) return ((state as any)[`new${type}`] = 0);
+
+      // 如果val对象，则为私信信息对象
+      if (typeof val === "object") {
+        state.newwhisper += 1;
+        // 通过全局总线发送新消息到 views/Message/Whisper.vue
+        (app as any).$bus.$emit("hasNewMsg", val);
+        return;
+      }
 
       (state as any)[`new${type}`] += val;
     },
