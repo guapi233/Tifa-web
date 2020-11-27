@@ -49,7 +49,7 @@
         </div>
         <div class="w-input">
           <ReplyArea
-            @onSubmit="1"
+            @onSubmit="addWhisper"
             :value.sync="inputVal"
             autoFlow
             height="90"
@@ -63,7 +63,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { filteHTML, filteImg } from "@/utils/index";
-import { getRoomList, getWhisperList } from "@/api/content";
+import { getRoomList, getWhisperList, addWhisper } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
 import WhisperItem from "./WhisperItem.vue";
@@ -82,6 +82,7 @@ export default class MessageWhisper extends Vue {
   private inputVal = "";
   private whisperSkip = 0;
   private whisperIsEnd = false;
+  private threshold = 1000 * 60 * 5;
 
   // 自己的账号
   private get self() {
@@ -143,7 +144,7 @@ export default class MessageWhisper extends Vue {
   // 设置时间组
   private setWhisperTime(whisperList: any) {
     let lastWhisperCreated = 0;
-    const threshold = 1000 * 60 * 5;
+    const threshold = this.threshold;
 
     whisperList.forEach((whisper: any) => {
       whisper.created = new Date(whisper.created);
@@ -154,6 +155,25 @@ export default class MessageWhisper extends Vue {
 
       lastWhisperCreated = whisper.created;
     });
+  }
+  // 发送私信
+  private async addWhisper() {
+    const res: any = await addWhisper(this.curRoom.roomId, this.inputVal);
+
+    if (res) {
+      // 判断是否展示时间
+      const whisperList = this.whisperList;
+      const msgCreated: any = new Date(res.created);
+      const lastMsgCreated = whisperList.length
+        ? whisperList[whisperList.length - 1].created
+        : 0;
+      if (msgCreated - lastMsgCreated < this.threshold) {
+        res.createdShow = false;
+      }
+
+      // 添加到数组
+      this.whisperList.push(res);
+    }
   }
 }
 </script>
@@ -253,6 +273,13 @@ export default class MessageWhisper extends Vue {
       flex: 1;
       position: relative;
       height: calc(100% - 36px - 162px);
+
+      .emoji-size-small,
+      .emoji-size-big {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle;
+      }
     }
 
     .w-input {
