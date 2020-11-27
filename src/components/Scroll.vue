@@ -32,7 +32,9 @@ export default class Scroll extends Vue {
     this.setScrollPos(); // 初始化滚动条位置
     this.slider = slidePage(300, this.wrapBox); // 初始化滑动器
     this.slidePos = {
-      bottom: () => this.contentBox.scrollHeight - this.wrapBox.clientHeight,
+      bottom: () => {
+        return this.contentBox.scrollHeight - this.wrapBox.clientHeight;
+      },
     }; // 初始化滚动语义
     this.canScroll = true;
 
