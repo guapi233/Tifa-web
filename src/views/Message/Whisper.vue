@@ -11,7 +11,9 @@
             :class="{ 'w-active': room.roomId === curTab }"
             @click="switchTab(room.roomId)"
           >
-            <Avatar class="w-avatar" size="42" :src="room.opposite.pic" />
+            <Badge :count="room.newMsgCount" :offset="[0, 10]">
+              <Avatar class="w-avatar" size="42" :src="room.opposite.pic" />
+            </Badge>
             <div class="w-info">
               <div class="w-name">{{ room.opposite.name }}</div>
               <div class="w-tip">
@@ -172,7 +174,11 @@ export default class MessageWhisper extends Vue {
   }
   // 发送私信
   private async addWhisper() {
-    const res: any = await addWhisper(this.curRoom.roomId, this.inputVal);
+    const res: any = await addWhisper(
+      this.curRoom.oppositeId,
+      this.curRoom.roomId,
+      this.inputVal
+    );
 
     if (res) {
       // 判断是否展示时间
@@ -244,6 +250,10 @@ export default class MessageWhisper extends Vue {
 
           .w-name {
             color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 150px;
           }
           .w-tip {
             color: $contentColor;
