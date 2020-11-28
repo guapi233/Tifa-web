@@ -320,3 +320,11 @@ export const addRoom = async (oppositeId: string) => {
 export const setRoomTop = async (roomId: string, topping: number) => {
   return axios.get(`/content/setRoomTop?roomId=${roomId}&topping=${topping}`);
 };
+
+/**
+ * 撤回私信
+ * @param whisperId 私信Id
+ */
+export const withdrawWhisper = async (whisperId: string) => {
+  return axios.get(`/content/withdrawWhisper?whisperId=${whisperId}`);
+};
