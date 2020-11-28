@@ -62,7 +62,7 @@
             </Dropdown>
           </div>
         </div>
-        <div class="w-content">
+        <div class="w-content" v-contextmenu="{ aa: () => 1, bb: () => 2 }">
           <Scroll
             at="bottom"
             :onReady="whisperSliderReady"
@@ -80,6 +80,7 @@
               :content="msgObj.content"
               :createdShow="msgObj.createdShow"
               :created="msgObj.created"
+              :whisperId="msgObj.whisperId"
             />
           </Scroll>
         </div>
