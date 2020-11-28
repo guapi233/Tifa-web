@@ -43,7 +43,14 @@
               <Icon class="w-icon" type="ios-more" size="24" />
 
               <DropdownMenu slot="list">
-                <DropdownItem>置顶</DropdownItem>
+                <DropdownItem
+                  v-if="!curRoom.topping"
+                  @click.native="setRoomTop(1)"
+                  >置顶</DropdownItem
+                >
+                <DropdownItem v-else @click.native="setRoomTop(0)"
+                  >取消置顶</DropdownItem
+                >
                 <DropdownItem>开启免打扰</DropdownItem>
                 <DropdownItem>加入黑名单</DropdownItem>
                 <DropdownItem>举报该用户</DropdownItem>
@@ -95,6 +102,7 @@ import {
   addWhisper,
   setIsRead,
   setRoomShow,
+  setRoomTop,
 } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
@@ -269,6 +277,15 @@ export default class MessageWhisper extends Vue {
     if (this.curTab === roomId) {
       this.$router.replace("/message/whisper/");
       this.curTab = "";
+    }
+  }
+  // 置顶窗口
+  private async setRoomTop(topping: number) {
+    const res: any = await setRoomTop(this.curRoom.roomId, topping);
+
+    console.log(res);
+    if (res === 1) {
+      console.log("设置成功");
     }
   }
 }
