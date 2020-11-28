@@ -7,21 +7,25 @@
     <!-- 我说的话 -->
     <div class="msg-item is-me" v-else-if="me && type === 0">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message" :data-contextmenu="whisperId">
+      <div class="message" :data-contextmenu="whisperId" data-menuvalid="me">
         <div class="message-content not-img" v-html="content"></div>
       </div>
     </div>
     <!-- 对方说的话 -->
     <div class="msg-item not-me" v-else-if="type === 0">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message" :data-contextmenu="whisperId">
+      <div class="message" :data-contextmenu="whisperId" data-menuvalid="oppo">
         <div class="message-content not-img" v-html="content">1</div>
       </div>
     </div>
     <!-- 我发的图 -->
     <div class="msg-item is-me" v-else-if="me && type === 1">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message img-pad" :data-contextmenu="whisperId">
+      <div
+        class="message img-pad"
+        :data-contextmenu="whisperId"
+        data-menuvalid="me"
+      >
         <div class="message-content">
           <img :src="content" alt="" />
         </div>
@@ -30,7 +34,11 @@
     <!-- 对方发的图 -->
     <div class="msg-item not-me" v-else-if="type === 1">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message img-pad" :data-contextmenu="whisperId">
+      <div
+        class="message img-pad"
+        :data-contextmenu="whisperId"
+        data-menuvalid="oppo"
+      >
         <div class="message-content">
           <img :src="content" alt="" />
         </div>

@@ -62,7 +62,19 @@
             </Dropdown>
           </div>
         </div>
-        <div class="w-content" v-contextmenu="{ aa: () => 1, bb: () => 2 }">
+        <div
+          class="w-content"
+          v-contextmenu="{
+            aa: {
+              valid: (value) => value === 'oppo',
+              cb: () => log(1),
+            },
+            bb: {
+              valid: (value) => value === 'me',
+              cb: () => log(2),
+            },
+          }"
+        >
           <Scroll
             at="bottom"
             :onReady="whisperSliderReady"
@@ -133,6 +145,8 @@ export default class MessageWhisper extends Vue {
   private whisperScrollTo: null | Function = null;
   private newWhisperCount = 0;
 
+  private log = console.log;
+  private a = 1;
   // 自己的账号
   private get self() {
     return this.$store.state.userInfo.usernumber;
