@@ -41,7 +41,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { dateFormat } from "@/utils/index";
 
 @Component
 export default class WhisperItem extends Vue {
@@ -52,7 +51,6 @@ export default class WhisperItem extends Vue {
   @Prop({ default: true }) createdShow!: boolean; // 是否展示时间
   @Prop({ default: "" }) created!: Date; // 创建时间
   @Prop({ default: () => ({}) }) opposite!: any; // 对方的信息
-  private dateFormat = dateFormat;
 
   // 自己的信息
   private get self() {
@@ -61,6 +59,29 @@ export default class WhisperItem extends Vue {
   // 是对方的头像还是自己的头像
   private get avatar() {
     return this.me ? this.self.pic : this.opposite.pic;
+  }
+
+  // 时间格式化
+  private dateFormat(date: any) {
+    date = typeof date === "object" ? date : new Date(date);
+    let result = "";
+    const now = new Date(),
+      day = date.getDate().toString().padStart(2, "0"),
+      hour = date.getHours().toString().padStart(2, "0"),
+      minutes = date.getMinutes().toString().padStart(2, "0");
+
+    if (
+      now.getDate() - date.getDate() === 0 &&
+      now.getTime() - date.getTime() < 86400000
+    ) {
+      result = `${hour}:${minutes}`;
+    } else {
+      result = `${date.getFullYear()}年${
+        date.getMonth() + 1
+      }月${day}日 ${hour}:${minutes}`;
+    }
+
+    return result;
   }
 }
 </script>
