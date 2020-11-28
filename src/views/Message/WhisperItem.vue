@@ -7,21 +7,21 @@
     <!-- 我说的话 -->
     <div class="msg-item is-me" v-else-if="me && type === 0">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message">
+      <div class="message" :data-contextmenu="whisperId">
         <div class="message-content not-img" v-html="content"></div>
       </div>
     </div>
     <!-- 对方说的话 -->
     <div class="msg-item not-me" v-else-if="type === 0">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message">
+      <div class="message" :data-contextmenu="whisperId">
         <div class="message-content not-img" v-html="content">1</div>
       </div>
     </div>
     <!-- 我发的图 -->
     <div class="msg-item is-me" v-else-if="me && type === 1">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message img-pad">
+      <div class="message img-pad" :data-contextmenu="whisperId">
         <div class="message-content">
           <img :src="content" alt="" />
         </div>
@@ -30,7 +30,7 @@
     <!-- 对方发的图 -->
     <div class="msg-item not-me" v-else-if="type === 1">
       <Avatar class="avatar" size="30" :src="avatar" />
-      <div class="message img-pad">
+      <div class="message img-pad" :data-contextmenu="whisperId">
         <div class="message-content">
           <img :src="content" alt="" />
         </div>
@@ -51,6 +51,7 @@ export default class WhisperItem extends Vue {
   @Prop({ default: true }) createdShow!: boolean; // 是否展示时间
   @Prop({ default: "" }) created!: Date; // 创建时间
   @Prop({ default: () => ({}) }) opposite!: any; // 对方的信息
+  @Prop({ default: "" }) whisperId!: string; // 私信Id
 
   // 自己的信息
   private get self() {
