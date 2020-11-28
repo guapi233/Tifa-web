@@ -26,7 +26,12 @@ const removeContextMenuBox = () => {
   contextMenuBox = null;
 };
 // 创建contextmenu
-const createContextMenu = (expression: any, left: string, top: string) => {
+const createContextMenu = (
+  expression: any,
+  left: string,
+  top: string,
+  valid: any
+) => {
   // 1. create contextmenu
   const contextMenuBox = document.createElement("div");
   contextMenuBox.style.cssText = `
@@ -55,6 +60,11 @@ const createContextMenu = (expression: any, left: string, top: string) => {
 
   // 2. create and make item of contextmenu
   Object.keys(expression).forEach((key: any) => {
+    // valid menuItem as if value of expression is a object
+    let menuItem = expression[key];
+    if (typeof menuItem === "object" && !menuItem.valid(valid)) return;
+    else if (typeof menuItem === "object") menuItem = menuItem.cb;
+
     const contextMenuLiBox = document.createElement("li");
     contextMenuLiBox.style.cssText = `
         padding: 6px 12px 3px 12px;
@@ -70,7 +80,7 @@ const createContextMenu = (expression: any, left: string, top: string) => {
       (e) => (contextMenuLiBox.style.background = "transparent")
     );
     contextMenuLiBox.addEventListener("click", (e: any) => {
-      expression[key](key);
+      menuItem(key);
       removeContextMenuBox();
     });
 
@@ -86,10 +96,16 @@ const contextmenuBind = (el: any, payload: any) => {
   contextMenuEl = el;
 
   el.addEventListener("contextmenu", (e: any) => {
-    if (!selectEle(e.path, "contextmenu")) return;
+    const result = selectEle(e.path, "contextmenu");
+    if (!result) return;
 
     contextMenuBox && el.removeChild(contextMenuBox);
-    contextMenuBox = createContextMenu(value, e.clientX, e.clientY);
+    contextMenuBox = createContextMenu(
+      value,
+      e.clientX,
+      e.clientY,
+      result.dataset.menuvalid
+    );
     el.appendChild(contextMenuBox);
 
     e.preventDefault();
