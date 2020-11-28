@@ -19,7 +19,7 @@ export const highlight = (el: any) => {
  * 右键创建上下文菜单
  */
 let contextMenuBox: any = null,
-  contextMenuEl;
+  contextMenuEl: any;
 // 移除contextMenuBox
 const removeContextMenuBox = () => {
   contextMenuBox && contextMenuEl.removeChild(contextMenuBox);
@@ -30,7 +30,7 @@ const createContextMenu = (
   expression: any,
   left: string,
   top: string,
-  valid: any
+  dataset: any
 ) => {
   // 1. create contextmenu
   const contextMenuBox = document.createElement("div");
@@ -62,7 +62,8 @@ const createContextMenu = (
   Object.keys(expression).forEach((key: any) => {
     // valid menuItem as if value of expression is a object
     let menuItem = expression[key];
-    if (typeof menuItem === "object" && !menuItem.valid(valid)) return;
+    if (typeof menuItem === "object" && !menuItem.valid(dataset.menuvalid))
+      return;
     else if (typeof menuItem === "object") menuItem = menuItem.cb;
 
     const contextMenuLiBox = document.createElement("li");
@@ -80,7 +81,7 @@ const createContextMenu = (
       (e) => (contextMenuLiBox.style.background = "transparent")
     );
     contextMenuLiBox.addEventListener("click", (e: any) => {
-      menuItem(key);
+      menuItem(dataset.contextmenu);
       removeContextMenuBox();
     });
 
@@ -104,7 +105,7 @@ const contextmenuBind = (el: any, payload: any) => {
       value,
       e.clientX,
       e.clientY,
-      result.dataset.menuvalid
+      result.dataset
     );
     el.appendChild(contextMenuBox);
 
