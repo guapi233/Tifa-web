@@ -20,6 +20,11 @@ export const highlight = (el: any) => {
  */
 let contextMenuBox: any = null,
   contextMenuEl;
+// 移除contextMenuBox
+const removeContextMenuBox = () => {
+  contextMenuBox && contextMenuEl.removeChild(contextMenuBox);
+  contextMenuBox = null;
+};
 // 创建contextmenu
 const createContextMenu = (expression: any, left: string, top: string) => {
   // 1. create contextmenu
@@ -56,17 +61,24 @@ const createContextMenu = (expression: any, left: string, top: string) => {
         cursor: pointer;
       `;
     contextMenuLiBox.innerHTML = key;
+    contextMenuLiBox.addEventListener(
+      "mouseenter",
+      (e) => (contextMenuLiBox.style.background = "rgba(0,0,0,0.05)")
+    );
+    contextMenuLiBox.addEventListener(
+      "mouseleave",
+      (e) => (contextMenuLiBox.style.background = "transparent")
+    );
+    contextMenuLiBox.addEventListener("click", (e: any) => {
+      expression[key](key);
+      removeContextMenuBox();
+    });
 
     contextMenuUlBox.appendChild(contextMenuLiBox);
   });
 
   contextMenuBox.appendChild(contextMenuUlBox);
   return contextMenuBox;
-};
-// 移除contextMenuBox
-const removeContextMenuBox = () => {
-  contextMenuBox && contextMenuEl.removeChild(contextMenuBox);
-  contextMenuBox = null;
 };
 // Bind
 const contextmenuBind = (el: any, payload: any) => {
