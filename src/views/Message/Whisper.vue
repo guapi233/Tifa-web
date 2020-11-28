@@ -117,6 +117,8 @@ export default class MessageWhisper extends Vue {
   private curTab = "";
   private roomSkip = 0;
   private roomIsEnd = false;
+  private topers = 0; // 置顶的数量
+  private curRoomIndex = -1;
   // 右侧私信内容控制变量
   private whisperList: any = [];
   private inputVal = "";
@@ -133,7 +135,9 @@ export default class MessageWhisper extends Vue {
   // 当前选中的房间对象
   private get curRoom() {
     return (
-      this.roomList.filter((room: any) => {
+      this.roomList.filter((room: any, index: number) => {
+        room.roomId === this.curTab && (this.curRoomIndex = index);
+
         return room.roomId === this.curTab;
       })[0] || {}
     );
@@ -159,6 +163,9 @@ export default class MessageWhisper extends Vue {
   private async getRoomList() {
     const res: any = await getRoomList(this.roomSkip++);
     this.roomList.push(...res);
+
+    // 计算topers数量
+    this.topers = this.roomList.filter((room: any) => room.topping).length;
 
     if (!res[0]) this.roomIsEnd = true;
   }
@@ -199,7 +206,20 @@ export default class MessageWhisper extends Vue {
     return filteHTML(filteImg(str, "[图片]"));
   }
   // 设置时间组
-  private setWhisperTime(whisperList: any) {
+  private setWhisperTime(whisperList: any, msg: any = false) {
+    // 给单一消息设置时间组
+    if (msg) {
+      // 判断是否展示时间
+      const msgCreated: any = (msg.created = new Date(msg.created));
+      const lastMsgCreated = whisperList.length
+        ? whisperList[whisperList.length - 1].created
+        : 0;
+      if (msgCreated - lastMsgCreated < this.threshold) {
+        msg.createdShow = false;
+      }
+      return;
+    }
+
     let lastWhisperCreated = 0;
     const threshold = this.threshold;
 
@@ -229,23 +249,11 @@ export default class MessageWhisper extends Vue {
     );
 
     if (res) {
-      // 判断是否展示时间
-      const whisperList = this.whisperList;
-      const msgCreated: any = (res.created = new Date(res.created));
-      const lastMsgCreated = whisperList.length
-        ? whisperList[whisperList.length - 1].created
-        : 0;
-      if (msgCreated - lastMsgCreated < this.threshold) {
-        res.createdShow = false;
-      }
-
-      // 添加到数组 & 清空输入框 & 回到底部 & 新消息++ & 清空提示 & 设置room底部提示为最新消息
-      this.whisperList.push(res);
+      // 清空输入框 & 清空提示
       this.inputVal = "";
-      this.whisperScrollTo && this.whisperScrollTo("bottom", true);
-      this.newWhisperCount++;
       this.setIsRead();
-      this.curRoom.lastMsg = res;
+      // 后置操作
+      this.addedWhisper(res);
     }
   }
   // 设置已读
@@ -259,12 +267,13 @@ export default class MessageWhisper extends Vue {
   private async installEventBus() {
     // 监听新消息（消息来自vuex）
     (this as any).$bus.$on("hasNewMsg", (msg: any) => {
-      // 添加数据 & 提示总数++ & 滚动到底部 & 设置时间组 & 设置room底部提示为最新消息
-      this.whisperList.push(msg);
-      this.curRoom.newMsgCount++;
-      this.whisperScrollTo && this.whisperScrollTo("bottom", true);
-      this.setWhisperTime(this.whisperList);
-      this.curRoom.lastMsg = msg;
+      // 获取消息对应的room
+      const room = this.getRoomById(msg.roomId)[0];
+
+      // 提示总数++
+      room.newMsgCount++;
+      // 后置操作
+      this.addedWhisper(msg);
     });
   }
   // 关闭窗口
@@ -283,10 +292,47 @@ export default class MessageWhisper extends Vue {
   private async setRoomTop(topping: number) {
     const res: any = await setRoomTop(this.curRoom.roomId, topping);
 
-    console.log(res);
-    if (res === 1) {
-      console.log("设置成功");
+    if (!res) return;
+
+    topping ? this.topers++ : this.topers--;
+    this.curRoom.topping = topping;
+    this.moveRoom(this.curRoomIndex);
+  }
+  // 移动窗口到自己能到达的顶部位置
+  private moveRoom(curRoomIndex: number) {
+    const curRoom = this.roomList.splice(curRoomIndex, 1)[0];
+
+    if (curRoom.topping) {
+      this.roomList.unshift(curRoom);
+    } else {
+      this.roomList.splice(this.topers, 0, curRoom);
     }
+  }
+  // 添加私信后（不管是谁发的）的后置操作
+  private addedWhisper(msg: any) {
+    // 如果消息为当前的窗口:(添加数据 & 新消息++ & 滚动到底部 & 设置时间组)
+    if (msg.roomId === this.curTab) {
+      this.newWhisperCount++;
+      this.whisperList.push(msg);
+      this.whisperScrollTo && this.whisperScrollTo("bottom", true);
+      this.setWhisperTime(this.whisperList, msg);
+    }
+    // 消息对应的房间和索引 & 移动窗口 & 设置room底部提示为最新消息
+    const [room, roomIndex] = this.getRoomById(msg.roomId);
+    this.moveRoom(roomIndex);
+    room.lastMsg = msg;
+  }
+  // 通过roomId找到对应的room房间：[房间，房间索引]
+  private getRoomById(roomId: string) {
+    let resultIndex = -1;
+    const result =
+      this.roomList.filter((room: any, index: number) => {
+        room.roomId === roomId && (resultIndex = index);
+
+        return room.roomId === roomId;
+      })[0] || {};
+
+    return [result, resultIndex];
   }
 }
 </script>
