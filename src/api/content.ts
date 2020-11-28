@@ -311,3 +311,12 @@ export const setRoomShow = async (roomId: string, show: number) => {
 export const addRoom = async (oppositeId: string) => {
   return axios.get(`/content/addRoom?oppositeId=${oppositeId}`);
 };
+
+/**
+ * 置顶私信窗口
+ * @param roomId 窗口Id
+ * @param topping 置顶状态（1为置顶，0为未置顶）
+ */
+export const setRoomTop = async (roomId: string, topping: number) => {
+  return axios.get(`/content/setRoomTop?roomId=${roomId}&topping=${topping}`);
+};
