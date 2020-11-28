@@ -65,14 +65,15 @@
         <div
           class="w-content"
           v-contextmenu="{
-            aa: {
+            撤回消息: {
+              valid: (value) => value === 'me',
+              cb: withdrawWhisper,
+            },
+            举报消息: {
               valid: (value) => value === 'oppo',
               cb: () => log(1),
             },
-            bb: {
-              valid: (value) => value === 'me',
-              cb: () => log(2),
-            },
+            删除消息: () => log(2),
           }"
         >
           <Scroll
@@ -120,6 +121,7 @@ import {
   setIsRead,
   setRoomShow,
   setRoomTop,
+  withdrawWhisper,
 } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
@@ -352,6 +354,24 @@ export default class MessageWhisper extends Vue {
       })[0] || {};
 
     return [result, resultIndex];
+  }
+  // 撤回消息
+  private async withdrawWhisper(whisperId: string) {
+    const whisper =
+      this.whisperList.filter((whisper: any) => {
+        return whisper.whisperId === whisperId;
+      })[0] || {};
+
+    // 超过2分钟了
+    if (whisper.created.getTime() < Date.now() - 120000)
+      return this.$Message.error("超过2分钟的消息无法撤回");
+
+    const res = await withdrawWhisper(whisperId);
+
+    if (!res) return;
+    whisper.status = 0;
+    whisper.content = "您撤回了一条消息";
+    // 通知对方撤回了消息：在eventBus中判断数据类型，（如果有）减去1个提示状态，将设置msg的status和content
   }
 }
 </script>
