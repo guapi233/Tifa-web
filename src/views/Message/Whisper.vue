@@ -28,6 +28,10 @@
             >
               <Icon type="md-close" size="18" />
             </div>
+            <!-- 是否置顶 -->
+            <div class="w-top-box" v-if="room.topping">
+              <Icon type="ios-lock-outline" size="18" />
+            </div>
           </div>
         </Scroll>
       </div>
@@ -417,6 +421,12 @@ export default class MessageWhisper extends Vue {
           transition: 0.3s ease;
           left: 5px;
           color: red;
+        }
+
+        .w-top-box {
+          position: absolute;
+          top: 5px;
+          left: 5px;
         }
       }
 
