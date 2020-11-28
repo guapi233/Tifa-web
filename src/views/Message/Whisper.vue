@@ -36,7 +36,21 @@
     <div class="whisper-right">
       <p v-if="!curRoom.roomId">放图片的地方</p>
       <div class="right-wrap" v-else>
-        <div class="w-title">{{ curRoom.opposite.name }}</div>
+        <div class="w-title">
+          {{ curRoom.opposite.name }}
+          <div class="w-other">
+            <Dropdown trigger="click">
+              <Icon class="w-icon" type="ios-more" size="24" />
+
+              <DropdownMenu slot="list">
+                <DropdownItem>置顶</DropdownItem>
+                <DropdownItem>开启免打扰</DropdownItem>
+                <DropdownItem>加入黑名单</DropdownItem>
+                <DropdownItem>举报该用户</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        </div>
         <div class="w-content">
           <Scroll
             at="bottom"
@@ -370,6 +384,16 @@ export default class MessageWhisper extends Vue {
       position: relative;
       text-align: center;
       color: #333;
+
+      .w-other {
+        position: absolute;
+        right: 5px;
+        cursor: pointer;
+
+        .w-icon {
+          transform: rotate(90deg);
+        }
+      }
     }
 
     .w-content {
