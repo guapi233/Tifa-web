@@ -39,7 +39,7 @@ import "view-design/dist/styles/iview.css";
 import "@/config/iviewTheme.less";
 
 // global directive
-import { highlight } from "@/utils/directive";
+import { highlight, contextmenu } from "@/utils/directive";
 
 Vue.component("Button", Button);
 Vue.component("Input", Input);
@@ -70,6 +70,7 @@ Vue.component("Badge", Badge);
 Vue.component("Scroll", Scroll);
 
 Vue.directive("highlight", highlight);
+Vue.directive("contextmenu", contextmenu);
 
 Vue.prototype.$Message = Message;
 Vue.prototype.$bus = new Vue();
