@@ -57,7 +57,9 @@
                 >
                 <DropdownItem>开启免打扰</DropdownItem>
                 <DropdownItem>加入黑名单</DropdownItem>
-                <DropdownItem>举报该用户</DropdownItem>
+                <DropdownItem @click.native="reportOppositeShow = true"
+                  >举报该用户</DropdownItem
+                >
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -108,12 +110,19 @@
         </div>
       </div>
 
-      <!-- 私信举报对话框 -->
+      <!-- 单条私信举报对话框 -->
       <ReportModal
         chat
         :targetId="curReportWhisperId"
         :show.sync="whisperReportShow"
         :type="3"
+      />
+      <!-- 用户违规私信举报对话框 -->
+      <ReportModal
+        chat
+        :targetId="this.curTab"
+        :show.sync="reportOppositeShow"
+        :type="4"
       />
     </div>
   </div>
@@ -148,6 +157,7 @@ export default class MessageWhisper extends Vue {
   private roomIsEnd = false;
   private topers = 0; // 置顶的数量
   private curRoomIndex = -1;
+  private reportOppositeShow = false;
   // 右侧私信内容控制变量
   private whisperList: any = [];
   private inputVal = "";
