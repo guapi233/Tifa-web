@@ -73,7 +73,7 @@
               valid: (value) => value === 'oppo',
               cb: () => log(1),
             },
-            删除消息: () => log(2),
+            删除消息: deleteWhisper,
           }"
         >
           <Scroll
@@ -122,6 +122,7 @@ import {
   setRoomShow,
   setRoomTop,
   withdrawWhisper,
+  deleteWhisper,
 } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
@@ -401,6 +402,17 @@ export default class MessageWhisper extends Vue {
     whisper.status = 0;
     whisper.content = "您撤回了一条消息";
     // 通知对方撤回了消息：在eventBus中判断数据类型，（如果有）减去1个提示状态，将设置msg的status和content
+  }
+  // 删除私信
+  private async deleteWhisper(whisperId: string) {
+    const res = await deleteWhisper(whisperId);
+
+    if (res) {
+      this.newWhisperCount--;
+      const whisperIndex = this.getWhisperById(whisperId)[1];
+      this.whisperList.splice(whisperIndex, 1);
+      this.$Message.success("删除成功，该消息将不在您的对话框中展示");
+    }
   }
 }
 </script>
