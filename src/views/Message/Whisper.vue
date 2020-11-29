@@ -288,8 +288,25 @@ export default class MessageWhisper extends Vue {
   private async installEventBus() {
     // 监听新消息（消息来自vuex）
     (this as any).$bus.$on("hasNewMsg", (msg: any) => {
-      // 获取消息对应的room
+      console.log(msg);
+      // 获取消息对应的room & 消息
       const room = this.getRoomById(msg.roomId)[0];
+
+      // 判断是否为撤回消息
+      if (msg.type === "withdraw") {
+        room.newMsgCount && room.newMsgCount--;
+        room.lastMsg = msg;
+
+        // 要撤回消息的房间是否为当前房间
+        console.log(room === this.curRoom, room, this.curRoom);
+        if (room === this.curRoom) {
+          const whisper: any = this.getWhisperById(msg.whisperId)[0];
+          whisper.status = 0;
+          whisper.content = "对方撤回了一条消息";
+        }
+
+        return;
+      }
 
       // 提示总数++
       room.newMsgCount++;
@@ -351,6 +368,18 @@ export default class MessageWhisper extends Vue {
         room.roomId === roomId && (resultIndex = index);
 
         return room.roomId === roomId;
+      })[0] || {};
+
+    return [result, resultIndex];
+  }
+  // 通过whisperId找到对应的私信：[私信对象，私信索引]
+  private getWhisperById(whisperId: string) {
+    let resultIndex = -1;
+    const result =
+      this.whisperList.filter((whisper: any, index: number) => {
+        whisper.whisperId === whisperId && (resultIndex = index);
+
+        return whisper.whisperId === whisperId;
       })[0] || {};
 
     return [result, resultIndex];
