@@ -106,6 +106,7 @@
             :value.sync="inputVal"
             autoFlow
             height="90"
+            placeholder="回复一下吧~"
             toolsReverse
           />
         </div>

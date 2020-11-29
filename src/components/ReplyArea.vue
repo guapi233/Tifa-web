@@ -13,7 +13,7 @@
       @onReady="textareaLoaded"
       class="reply-input"
       :style="style"
-      placeholder="和小伙伴们一起探讨下吧"
+      :placeholder="placeholder"
     />
     <div
       class="handle-box"
@@ -58,6 +58,7 @@ export default class ReplyArea extends Vue {
   @Prop({ default: 122 }) private height!: number | string;
   @Prop({ default: false }) private autoFlow!: boolean; // 是否开始固定高，内容滚动
   @Prop({ default: false }) private toolsReverse!: boolean; // 工具栏是否反转
+  @Prop({ default: "和小伙伴们一起探讨下吧" }) private placeholder!: string;
   private config = config;
   // 文本域工具（占位，在 textareaLoaded 被重新赋值)
   private inputFocus = () => 1;
