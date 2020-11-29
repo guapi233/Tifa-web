@@ -45,7 +45,10 @@
           </div>
         </div>
         <div class="report-sketch">
-          <p>{{ categoryList[current].sketch }}</p>
+          <p v-if="chat">
+            社区只会根据举报信息来进行审核，不会随意翻阅您的私人对话记录。
+          </p>
+          <p v-else>{{ categoryList[current].sketch }}</p>
         </div>
       </div>
       <div v-else></div>
@@ -63,7 +66,8 @@ export default class ReportModal extends Vue {
   @Prop({ default: false }) private show!: boolean;
   @Prop({ default: 0 }) private type!: number;
   @Prop({ default: "" }) private targetId!: string;
-  @Prop({ default: false }) private user!: boolean;
+  @Prop({ default: false }) private user!: boolean; // 是否开启用户举报
+  @Prop({ default: false }) private chat!: boolean; // 是否开启私信举报
 
   private contentShow = false;
   // 当前选中的条目
@@ -136,11 +140,46 @@ export default class ReportModal extends Vue {
         "用户名、头像、封面图、个人形象词包含联系方式；或高风险行业帐号的用户信息中包含联系方式；或用户名易与帐号使用状态、使用者身份产生混淆和误解。请在举报时简述原因，感谢您的支持。",
     },
   ];
+  // 私信举报类型
+  private categoryListChat = [
+    {
+      category: 10,
+      name: "色情低俗",
+    },
+    {
+      category: 11,
+      name: "政治敏感",
+    },
+    {
+      category: 12,
+      name: "违法有害",
+    },
+    {
+      category: 13,
+      name: "广告骚扰",
+    },
+    {
+      category: 14,
+      name: "人身攻击",
+    },
+    {
+      category: 15,
+      name: "诈骗",
+    },
+    {
+      category: 16,
+      name: "其他问题",
+    },
+  ];
 
   // 当前用作渲染的类型列表
   private get categoryList() {
     if (this.user !== false) {
       return this.categoryListUser;
+    }
+
+    if (this.chat !== false) {
+      return this.categoryListChat;
     }
 
     return this.categoryListContent;
