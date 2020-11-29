@@ -182,7 +182,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { getUserInfo } from "@/api/public";
 import { followUser } from "@/api/user";
 import { addRoom } from "@/api/content";
@@ -245,6 +245,12 @@ export default class User extends Vue {
     if (res) {
       this.$router.replace(`/message/whisper/${res}`);
     }
+  }
+
+  // 监听 $route 变化
+  @Watch("$route")
+  private onRouteChange() {
+    this.setUserInfo();
   }
 }
 </script>
