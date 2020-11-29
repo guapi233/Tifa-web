@@ -71,7 +71,7 @@
             },
             举报消息: {
               valid: (value) => value === 'oppo',
-              cb: () => log(1),
+              cb: reportWhisper,
             },
             删除消息: deleteWhisper,
           }"
@@ -107,6 +107,14 @@
           />
         </div>
       </div>
+
+      <!-- 私信举报对话框 -->
+      <ReportModal
+        chat
+        :targetId="curReportWhisperId"
+        :show.sync="whisperReportShow"
+        :type="3"
+      />
     </div>
   </div>
 </template>
@@ -127,9 +135,10 @@ import {
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
 import WhisperItem from "./WhisperItem.vue";
+import ReportModal from "@/components/ReportModal";
 
 @Component({
-  components: { Avatar, ReplyArea, WhisperItem },
+  components: { Avatar, ReplyArea, WhisperItem, ReportModal },
 })
 export default class MessageWhisper extends Vue {
   // 左侧窗口列表控制变量
@@ -147,6 +156,8 @@ export default class MessageWhisper extends Vue {
   private threshold = 1000 * 60 * 5;
   private whisperScrollTo: null | Function = null;
   private newWhisperCount = 0;
+  private curReportWhisperId = "";
+  private whisperReportShow = false;
 
   private log = console.log;
   private a = 1;
@@ -413,6 +424,11 @@ export default class MessageWhisper extends Vue {
       this.whisperList.splice(whisperIndex, 1);
       this.$Message.success("删除成功，该消息将不在您的对话框中展示");
     }
+  }
+  // 举报私信
+  private reportWhisper(whisperId: string) {
+    this.curReportWhisperId = whisperId;
+    this.whisperReportShow = true;
   }
 }
 </script>
