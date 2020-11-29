@@ -328,3 +328,11 @@ export const setRoomTop = async (roomId: string, topping: number) => {
 export const withdrawWhisper = async (whisperId: string) => {
   return axios.get(`/content/withdrawWhisper?whisperId=${whisperId}`);
 };
+
+/**
+ * 删除私信
+ * @param whisperId 私信Id
+ */
+export const deleteWhisper = async (whisperId: string) => {
+  return axios.get(`/content/deleteWhisper?whisperId=${whisperId}`);
+};
