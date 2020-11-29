@@ -158,7 +158,7 @@ export default class WhisperItem extends Vue {
         background-color: transparent !important;
 
         img {
-          max-width: 480px;
+          max-width: 300px;
         }
       }
     }
