@@ -27,6 +27,7 @@
       </EmojiPop>
 
       <Upload
+        v-if="uploadSuc"
         :accept="config.supportImgCategorys"
         :action="uploadUrl"
         :headers="headers"
@@ -59,6 +60,7 @@ export default class ReplyArea extends Vue {
   @Prop({ default: false }) private autoFlow!: boolean; // 是否开始固定高，内容滚动
   @Prop({ default: false }) private toolsReverse!: boolean; // 工具栏是否反转
   @Prop({ default: "和小伙伴们一起探讨下吧" }) private placeholder!: string;
+  @Prop({ default: null, type: Function }) private uploadSuc!: Function;
   private config = config;
   // 文本域工具（占位，在 textareaLoaded 被重新赋值)
   private inputFocus = () => 1;
@@ -91,7 +93,7 @@ export default class ReplyArea extends Vue {
   }
   private uploadSuccess(res: any) {
     if (res.isOk) {
-      console.log("??");
+      this.uploadSuc(res);
     } else {
       this.$Message.error("上传失败");
     }
