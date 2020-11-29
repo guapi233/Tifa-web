@@ -17,7 +17,11 @@
             <div class="w-info">
               <div class="w-name">{{ room.opposite.name }}</div>
               <div class="w-tip">
-                {{ filteTabMsg(room.lastMsg.content) }}
+                {{
+                  room.lastMsg.type === 1
+                    ? "[图片]"
+                    : filteTabMsg(room.lastMsg.content)
+                }}
               </div>
             </div>
             <!-- 关闭 -->
