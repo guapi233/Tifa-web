@@ -26,8 +26,8 @@
         :data-contextmenu="whisperId"
         data-menuvalid="me"
       >
-        <div class="message-content">
-          <img :src="content" alt="" />
+        <div class="message-content" ref="msgContent">
+          <div class="img-temp" v-if="!imgLoad"></div>
         </div>
       </div>
     </div>
@@ -39,8 +39,8 @@
         :data-contextmenu="whisperId"
         data-menuvalid="oppo"
       >
-        <div class="message-content">
-          <img :src="content" alt="" />
+        <div class="message-content" ref="msgContent">
+          <div class="img-temp" v-if="!imgLoad"></div>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Ref } from "vue-property-decorator";
 
 @Component
 export default class WhisperItem extends Vue {
@@ -60,6 +60,9 @@ export default class WhisperItem extends Vue {
   @Prop({ default: "" }) created!: Date; // 创建时间
   @Prop({ default: () => ({}) }) opposite!: any; // 对方的信息
   @Prop({ default: "" }) whisperId!: string; // 私信Id
+  @Prop({ default: () => 1, type: Function }) private onImgLoad!: Function; // 监听图片消息是否加载完毕
+  @Ref("msgContent") private msgContent!: any;
+  private imgLoad = false; // 图片是否加载完成（图片消息专属）
 
   // 自己的信息
   private get self() {
@@ -68,6 +71,12 @@ export default class WhisperItem extends Vue {
   // 是对方的头像还是自己的头像
   private get avatar() {
     return this.me ? this.self.pic : this.opposite.pic;
+  }
+
+  // 入口
+  private mounted() {
+    // 是否为图片信息
+    this.type === 1 && this.imgInit(this.content);
   }
 
   // 时间格式化
@@ -91,6 +100,20 @@ export default class WhisperItem extends Vue {
     }
 
     return result;
+  }
+
+  // 图片消息初始化
+  private imgInit(src: string) {
+    const img = new Image();
+    img.onload = this._onImgLoad;
+    img.src = src;
+  }
+  // 图片加载完成
+  private _onImgLoad(e: any) {
+    this.imgLoad = true;
+    this.msgContent.appendChild(e.target);
+    e.target.onload = null;
+    this.onImgLoad(e);
   }
 }
 </script>
@@ -149,6 +172,12 @@ export default class WhisperItem extends Vue {
         border-radius: 0 16px 16px 16px;
         overflow: hidden;
         background: #fff;
+
+        .img-temp {
+          width: 300px;
+          height: 150px;
+          background: rgba(153, 153, 153, 0.445);
+        }
       }
     }
 

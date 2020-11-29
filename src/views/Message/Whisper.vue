@@ -96,6 +96,7 @@
               :createdShow="msgObj.createdShow"
               :created="msgObj.created"
               :whisperId="msgObj.whisperId"
+              :onImgLoad="scrollWhisperToBottom"
             />
           </Scroll>
         </div>
@@ -108,6 +109,7 @@
             height="90"
             placeholder="回复一下吧~"
             toolsReverse
+            :uploadSuc="uploadSuc"
           />
         </div>
       </div>
@@ -171,8 +173,6 @@ export default class MessageWhisper extends Vue {
   private curReportWhisperId = "";
   private whisperReportShow = false;
 
-  private log = console.log;
-  private a = 1;
   // 自己的账号
   private get self() {
     return this.$store.state.userInfo.usernumber;
@@ -284,13 +284,14 @@ export default class MessageWhisper extends Vue {
     this.whisperScrollTo = scrollTo;
   }
   // 发送私信
-  private async addWhisper() {
-    if (this.inputVal === "") return;
+  private async addWhisper(content = this.inputVal, type = 0) {
+    if (content === "") return;
 
     const res: any = await addWhisper(
       this.curRoom.oppositeId,
       this.curRoom.roomId,
-      this.inputVal
+      content,
+      type
     );
 
     if (res) {
@@ -370,13 +371,20 @@ export default class MessageWhisper extends Vue {
       this.roomList.splice(this.topers, 0, curRoom);
     }
   }
+  // 移动对话框到最下方
+  private scrollWhisperToBottom(transition = false) {
+    typeof transition !== "boolean" && (transition = false);
+
+    this.whisperScrollTo && this.whisperScrollTo("bottom", transition);
+  }
   // 添加私信后（不管是谁发的）的后置操作
   private addedWhisper(msg: any) {
     // 如果消息为当前的窗口:(添加数据 & 新消息++ & 滚动到底部 & 设置时间组)
     if (msg.roomId === this.curTab) {
       this.newWhisperCount++;
       this.whisperList.push(msg);
-      this.whisperScrollTo && this.whisperScrollTo("bottom", true);
+      const hasTransition = msg.type === 1 ? false : true;
+      this.scrollWhisperToBottom(hasTransition);
       this.setWhisperTime(this.whisperList, msg);
     }
     // 消息对应的房间和索引 & 移动窗口 & 设置room底部提示为最新消息
@@ -441,6 +449,12 @@ export default class MessageWhisper extends Vue {
   private reportWhisper(whisperId: string) {
     this.curReportWhisperId = whisperId;
     this.whisperReportShow = true;
+  }
+  // 上传图片
+  private uploadSuc({ data }: { data: any }) {
+    if (data.uploaded) {
+      this.addWhisper(data.url, 1);
+    }
   }
 }
 </script>
