@@ -106,7 +106,7 @@
         </div>
         <div class="w-input">
           <ReplyArea
-            @keydown.ctrl.enter="addWhisper"
+            @keydown.ctrl.enter="addWhisper()"
             @onSubmit="addWhisper"
             :value.sync="inputVal"
             autoFlow
