@@ -540,6 +540,7 @@ export default class MessageWhisper extends Vue {
 
   .whisper-right {
     flex: 1;
+    width: 590px;
     height: 100%;
 
     .right-wrap {
