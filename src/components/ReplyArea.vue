@@ -15,13 +15,31 @@
       :style="style"
       placeholder="和小伙伴们一起探讨下吧"
     />
-    <div class="handle-box">
+    <div
+      class="handle-box"
+      :class="{ 'tools-reverse': toolsReverse !== false }"
+    >
       <Button shape="circle" class="reply-btn" @click="onSubmit">评论</Button>
       <EmojiPop @click.native="inputFocus" :selected="insertEmoji">
         <div class="upload">
-          <Icon type="md-images" size="16" />
+          <Icon type="md-happy" size="20" />
         </div>
       </EmojiPop>
+
+      <Upload
+        :accept="config.supportImgCategorys"
+        :action="uploadUrl"
+        :headers="headers"
+        :show-upload-list="false"
+        :max-size="5000000"
+        :on-success="uploadSuccess"
+        :on-err="uploadFail"
+        :disabled="imgUploading"
+      >
+        <div class="img-upload">
+          <Button type="text" :loading="imgUploading" icon="md-images"></Button>
+        </div>
+      </Upload>
     </div>
   </div>
 </template>
@@ -30,6 +48,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Ctextarea from "@/components/Ctextarea.vue";
 import EmojiPop from "@/components/EmojiPop.vue";
+import config from "@/config";
 
 @Component({
   components: { Ctextarea, EmojiPop },
@@ -37,7 +56,9 @@ import EmojiPop from "@/components/EmojiPop.vue";
 export default class ReplyArea extends Vue {
   @Prop({ default: "" }) private value!: string;
   @Prop({ default: 122 }) private height!: number | string;
-  @Prop({ default: false }) private autoFlow!: boolean;
+  @Prop({ default: false }) private autoFlow!: boolean; // 是否开始固定高，内容滚动
+  @Prop({ default: false }) private toolsReverse!: boolean; // 工具栏是否反转
+  private config = config;
   // 文本域工具（占位，在 textareaLoaded 被重新赋值)
   private inputFocus = () => 1;
   private insertElm = (elm: any) => 1;
@@ -57,6 +78,25 @@ export default class ReplyArea extends Vue {
     } else {
       return { "min-height": this.height + "px" };
     }
+  }
+
+  // 图片上传
+  private imgUploading = false;
+  private headers = {
+    Authorization: "bearer " + this.$store.state.token,
+  };
+  private get uploadUrl() {
+    return config.baseUrl + "/uploadImg";
+  }
+  private uploadSuccess(res: any) {
+    if (res.isOk) {
+      console.log("??");
+    } else {
+      this.$Message.error("上传失败");
+    }
+  }
+  private uploadFail(err: any) {
+    console.log("fail", err);
   }
 
   // 输入框加载完毕
@@ -164,22 +204,30 @@ export default class ReplyArea extends Vue {
     display: flex;
 
     .reply-btn {
-      margin-right: 10px;
+      margin: 0 10px;
     }
 
-    .upload {
+    .upload,
+    .img-upload {
       width: 30px;
       height: 30px;
       background: #f5f5f5;
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 14px;
-      border-radius: 15px;
       cursor: pointer;
     }
+
+    .img-upload {
+      button {
+        padding: 0;
+        height: auto;
+      }
+    }
+  }
+
+  .tools-reverse {
+    flex-direction: row-reverse;
   }
 }
 </style>

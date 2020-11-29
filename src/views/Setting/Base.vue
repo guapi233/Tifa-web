@@ -8,6 +8,7 @@
       <div class="handle-box">
         <!-- <Button class="handle-item" shape="circle">删除头像</Button> -->
         <Upload
+          :accept="config.supportImgCategorys"
           :action="uploadPicUrl"
           :headers="headers"
           :show-upload-list="false"
@@ -90,7 +91,7 @@
       <Button
         type="primary"
         shape="circle"
-        style="padding: 0 30px;"
+        style="padding: 0 30px"
         @click="save"
         :loading="saveBtnLoading"
       >
@@ -109,20 +110,21 @@ import config from "@/config";
 
 @Component
 export default class SettingBase extends Vue {
+  private config = config;
   private formData = {
     name: "",
     occupation: "",
     gender: 2,
     interest: "",
-    summary: ""
+    summary: "",
   };
   private validateRules = {
-    name: [{ required: true, message: "请输入您的名称", trigger: "blur" }]
+    name: [{ required: true, message: "请输入您的名称", trigger: "blur" }],
   };
   private saveBtnLoading = false;
   private uploadBtnLoading = false;
   private headers = {
-    Authorization: "bearer " + this.$store.state.token
+    Authorization: "bearer " + this.$store.state.token,
   };
 
   private get userInfo() {
@@ -145,7 +147,7 @@ export default class SettingBase extends Vue {
 
     // 修改本地缓存
     this.$store.commit("setUserInfoAndToken", {
-      userInfo: res
+      userInfo: res,
     });
     this.uploadBtnLoading = false;
     this.$Message.success("上传成功");
@@ -168,7 +170,7 @@ export default class SettingBase extends Vue {
 
       // 3. 修改本地缓存
       this.$store.commit("setUserInfoAndToken", {
-        userInfo: res
+        userInfo: res,
       });
       this.$Message.success("修改成功");
     }
@@ -183,7 +185,7 @@ export default class SettingBase extends Vue {
     } else {
       // go to 404
       this.$router.replace({
-        path: "/whoops"
+        path: "/whoops",
       });
     }
   }

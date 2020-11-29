@@ -106,6 +106,7 @@
             :value.sync="inputVal"
             autoFlow
             height="90"
+            toolsReverse
           />
         </div>
       </div>

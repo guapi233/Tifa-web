@@ -4,6 +4,7 @@
       <div class="banner-box">
         <Upload
           v-if="!articleObj.banner"
+          :accept="config.supportImgCategorys"
           :action="uploadUrl"
           :headers="headers"
           :show-upload-list="false"
@@ -81,6 +82,7 @@ import config from "@/config";
   components: { RichText },
 })
 export default class Edit extends Vue {
+  private config = config;
   // 文章内容
   private articleObj = {
     title: "",
