@@ -45,8 +45,11 @@
           </div>
         </div>
         <div class="report-sketch">
-          <p v-if="chat">
-            社区只会根据举报信息来进行审核，不会随意翻阅您的私人对话记录。
+          <p v-if="chat !== false && type === 4">
+            由于需要对该用户违规行为进行审核参考，所以该对话近期内的消息将作为证据一并提交。
+          </p>
+          <p v-else-if="chat !== false">
+            针对单一私信记录，社区只会根据举报信息来进行审核，不会随意翻阅您的其他私人对话记录。
           </p>
           <p v-else>{{ categoryList[current].sketch }}</p>
         </div>
