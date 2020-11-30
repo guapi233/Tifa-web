@@ -11,7 +11,11 @@
             :class="{ 'w-active': room.roomId === curTab }"
             @click="switchTab(room.roomId)"
           >
-            <Badge :count="room.newMsgCount" :offset="[0, 10]">
+            <Badge
+              :count="room.newMsgCount"
+              :type="room.undisturb ? 'normal' : 'error'"
+              :offset="[0, 10]"
+            >
               <Avatar class="w-avatar" size="42" :src="room.opposite.pic" />
             </Badge>
             <div class="w-info">
@@ -59,7 +63,9 @@
                 <DropdownItem v-else @click.native="setRoomTop(0)"
                   >取消置顶</DropdownItem
                 >
-                <DropdownItem>开启免打扰</DropdownItem>
+                <DropdownItem @click.native="setUndisturb"
+                  >{{ curRoom.undisturb ? "关闭" : "开启" }}免打扰</DropdownItem
+                >
                 <DropdownItem>加入黑名单</DropdownItem>
                 <DropdownItem @click.native="reportOppositeShow = true"
                   >举报该用户</DropdownItem
@@ -148,6 +154,7 @@ import {
   setRoomTop,
   withdrawWhisper,
   deleteWhisper,
+  setUndisturb,
 } from "@/api/content";
 import Avatar from "@/components/Avatar.vue";
 import ReplyArea from "@/components/ReplyArea.vue";
@@ -458,6 +465,15 @@ export default class MessageWhisper extends Vue {
   private uploadSuc({ data }: { data: any }) {
     if (data.uploaded) {
       this.addWhisper(data.url, 1);
+    }
+  }
+  // 设置单个窗口消息免打扰
+  private async setUndisturb() {
+    const undisturb = this.curRoom.undisturb ? 0 : 1;
+    const res = await setUndisturb(this.curTab, undisturb);
+
+    if (res) {
+      this.curRoom.undisturb = undisturb;
     }
   }
 }

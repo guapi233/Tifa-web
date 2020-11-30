@@ -87,13 +87,18 @@ const store = new Vuex.Store({
 
       // 如果val对象，则为私信信息对象
       if (typeof val === "object") {
+        // 通过全局总线发送新消息到 views/Message/Whisper.vue
+        (app as any).$bus.$emit("hasNewMsg", val);
+
+        // 如果该房间开启了免扰，则该条私信不进行全局同志
+        if (val.undisturb) return;
+
         if (val.type === "withdraw") {
           state.newwhisper && state.newwhisper--;
         } else {
           state.newwhisper++;
         }
-        // 通过全局总线发送新消息到 views/Message/Whisper.vue
-        (app as any).$bus.$emit("hasNewMsg", val);
+
         return;
       }
 
