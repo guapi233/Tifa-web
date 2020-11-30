@@ -336,3 +336,14 @@ export const withdrawWhisper = async (whisperId: string) => {
 export const deleteWhisper = async (whisperId: string) => {
   return axios.get(`/content/deleteWhisper?whisperId=${whisperId}`);
 };
+
+/**
+ * 设置窗口免打扰状态
+ * @param roomId 窗口Id
+ * @param undisturb 免打扰状态（0关闭、1开启）
+ */
+export const setUndisturb = async (roomId: string, undisturb: number) => {
+  return axios.get(
+    `/content/setUndisturb?roomId=${roomId}&undisturb=${undisturb}`
+  );
+};
