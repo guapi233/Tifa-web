@@ -3,9 +3,9 @@
     <div class="item-box">
       <div class="flex-box">
         <div class="left">
-          <span class="title">邮件通知</span>
+          <span class="title">消息通知</span>
         </div>
-        <i-switch v-model="formData.emailNotice" />
+        <i-switch v-model="notice" />
       </div>
     </div>
 
@@ -13,21 +13,26 @@
       <div class="flex-box">
         <div class="left">
           <span class="title">每日消息汇总</span>
-          <span class="sub">（如 点赞、评论以及充电 等高频通知）</span>
+          <span class="sub">（如 点赞、评论以及私信 等高频通知）</span>
         </div>
-        <i-switch v-model="formData.daliyMessageNotice" />
+        <i-switch v-model="dailyNotice" />
       </div>
       <div class="flex-box">
         <div class="left">
           <span class="title">重要信息通知</span>
           <span class="sub">（如 账号变动、管理员操作 等重要通知）</span>
         </div>
-        <i-switch v-model="formData.importantMessageNotice" />
+        <i-switch v-model="importNotice" />
       </div>
     </div>
 
     <div class="sub-box">
-      <Button type="primary" shape="circle" style="padding: 0 30px;">
+      <Button
+        type="primary"
+        shape="circle"
+        style="padding: 0 30px"
+        @click="setNotice"
+      >
         保存
       </Button>
     </div>
@@ -36,14 +41,40 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { setNotice } from "@/api/user";
 
 @Component
 export default class SettingMail extends Vue {
-  private formData = {
-    emailNotice: true,
-    daliyMessageNotice: true,
-    importantMessageNotice: true
-  };
+  private dailyNotice: boolean | number = !!this.$store.state.userInfo
+    .dailyNotice;
+  private importNotice: boolean | number = !!this.$store.state.userInfo
+    .importNotice;
+
+  private get notice() {
+    return !!(this.dailyNotice && this.importNotice);
+  }
+  private set notice(newVal: boolean) {
+    this.dailyNotice = newVal;
+    this.importNotice = newVal;
+  }
+
+  private async setNotice() {
+    let { dailyNotice, importNotice } = this;
+    dailyNotice = Number(dailyNotice);
+    importNotice = Number(importNotice);
+
+    const res = await setNotice({
+      dailyNotice,
+      importNotice,
+    });
+
+    if (res) {
+      this.$Message.success("设置成功");
+      this.$store.commit("setUserInfoAndToken", {
+        userInfo: res,
+      });
+    }
+  }
 }
 </script>
 
