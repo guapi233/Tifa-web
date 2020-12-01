@@ -23,3 +23,11 @@ export const uploadPic = (formData: any) => {
 export const followUser = (targetId: string) => {
   return axios.get(`/user/addFollow?targetId=${targetId}`);
 };
+
+/**
+ * 设置消息通知
+ * @param noticeObj 屏蔽消息对象
+ */
+export const setNotice = (noticeObj: object) => {
+  return axios.post(`/user/setNotice`, noticeObj);
+};
