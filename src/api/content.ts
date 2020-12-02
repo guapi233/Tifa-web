@@ -347,3 +347,17 @@ export const setUndisturb = async (roomId: string, undisturb: number) => {
     `/content/setUndisturb?roomId=${roomId}&undisturb=${undisturb}`
   );
 };
+
+/**
+ * 设置允许评论文章的人群
+ * @param articleId 文章Id
+ * @param commentAllow 评论权限类型
+ */
+export const setArticleCommentAllow = async (
+  articleId: string,
+  commentAllow: number
+) => {
+  return axios.get(
+    `/content/setArticleCommentAllow?articleId=${articleId}&commentAllow=${commentAllow}`
+  );
+};
