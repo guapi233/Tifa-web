@@ -16,6 +16,7 @@
         <!-- 回复框 -->
         <div class="comment-reply">
           <CommentReply
+            v-bind="$attrs"
             :userInfo="userInfo"
             :inputVal.sync="inputVal"
             :replyShow.sync="replyShow"
@@ -61,6 +62,7 @@ import { addComment } from "@/api/content";
     CommentItem,
     CommentReply,
   },
+  inheritAttrs: false,
 })
 export default class Comment extends Vue {
   @Prop({ default: () => [] }) private commentList!: any;

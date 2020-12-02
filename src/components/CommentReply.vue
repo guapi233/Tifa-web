@@ -1,17 +1,13 @@
 <template>
   <div class="comment-reply-outermost">
     <div class="reply-box">
-      <div>
+      <div :class="{ 'reply-disabled': !replyAllow }">
         <div class="title-box">
           <div class="header-box">
-            <Avatar
-              size="40"
-              :to="`/user/${userInfo.usernumber}`"
-              :src="userInfo.pic"
-            />
+            <Avatar size="40" :src="userInfo.pic" />
           </div>
           <div class="input-text" @click.stop="replyToShow" v-if="!replyShow">
-            写下你的评论
+            {{ replyTip }}
           </div>
           <div class="input-name" v-else>
             <router-link :to="`/user/${userInfo.usernumber}`">{{
@@ -64,11 +60,14 @@ import EmojiPop from "@/components/EmojiPop.vue";
 
 @Component({
   components: { Ctextarea, EmojiPop },
+  inheritAttrs: false,
 })
 export default class CommentReply extends Vue {
   @Prop({ default: "userInfo" }) private userInfo!: any;
   @Prop({ default: false }) private replyShow!: boolean;
   @Prop({ default: "" }) private inputVal!: string;
+  @Prop({ default: true }) private replyAllow!: boolean;
+  @Prop({ default: "写下你的评论" }) private replyTip!: string;
   // 文本域工具（占位，在 textareaLoaded 被重新赋值)
   private inputFocus = () => 1;
   private insertElm = (elm: any) => 1;
@@ -90,6 +89,8 @@ export default class CommentReply extends Vue {
 
   // 显示回复输入框
   private replyToShow() {
+    if (!this.replyAllow) return;
+
     this.$emit("update:replyShow", true);
     this.$nextTick(() => {
       this.inputFocus();
@@ -150,6 +151,7 @@ export default class CommentReply extends Vue {
         color: $contentColor;
         flex: 1;
         cursor: text;
+        user-select: none;
       }
 
       .input-name {
@@ -160,6 +162,17 @@ export default class CommentReply extends Vue {
         .close-reply {
           color: rgb(230, 45, 45);
           cursor: pointer;
+        }
+      }
+    }
+
+    .reply-disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+
+      .title-box {
+        .input-text {
+          cursor: not-allowed;
         }
       }
     }
