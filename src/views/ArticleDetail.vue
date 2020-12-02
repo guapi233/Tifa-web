@@ -190,10 +190,27 @@
               <DropdownItem @click.native="modifyArticle"
                 >修改文章</DropdownItem
               >
-              <DropdownItem divided selected>允许任何人评论</DropdownItem>
-              <DropdownItem>允许关注我的人评论</DropdownItem>
-              <DropdownItem>允许我关注的人评论</DropdownItem>
-              <DropdownItem>关闭评论</DropdownItem>
+              <DropdownItem
+                divided
+                :selected="commentAllowers === 1"
+                @click.native="setCommentAllow(1)"
+                >允许任何人评论</DropdownItem
+              >
+              <DropdownItem
+                :selected="commentAllowers === 2"
+                @click.native="setCommentAllow(2)"
+                >允许关注我的人评论</DropdownItem
+              >
+              <DropdownItem
+                :selected="commentAllowers === 3"
+                @click.native="setCommentAllow(3)"
+                >允许我关注的人评论</DropdownItem
+              >
+              <DropdownItem
+                :selected="commentAllowers === 0"
+                @click.native="setCommentAllow(0)"
+                >关闭评论</DropdownItem
+              >
               <DropdownItem divided @click.native="delModalShow = true"
                 >删除</DropdownItem
               >
@@ -278,6 +295,8 @@
         :commentCount="articleDetail.commentCount"
         :commentSort.sync="commentSort"
         :canGetComment="canGetComment"
+        :replyAllow="allowComment[0]"
+        :replyTip="allowComment[1]"
         @changeSort="getCommentList"
         @loadmore="getCommentList"
       />
@@ -323,12 +342,14 @@ import {
   delArticle,
   saveDraft,
   existDraft,
+  setArticleCommentAllow,
 } from "@/api/content";
 import { followUser } from "@/api/user";
 import ArticleItem3 from "@/components/ArticleItem3.vue";
 import ReportModal from "@/components/ReportModal";
 import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
+import user from "@/router/rules/user";
 
 @Component({
   components: { ArticleItem3, Comment, ReportModal },
@@ -412,6 +433,31 @@ export default class ArticleDetail extends Vue {
   // 文章是否点赞
   private get articleLiked() {
     return this.articleDetail.isLiked;
+  }
+  // 当前允许评论的人群
+  private get commentAllowers() {
+    return this.articleDetail.commentAllow;
+  }
+  // 当前用户是否可以评论 [boolean, string]
+  private get allowComment() {
+    const { usernumber } = this.$store.state.userInfo;
+    const result = [];
+
+    if (usernumber === this.author.usernumber) return [true, "写下你的评论"];
+    else if (this.commentAllowers === 0)
+      return [false, "当前文章的评论功能已被作者关闭"];
+    else if (this.commentAllowers === 1) return [true, "写下你的评论"];
+    else if (this.commentAllowers === 2 && !this.author.isFollowed)
+      return [false, "当前文章只允许关注作者的人进行评论"];
+    else if (this.commentAllowers === 3 && !this.author.hasFollowed)
+      return [false, "当前文章只允许作者关注的人进行评论"];
+    else if (
+      this.commentAllowers === 4 &&
+      !this.author.isFollowed &&
+      !this.author.hasFollowed
+    )
+      return [false, "当前文章只允许与作者相关注进行评论"];
+    else return [true, "写下你的评论"];
   }
 
   // 查看、点赞、评论信息
@@ -687,6 +733,16 @@ export default class ArticleDetail extends Vue {
     window.open(
       `http://connect.qq.com/widget/shareqq/index.html?url=${window.location.href}&sharesource=qzone&title=TIFA COMMUNITY&pics=${this.articleDetail.banner}&summary=${this.articleDetail.title}&desc=TIFA`
     );
+  }
+
+  // 设置允许评论的类型
+  private async setCommentAllow(type: number) {
+    const res = await setArticleCommentAllow(this.articleId, type);
+
+    if (!res) return;
+
+    this.$Message.success("设置成功");
+    this.articleDetail.commentAllow = type;
   }
 }
 </script>
