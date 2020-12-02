@@ -26,7 +26,11 @@
           <div class="comment-content">
             <div class="comment-txt" v-html="commentObj.content"></div>
             <div class="oper-box">
-              <div class="oper-item" @click="secondReplyShow(commentObj)">
+              <div
+                class="oper-item"
+                @click="secondReplyShow(commentObj)"
+                v-if="replyAllow"
+              >
                 <Icon type="md-text" size="20" />
                 <span>{{ commentObj.commentCount }}</span>
               </div>
@@ -93,6 +97,7 @@
                   <div
                     class="oper-item"
                     @click="secondReplyShow(child, child.commentId)"
+                    v-if="replyAllow"
                   >
                     <Icon type="md-text" size="20" />
                     <span>{{ child.commentCount }}</span>
@@ -168,11 +173,13 @@ import ReportModal from "@/components/ReportModal.vue";
 
 @Component({
   components: { ReplyArea, ReportModal },
+  inheritAttrs: false,
 })
 export default class CommentItem extends Vue {
   @Prop({ default: () => ({}) }) private commentObj!: any;
   // 当前展示的二级评论回复框的评论Id
   @Prop({ default: () => null }) private secondReplyShowId!: any;
+  @Prop({ default: true }) private replyAllow!: any;
   @Ref("commentReplyer") private commentReplyer!: any;
   private dateFormat = dateFormat;
   private slider = slidePage(300);

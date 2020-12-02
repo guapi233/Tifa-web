@@ -27,6 +27,7 @@
         <!-- 评论列表 -->
         <div class="comment-list-box">
           <CommentItem
+            v-bind="$attrs"
             v-for="commentObj in commentList"
             :key="commentObj.commentId"
             :commentObj="commentObj"
