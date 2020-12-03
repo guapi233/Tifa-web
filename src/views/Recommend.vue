@@ -24,7 +24,7 @@ import ArticleItem from "@/components/ArticleItem.vue";
 import { getArticleList } from "@/api/content";
 
 @Component({
-  components: { ArticleItem }
+  components: { ArticleItem },
 })
 export default class CommunityRecommend extends Vue {
   private articleList: any = [];
@@ -36,7 +36,11 @@ export default class CommunityRecommend extends Vue {
   }
 
   private async loadmore() {
-    const res: any = await getArticleList({ skip: this.page });
+    const { usernumber } = this.$store.state.userInfo;
+    const res: any = await getArticleList({
+      skip: this.page,
+      self: usernumber,
+    });
 
     if (res.length === 0) {
       this.hasMore = false;

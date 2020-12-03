@@ -5,14 +5,16 @@ import axios from "@/utils/axios";
  * @param skip 跳过的页数
  * @param limit 一页的条目数
  * @param usernumber 用户名
+ * @param self 如果当前处于登录状态，发送当前登录用户的账号
  */
 export const getArticleList = async ({
   skip = 0,
   limit = 20,
   usernumber = "",
+  self = "",
 }) => {
   return axios.get(
-    `/public/getArticleList?skip=${skip}&limit=${limit}&usernumber=${usernumber}`
+    `/public/getArticleList?skip=${skip}&limit=${limit}&usernumber=${usernumber}&self=${self}`
   );
 };
 
