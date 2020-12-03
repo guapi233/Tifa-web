@@ -39,3 +39,10 @@ export const setNotice = (noticeObj: object) => {
 export const setBlacklisted = (targetId: string) => {
   return axios.get(`/user/setBlacklisted?targetId=${targetId}`);
 };
+
+/**
+ * 获取我拉黑的列表
+ */
+export const getBlacklistedList = (skip = 0, limit = 20) => {
+  return axios.get(`/user/getBlacklistedList?skip=${skip}&limit=${limit}`);
+};
