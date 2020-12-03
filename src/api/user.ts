@@ -31,3 +31,11 @@ export const followUser = (targetId: string) => {
 export const setNotice = (noticeObj: object) => {
   return axios.post(`/user/setNotice`, noticeObj);
 };
+
+/**
+ * 拉黑
+ * @param targetId 目标用户Id
+ */
+export const setBlacklisted = (targetId: string) => {
+  return axios.get(`/user/setBlacklisted?targetId=${targetId}`);
+};
