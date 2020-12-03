@@ -2,7 +2,8 @@
   <div class="setting-filter-outermost">
     <div class="blacklisted">
       <h2 class="title">屏蔽的用户</h2>
-      <div class="blacklisted-list">
+      <p class="none-tip" v-if="!blacklistedList.length">无用户</p>
+      <div class="blacklisted-list" v-else>
         <Scroll :onReachBottom="getBlacklistedList" :isEnd="isEnd">
           <div
             class="blacklisted-item"
@@ -11,7 +12,15 @@
           >
             <Avatar :size="36" :src="item.pic" />
             <p class="blacklisted-name">{{ item.name }}</p>
-            <Button>取消屏蔽</Button>
+
+            <Poptip
+              confirm
+              placement="right"
+              :title="`确定要${item.op ? '屏蔽用户' : '取消屏蔽'}吗？`"
+              @on-ok="setBlacklisted(item)"
+            >
+              <Button>{{ item.op ? "屏蔽用户" : "取消屏蔽" }}</Button>
+            </Poptip>
           </div>
         </Scroll>
       </div>
@@ -21,7 +30,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getBlacklistedList } from "@/api/user";
+import { getBlacklistedList, setBlacklisted } from "@/api/user";
 
 @Component
 export default class SettingFilter extends Vue {
@@ -40,6 +49,18 @@ export default class SettingFilter extends Vue {
       this.blacklistedList.push(...res);
     } else {
       this.isEnd = false;
+    }
+  }
+  private async setBlacklisted(item: any) {
+    const res: any = await setBlacklisted(item.usernumber);
+
+    if (!res) return;
+
+    this.$Message.success(res);
+    if (typeof item.op === "undefined") {
+      this.$set(item, "op", true);
+    } else {
+      item.op = !item.op;
     }
   }
 }
