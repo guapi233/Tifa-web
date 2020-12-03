@@ -267,7 +267,7 @@ export default class CommentItem extends Vue {
       this.$Message.success("点赞成功");
       comment.likeCount++;
       comment.isLiked = 1;
-    } else {
+    } else if (res !== false) {
       this.$Message.info(res);
       comment.likeCount--;
       comment.isLiked = 0;

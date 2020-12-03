@@ -647,7 +647,7 @@ export default class ArticleDetail extends Vue {
       this.$Message.success("点赞成功");
       this.articleDetail.likeCount++;
       this.articleDetail.isLiked = 1;
-    } else {
+    } else if (res !== false) {
       this.$Message.info(res);
       this.articleDetail.likeCount--;
       this.articleDetail.isLiked = 0;
