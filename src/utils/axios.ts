@@ -7,7 +7,7 @@ import errorHandle from "./errorHandle";
 import Vue from "vue";
 import { getStorage } from "@/utils/index";
 import config from "@/config";
-import { isPublicApi } from "@/utils/index";
+// import { isPublicApi } from "@/utils/index";
 
 const instance = axios.create({
   baseURL: config.baseUrl,
@@ -22,9 +22,10 @@ instance.interceptors.request.use(
   (config: any) => {
     // 携带 token
     const token = getStorage("token");
-    if (token && !isPublicApi(config.url)) {
-      config.headers.Authorization = `bearer ${token}`;
-    }
+    token && (config.headers.Authorization = `bearer ${token}`);
+    // if (token && !isPublicApi(config.url)) {
+    //   config.headers.Authorization = `bearer ${token}`;
+    // }
 
     return config;
   },
