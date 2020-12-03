@@ -45,7 +45,9 @@
                       >
                         个人主页
                       </router-link>
-                      <li class="tip">账号设置</li>
+                      <router-link tag="li" class="tip" :to="`/setting`">
+                        账号设置
+                      </router-link>
                       <li class="tip" @click="logout">退出登录</li>
                     </ul>
                   </div>
