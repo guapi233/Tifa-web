@@ -23,7 +23,7 @@
             </router-link>
           </div>
           <div class="oper" v-else>
-            <div class="oper-item">
+            <div class="oper-item" v-if="!userInfo.blacklisted">
               <Button
                 shape="circle"
                 type="primary"
@@ -35,8 +35,13 @@
                 >取消关注</Button
               >
             </div>
-            <div class="oper-item">
+            <div class="oper-item" v-if="!userInfo.blacklisted">
               <Button shape="circle" @click="toWhisper">私信</Button>
+            </div>
+            <div class="oper-item" v-else>
+              <Button shape="circle" @click="blacklistedShow = true"
+                >取消屏蔽</Button
+              >
             </div>
           </div>
         </div>
@@ -164,13 +169,25 @@
 
         <!-- 屏蔽举报 -->
         <div class="report-box" v-if="!isSelf">
-          <span class="item">屏蔽用户</span>
+          <span class="item" @click="blacklistedShow = true">{{
+            userInfo.blacklisted ? "取消屏蔽" : "屏蔽用户"
+          }}</span>
           <span class="separator"> · </span>
           <span class="item" @click="reportShow = true">举报用户</span>
         </div>
       </div>
     </div>
 
+    <!-- 屏蔽模态框 -->
+    <Modal v-model="blacklistedShow" title="提示" @on-ok="setBlacklisted"
+      ><p>
+        {{
+          userInfo.blacklisted
+            ? "确定要取消对该用户的屏蔽吗？"
+            : "屏蔽后，对方将不能关注你、向你发私信、评论你的文章回答，但仍然可以查看你的公开信息。"
+        }}
+      </p></Modal
+    >
     <!-- 举报模态框 -->
     <ReportModal
       :show.sync="reportShow"
@@ -184,7 +201,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { getUserInfo } from "@/api/public";
-import { followUser } from "@/api/user";
+import { followUser, setBlacklisted } from "@/api/user";
 import { addRoom } from "@/api/content";
 import UserTitle from "@/components/UserTitle.vue";
 import ReportModal from "@/components/ReportModal.vue";
@@ -197,8 +214,9 @@ export default class User extends Vue {
   private userInfo: any = {};
   // 用户账号
   private usernumber = "";
-  // 举报控件控制变量
+  // 举报 & 屏蔽 控件控制变量
   private reportShow = false;
+  private blacklistedShow = false;
 
   // 是否是本人信息
   private get isSelf() {
@@ -245,6 +263,15 @@ export default class User extends Vue {
     if (res) {
       this.$router.replace(`/message/whisper/${res}`);
     }
+  }
+  // 拉黑用户
+  private async setBlacklisted() {
+    const res: any = await setBlacklisted(this.usernumber);
+
+    if (!res) return;
+
+    this.$Message.success(res);
+    this.userInfo.blacklisted = !this.userInfo.blacklisted;
   }
 
   // 监听 $route 变化
