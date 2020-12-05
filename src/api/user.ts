@@ -46,3 +46,14 @@ export const setBlacklisted = (targetId: string) => {
 export const getBlacklistedList = (skip = 0, limit = 20) => {
   return axios.get(`/user/getBlacklistedList?skip=${skip}&limit=${limit}`);
 };
+
+/**
+ * 修改偏好设置
+ * @param preferenceObj 偏好对象
+ */
+export const setMinePre = (preferenceObj: {
+  trendVisible: number;
+  collectionVisible: number;
+}) => {
+  return axios.post("/user/setMinePre", preferenceObj);
+};
