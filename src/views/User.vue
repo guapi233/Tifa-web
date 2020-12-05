@@ -123,7 +123,7 @@
         </div>
 
         <!-- 展示内容 -->
-        <router-view />
+        <router-view :userInfo="userInfo" :usernumber="usernumber" />
       </div>
       <div class="right-side">
         <div class="side-item">
@@ -394,6 +394,13 @@ export default class User extends Vue {
             border-bottom: 2px solid $primaryColor;
           }
         }
+      }
+
+      .unvisible-tip {
+        color: $contentColor;
+        padding: 20px;
+        text-align: center;
+        font-size: 20px;
       }
     }
 
