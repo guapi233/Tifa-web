@@ -1,7 +1,7 @@
 <template>
   <div class="user-update-outermost">
     <div class="user-updates">
-      <div class="container">
+      <div class="container" v-if="trendVisible">
         <div class="updates">
           <div class="update-item">
             <div class="title-box">
@@ -12,9 +12,7 @@
                 </div>
                 <div class="memo">喜欢了文章</div>
               </div>
-              <div class="time">
-                3小时前
-              </div>
+              <div class="time">3小时前</div>
             </div>
             <!-- <ArticleItem2 /> -->
           </div>
@@ -32,9 +30,7 @@
                   的文章
                 </div>
               </div>
-              <div class="time">
-                3小时前
-              </div>
+              <div class="time">3小时前</div>
             </div>
             <div class="update-cont">
               <div class="comment-box">
@@ -52,20 +48,31 @@
           </div>
         </div>
       </div>
+      <p class="unvisible-tip" v-else>该用户隐藏了自身的动态</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import ArticleItem2 from "@/components/ArticleItem2.vue";
 
 @Component({
   components: {
-    ArticleItem2
-  }
+    ArticleItem2,
+  },
 })
-export default class UserUpdate extends Vue {}
+export default class UserUpdate extends Vue {
+  @Prop({ default: () => ({}) }) userInfo!: any;
+  @Prop({ default: "" }) usernumber!: string;
+
+  private get trendVisible() {
+    return !(
+      !this.userInfo.trendVisible &&
+      this.usernumber !== this.$store.state.userInfo.usernumber
+    );
+  }
+}
 </script>
 
 <style lang="scss">
