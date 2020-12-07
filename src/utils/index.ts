@@ -2,13 +2,6 @@ import { v4 as uuidv4 } from "uuid";
 import config from "@/config";
 
 /**
- * 新建 Sid
- */
-export const getSid = (): string => {
-  return uuidv4();
-};
-
-/**
  * 读取 localStorage
  */
 export const getStorage = (key: string): string | null => {
@@ -25,6 +18,20 @@ export const getStorage = (key: string): string | null => {
 
 export const setStorage = (key: string, value: string) => {
   localStorage.setItem(key, value);
+};
+
+/**
+ * 新建 Sid
+ */
+export const getSid = (): string => {
+  let result = getStorage("sid");
+
+  if (!result) {
+    result = uuidv4();
+    setStorage("sid", result);
+  }
+
+  return result;
 };
 
 /**
@@ -285,6 +292,14 @@ export const filteImg = (str: string, replaced = "") => {
  */
 export const isEmail = (str: string) => {
   return /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+.([a-zA-Z]{2,4})$/.test(str);
+};
+
+/**
+ * 是否是一个有效的手机号
+ * @param str 字符串
+ */
+export const isPhone = (str: string) => {
+  return /^1[3456789][0-9]{9}$/.test(str);
 };
 
 /**
