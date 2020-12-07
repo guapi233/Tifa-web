@@ -74,6 +74,7 @@
           <FormItem prop="oldPassword" class="mt10 mb30">
             <Input
               class="setting-input-reset"
+              type="password"
               size="large"
               v-model="formData.oldPassword"
               placeholder="请输入原密码"
@@ -82,6 +83,7 @@
           <FormItem prop="newPassword" class="mt10 mb10">
             <Input
               class="setting-input-reset"
+              type="password"
               size="large"
               v-model="formData.newPassword"
               placeholder="请输入新密码"
@@ -96,6 +98,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { sendMail } from "@/api/public";
+import { setPassword } from "@/api/user";
 import { isEmail, isMiddle } from "@/utils/index";
 import { generUnDeterminInput } from "@/utils/validator";
 import CountDownButton from "@/components/CountDownButton";
@@ -206,7 +209,7 @@ export default class SettingAccount extends Vue {
       console.log("??");
     }
   }
-  private passwordBtnClick() {
+  private async passwordBtnClick() {
     if (!this.passwordBtn[1]) {
       this.$set(this.passwordBtn, 0, "确定");
       this.$set(this.passwordBtn, 1, true);
@@ -219,7 +222,18 @@ export default class SettingAccount extends Vue {
       ) {
         return;
       }
-      console.log("??");
+      const { oldPassword, newPassword } = this.formData;
+      const res = await setPassword({
+        oldPassword,
+        newPassword,
+      });
+
+      if (!res) return;
+      this.$Message.success("修改成功");
+      this.formData.oldPassword = "";
+      this.formData.newPassword = "";
+      this.$set(this.passwordBtn, 0, "修改");
+      this.$set(this.passwordBtn, 1, false);
     }
   }
 
