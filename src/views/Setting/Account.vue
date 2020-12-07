@@ -64,20 +64,30 @@
       </div>
       <!-- 修改登录密码 -->
       <div class="item-box">
-        <FormItem prop="password" label="修改登录密码" class="affix-wrap">
-          <Input
-            class="setting-input-reset"
-            size="large"
-            v-model="formData.password"
-            :placeholder="passwordBtn[2]"
-            v-if="passwordBtn[1]"
-          />
-          <div class="affix">
-            <Button shape="circle" @click="passwordBtnClick">{{
-              passwordBtn[0]
-            }}</Button>
-          </div>
-        </FormItem>
+        <div class="affix">
+          <span>修改登录密码</span>
+          <Button shape="circle" @click="passwordBtnClick">{{
+            passwordBtn[0]
+          }}</Button>
+        </div>
+        <div class="password-wrap" v-if="passwordBtn[1]">
+          <FormItem prop="oldPassword" class="mt10 mb30">
+            <Input
+              class="setting-input-reset"
+              size="large"
+              v-model="formData.oldPassword"
+              placeholder="请输入原密码"
+            />
+          </FormItem>
+          <FormItem prop="newPassword" class="mt10 mb10">
+            <Input
+              class="setting-input-reset"
+              size="large"
+              v-model="formData.newPassword"
+              placeholder="请输入新密码"
+            />
+          </FormItem>
+        </div>
       </div>
     </Form>
   </div>
@@ -86,7 +96,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { sendMail } from "@/api/public";
-import { isEmail } from "@/utils/index";
+import { isEmail, isMiddle } from "@/utils/index";
 import { generUnDeterminInput } from "@/utils/validator";
 import CountDownButton from "@/components/CountDownButton";
 import config from "@/config";
@@ -100,7 +110,8 @@ export default class SettingAccount extends Vue {
   private formData = {
     mobile: "",
     email: "",
-    password: "",
+    oldPassword: "",
+    newPassword: "",
   };
   private ruleValidates = {
     email: [
@@ -116,6 +127,22 @@ export default class SettingAccount extends Vue {
           "这已经是当前的邮箱了"
         ),
         trigger: "change",
+      },
+    ],
+    oldPassword: [
+      { required: true, message: "请输入原密码", trigger: "blur" },
+      { min: 6, max: 20, message: "合法的密码长度为6-20位", trigger: "blur" },
+    ],
+    newPassword: [
+      { required: true, message: "请输入新密码", trigger: "blur" },
+      { min: 6, max: 20, message: "合法的密码长度为6-20位", trigger: "blur" },
+      {
+        validator: generUnDeterminInput(
+          this.formData,
+          "oldPassword",
+          "新密码不能和旧密码相同"
+        ),
+        trigger: "blur",
       },
     ],
   };
@@ -183,8 +210,15 @@ export default class SettingAccount extends Vue {
     if (!this.passwordBtn[1]) {
       this.$set(this.passwordBtn, 0, "确定");
       this.$set(this.passwordBtn, 1, true);
-      this.$set(this.passwordBtn, 2, "请输入原密码");
     } else {
+      const { oldPassword: older, newPassword: newer } = this.formData;
+      if (
+        older === newer ||
+        !isMiddle(older.length, 6, 20) ||
+        !isMiddle(newer.length, 6, 20)
+      ) {
+        return;
+      }
       console.log("??");
     }
   }
@@ -192,7 +226,6 @@ export default class SettingAccount extends Vue {
   // 用户信息监听变化，重新初始化状态
   @Watch("$store.state.userInfo")
   private onUserInfoChange(newVal: object) {
-    console.log(newVal);
     this.userInfo = newVal;
     this.initBtns();
   }
@@ -219,15 +252,22 @@ export default class SettingAccount extends Vue {
       }
     }
 
-    .affix-wrap {
-      position: relative;
-
-      .affix {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding-right: 15px;
+    .password-wrap {
+      .mb30 {
+        margin-bottom: 30px;
       }
+
+      .mb10 {
+        margin-bottom: 10px;
+      }
+    }
+
+    .affix {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      color: #8e8787;
     }
   }
 
