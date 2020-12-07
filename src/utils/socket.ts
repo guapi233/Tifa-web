@@ -1,5 +1,6 @@
 import config from "@/config";
 import { io } from "socket.io-client";
+import { getUserInfo } from "@/api/public";
 import app from "@/main";
 import { delStorage } from "@/utils/index";
 
@@ -25,6 +26,17 @@ const hasNewMes = (msgObj: any) => {
     });
   }
 };
+// 监听个人资料修改（重新加载用户信息）
+const hasSetting = async (setObj: any) => {
+  const { usernumber } = vuex.state.userInfo;
+  if (!usernumber) return;
+
+  const userInfo = await getUserInfo(usernumber);
+  vuex.commit("setUserInfoAndToken", {
+    userInfo,
+  });
+  console.log(vuex.state.userInfo);
+};
 
 // 鉴权结果
 const auth = (result: any) => {
@@ -39,6 +51,7 @@ const auth = (result: any) => {
 
   // 绑定事件
   socket.on("hasNewMes", hasNewMes);
+  socket.on("hasSetting", hasSetting);
 };
 
 // 入口函数
