@@ -2,6 +2,7 @@
  * 存放可以被复用的 校验器
  */
 import axios from "@/utils/axios";
+import { isEmail, isPhone } from "@/utils/index";
 
 /**
  * 生成一个 用于判断与另一个输入框值是否相同的 validator，默认与密码框相匹配
@@ -70,6 +71,21 @@ export const generUnDeterminInput = (
       callback(new Error(message));
     } else {
       callback();
+    }
+  };
+};
+
+/**
+ * 生成一个 用于判断是一个手机或邮箱 validator
+ * @param form 表单对象
+ * @param message 错误提示信息
+ */
+export const generPhoneOrEmailInput = (message: string) => {
+  return (rule: any, value: any, callback: any) => {
+    if (isPhone(value) || isEmail(value)) {
+      callback();
+    } else {
+      callback(new Error(message));
     }
   };
 };
