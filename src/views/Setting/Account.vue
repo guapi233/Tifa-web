@@ -1,6 +1,6 @@
 <template>
   <div class="setting-account-outermost">
-    <Form :model="formData" class="setting-form-reset">
+    <Form :model="formData" class="setting-form-reset" :rules="ruleValidates">
       <!-- 认证手机号 -->
       <div class="item-box">
         <FormItem prop="mobile" label="认证手机号">
@@ -27,9 +27,13 @@
             :placeholder="emailBtn[2]"
             :disabled="!emailBtn[1]"
           >
-            <Button slot="suffix" shape="circle" @click="emailBtnClick">{{
-              emailBtn[0]
-            }}</Button>
+            <CountDownButton
+              :countDown.sync="emailBtn[3]"
+              slot="suffix"
+              shape="circle"
+              @click="emailBtnClick"
+              >{{ emailBtn[0] }}</CountDownButton
+            >
           </i-input>
         </FormItem>
       </div>
@@ -80,25 +84,58 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { sendMail } from "@/api/public";
+import { isEmail } from "@/utils/index";
+import { generUnDeterminInput } from "@/utils/validator";
+import CountDownButton from "@/components/CountDownButton";
 import config from "@/config";
 
-@Component
+@Component({
+  components: { CountDownButton },
+})
 export default class SettingAccount extends Vue {
   private baseUrl = config.baseUrl;
+  private userInfo = this.$store.state.userInfo;
   private formData = {
     mobile: "",
     email: "",
-    password: ""
+    password: "",
+  };
+  private ruleValidates = {
+    email: [
+      {
+        type: "email",
+        message: "邮箱格式错误",
+        trigger: "change",
+      },
+      {
+        validator: generUnDeterminInput(
+          this.formData,
+          this.userInfo.email,
+          "这已经是当前的邮箱了"
+        ),
+        trigger: "change",
+      },
+    ],
   };
   // 控制按钮
   private mobileBtn = ["修改", false, `+86 ${this.userInfo.mobile}（已认证）`];
-  private emailBtn = ["绑定", false, "未绑定"];
+  // 按钮文本、是否打开了输入、输入框信息、倒计时时长
+  private emailBtn = ["绑定", false, "未绑定", 0];
   private territoryBtn = ["创建", false, this.userInfo.usernumber];
   private passwordBtn = ["修改", false];
 
-  private get userInfo() {
-    return this.$store.state.userInfo;
+  private created() {
+    this.initBtns();
+  }
+
+  // 初始化控制按钮
+  private initBtns() {
+    // 邮箱绑定
+    if (this.userInfo.email) {
+      this.emailBtn = ["编辑", false, this.userInfo.email + "（已绑定）", 0];
+    }
   }
 
   // 控制按钮事件
@@ -110,13 +147,27 @@ export default class SettingAccount extends Vue {
       console.log("??");
     }
   }
-  private emailBtnClick() {
+  private async emailBtnClick() {
     if (!this.emailBtn[1]) {
       this.$set(this.emailBtn, 0, "发送验证邮件");
       this.$set(this.emailBtn, 1, true);
       this.$set(this.emailBtn, 2, "请输入绑定邮箱");
     } else {
-      console.log("??");
+      if (
+        !isEmail(this.formData.email) ||
+        this.formData.email === this.userInfo.email
+      )
+        return;
+
+      // 倒计时
+      this.$set(this.emailBtn, 3, 60);
+
+      const res = await sendMail({
+        type: "0",
+        email: this.formData.email,
+      });
+
+      console.log(res);
     }
   }
   private territoryBtnClick() {
@@ -136,6 +187,14 @@ export default class SettingAccount extends Vue {
     } else {
       console.log("??");
     }
+  }
+
+  // 用户信息监听变化，重新初始化状态
+  @Watch("$store.state.userInfo")
+  private onUserInfoChange(newVal: object) {
+    console.log(newVal);
+    this.userInfo = newVal;
+    this.initBtns();
   }
 }
 </script>
