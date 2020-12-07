@@ -24,6 +24,23 @@ ul {
   list-style: none;
 }
 
+// 全局class
+.mt10 {
+  margin-top: 10px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+
 // 动画
 .fade-enter-active,
 .fade-leave-active {
