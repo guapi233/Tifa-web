@@ -48,3 +48,23 @@ export const generIsExistInput = (
     }
   };
 };
+
+/**
+ * 生成一个 用于判断与一个值是否不相同的 validator
+ * @param form 表单对象
+ * @param val 目标值，输入框内的值不能与其相同
+ * @param message 错误提示信息
+ */
+export const generUnDeterminInput = (
+  form: any,
+  val: string,
+  message: string
+) => {
+  return (rule: any, value: any, callback: any) => {
+    if (value === val) {
+      callback(new Error(message));
+    } else {
+      callback();
+    }
+  };
+};
