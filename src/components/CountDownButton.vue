@@ -10,7 +10,9 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 
-@Component
+@Component({
+  inheritAttrs: false,
+})
 export default class CountDownButton extends Vue {
   @Prop({ default: 0 }) countDown!: number;
   private liveCountDown = this.countDown;
