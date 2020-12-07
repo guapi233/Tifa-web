@@ -57,3 +57,16 @@ export const setMinePre = (preferenceObj: {
 }) => {
   return axios.post("/user/setMinePre", preferenceObj);
 };
+
+/**
+ * 修改密码
+ * @param passwordObj 密码信息对象
+ */
+export const setPassword = (passwordObj: any) => {
+  let str = "";
+  Object.keys(passwordObj).filter((key: string) => {
+    str += `${key}=${passwordObj[key]}&`;
+  });
+
+  return axios.get("/user/setPassword?" + str);
+};
