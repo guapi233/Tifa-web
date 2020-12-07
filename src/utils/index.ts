@@ -278,3 +278,11 @@ export const filteImg = (str: string, replaced = "") => {
 
   return str.replace(reg, replaced);
 };
+
+/**
+ * 是否是一个有效的邮箱
+ * @param str 字符串
+ */
+export const isEmail = (str: string) => {
+  return /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+.([a-zA-Z]{2,4})$/.test(str);
+};
