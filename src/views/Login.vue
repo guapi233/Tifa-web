@@ -54,10 +54,12 @@
         </FormItem>
       </Form>
       <div class="tools-bar">
-        <Button type="text">忘记密码？</Button>
-        <router-link to="/register"
-          ><Button type="text"> 还没账号？前往注册 </Button></router-link
-        >
+        <router-link to="/forget">
+          <Button type="text">忘记密码？</Button>
+        </router-link>
+        <router-link to="/register">
+          <Button type="text"> 还没账号？前往注册 </Button>
+        </router-link>
       </div>
     </div>
   </div>
