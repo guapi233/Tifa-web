@@ -238,6 +238,12 @@ export default class User extends Vue {
       this.$router.replace("/whoops");
     }
     this.userInfo = res;
+    // 如果获取的是自己的页面，更新一下本地信息
+    if (this.userInfo.usernumber === this.$store.state.userInfo.usernumber) {
+      this.$store.commit("setUserInfoAndTolen", {
+        userInfo: this.userInfo,
+      });
+    }
   }
 
   private created() {
