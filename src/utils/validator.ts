@@ -60,8 +60,13 @@ export const generUnDeterminInput = (
   val: string,
   message: string
 ) => {
+  // 判断是表单数据还是固定数据
+  const isFormData = Object.hasOwnProperty.call(form, val);
+
   return (rule: any, value: any, callback: any) => {
-    if (value === val) {
+    const _val = isFormData ? form[val] : val;
+
+    if (value === _val) {
       callback(new Error(message));
     } else {
       callback();
