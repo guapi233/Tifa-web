@@ -286,3 +286,13 @@ export const filteImg = (str: string, replaced = "") => {
 export const isEmail = (str: string) => {
   return /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+.([a-zA-Z]{2,4})$/.test(str);
 };
+
+/**
+ * 判断一个数是否在另外两个数中间
+ * @param num 目标数
+ * @param smaller 小值（包括该值本身）
+ * @param bigger 大值（包括该值本身）
+ */
+export const isMiddle = (num: number, smaller: number, bigger: number) => {
+  return num >= smaller && num <= bigger;
+};
