@@ -223,7 +223,8 @@ export default class SettingAccount extends Vue {
         email: this.formData.email,
       });
 
-      console.log(res);
+      if (!res) return;
+      this.$Message.success("邮件已发送");
     }
   }
   private async aliasBtnClick() {
