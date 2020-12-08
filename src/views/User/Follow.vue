@@ -14,7 +14,9 @@
           <div class="user-card" v-for="item in cardList" :key="item.followId">
             <Avatar size="50" :src="item.author.pic" />
             <div class="nickname">
-              <router-link to="/user">{{ item.author.name }}</router-link>
+              <router-link :to="`/user/${item.author.usernumber}`">{{
+                item.author.name
+              }}</router-link>
             </div>
             <div class="count">
               <span class="follow-count">关注 {{ item.author.follow }}</span>
