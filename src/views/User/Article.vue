@@ -15,14 +15,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { getArticleList } from "@/api/content";
 import ArticleItem2 from "@/components/ArticleItem2.vue";
 
 @Component({
-  components: { ArticleItem2 }
+  components: { ArticleItem2 },
 })
 export default class UserArticle extends Vue {
+  @Prop({ default: "" }) private usernumber!: string;
   private articleList: any = [];
 
   private created() {
@@ -30,7 +31,7 @@ export default class UserArticle extends Vue {
   }
 
   private async getArticleList() {
-    const { usernumber } = this.$route.params;
+    const { usernumber } = this;
     const res: any = await getArticleList({ usernumber });
 
     if (res) {

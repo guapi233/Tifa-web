@@ -38,7 +38,7 @@ export default class UserCollection extends Vue {
 
   private async getCollectionList() {
     if (!this.collectionVisible) return;
-    const { usernumber } = this.$route.params;
+    const { usernumber } = this;
     const res: any = await getCollectionList(usernumber);
 
     if (res) {

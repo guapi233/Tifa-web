@@ -123,7 +123,11 @@
         </div>
 
         <!-- 展示内容 -->
-        <router-view :userInfo="userInfo" :usernumber="usernumber" />
+        <router-view
+          :userInfo="userInfo"
+          :usernumber="usernumber"
+          v-if="usernumber"
+        />
       </div>
       <div class="right-side">
         <div class="side-item">
@@ -226,9 +230,8 @@ export default class User extends Vue {
   // 获取用户信息，如果异常跳转至 404 page
   private async setUserInfo() {
     const { usernumber } = this.$route.params;
-    this.usernumber = usernumber;
 
-    const res = await getUserInfo(
+    const res: any = await getUserInfo(
       usernumber,
       this.$store.state.userInfo.usernumber
     );
@@ -238,6 +241,7 @@ export default class User extends Vue {
       this.$router.replace("/whoops");
     }
     this.userInfo = res;
+    this.usernumber = res.usernumber;
     // 如果获取的是自己的页面，更新一下本地信息
     if (this.userInfo.usernumber === this.$store.state.userInfo.usernumber) {
       this.$store.commit("setUserInfoAndToken", {

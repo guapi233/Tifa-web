@@ -49,19 +49,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { getFollowList, getFollowedList } from "@/api/content";
 import { followUser } from "@/api/user";
 
 @Component
 export default class UserFollow extends Vue {
+  @Prop({ default: "" }) private usernumber!: string;
   private type = 0;
   private authorId = "";
   private cardList: any = [];
   private skip = 0;
 
   private created() {
-    this.authorId = this.$route.params.usernumber;
+    this.authorId = this.usernumber;
     this.getList();
   }
 
