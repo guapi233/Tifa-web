@@ -67,7 +67,7 @@ export const generUnDeterminInput = (
   return (rule: any, value: any, callback: any) => {
     const _val = isFormData ? form[val] : val;
 
-    if (value === _val) {
+    if (value === _val && value !== "") {
       callback(new Error(message));
     } else {
       callback();
