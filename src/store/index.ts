@@ -49,6 +49,12 @@ const store = new Vuex.Store({
       token && (state.token = token);
     },
 
+    // 设置单项用户信息
+    setUserInfo(state, { key, val }: { key: string; val: any }) {
+      (state.userInfo as any)[key] = val;
+      setStorage("userInfo", JSON.stringify(state.userInfo));
+    },
+
     // 设置编辑页标题
     setWriteTitle(state, txt: string) {
       state.writeTitle = txt;
