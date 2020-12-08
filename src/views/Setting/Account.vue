@@ -39,7 +39,7 @@
       </div>
       <!-- 个性域名 -->
       <div class="item-box">
-        <FormItem prop="territory" label="个性域名（创建设置后不可修改）">
+        <FormItem prop="territory" :label="`个性域名（${territoryBtn[4]}）`">
           <div class="flex">
             <span class="prefix">{{ baseUrl }}/user/</span>
             <i-input
@@ -49,9 +49,13 @@
               :placeholder="territoryBtn[2]"
               :disabled="!territoryBtn[1]"
             >
-              <Button slot="suffix" shape="circle" @click="territoryBtnClick">{{
-                territoryBtn[0]
-              }}</Button>
+              <Button
+                slot="suffix"
+                shape="circle"
+                @click="territoryBtnClick"
+                v-if="territoryBtn[3]"
+                >{{ territoryBtn[0] }}</Button
+              >
             </i-input>
           </div>
         </FormItem>
@@ -153,7 +157,14 @@ export default class SettingAccount extends Vue {
   private mobileBtn = ["修改", false, `+86 ${this.userInfo.mobile}（已认证）`];
   // 按钮文本、是否打开了输入、输入框信息、倒计时时长
   private emailBtn = ["绑定", false, "未绑定", 0];
-  private territoryBtn = ["创建", false, this.userInfo.usernumber];
+  // 按钮信息、是否打开输入、输入框信息、是否允许打开输入、绑定提示信息
+  private territoryBtn = [
+    "创建",
+    false,
+    this.userInfo.usernumber,
+    true,
+    "创建设置后不可修改",
+  ];
   private passwordBtn = ["修改", false];
 
   private created() {
@@ -165,6 +176,11 @@ export default class SettingAccount extends Vue {
     // 邮箱绑定
     if (this.userInfo.email) {
       this.emailBtn = ["编辑", false, this.userInfo.email + "（已绑定）", 0];
+    }
+
+    // alias 绑定
+    if (this.userInfo.alias) {
+      this.territoryBtn = ["创建", false, this.userInfo.alias, false, "已绑定"];
     }
   }
 
