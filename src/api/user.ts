@@ -70,3 +70,11 @@ export const setPassword = (passwordObj: any) => {
 
   return axios.get("/user/setPassword?" + str);
 };
+
+/**
+ * 设置个性域名
+ * @param alias 个性域名
+ */
+export const setAlias = (alias: string) => {
+  return axios.get(`/user/setAlias?alias=${alias}`);
+};
