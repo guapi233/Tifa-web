@@ -39,22 +39,22 @@
       </div>
       <!-- 个性域名 -->
       <div class="item-box">
-        <FormItem prop="territory" :label="`个性域名（${territoryBtn[4]}）`">
+        <FormItem prop="alias" :label="`个性域名（${aliasBtn[4]}）`">
           <div class="flex">
             <span class="prefix">{{ baseUrlSelf }}/user/</span>
             <i-input
               class="setting-input-reset"
               size="large"
-              v-model="formData.mobile"
-              :placeholder="territoryBtn[2]"
-              :disabled="!territoryBtn[1]"
+              v-model="formData.alias"
+              :placeholder="aliasBtn[2]"
+              :disabled="!aliasBtn[1]"
             >
               <Button
                 slot="suffix"
                 shape="circle"
-                @click="territoryBtnClick"
-                v-if="territoryBtn[3]"
-                >{{ territoryBtn[0] }}</Button
+                @click="aliasBtnClick"
+                v-if="aliasBtn[3]"
+                >{{ aliasBtn[0] }}</Button
               >
             </i-input>
           </div>
@@ -102,7 +102,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { sendMail } from "@/api/public";
-import { setPassword } from "@/api/user";
+import { setPassword, setAlias } from "@/api/user";
 import { isEmail, isMiddle } from "@/utils/index";
 import { generUnDeterminInput } from "@/utils/validator";
 import CountDownButton from "@/components/CountDownButton";
@@ -115,7 +115,7 @@ export default class SettingAccount extends Vue {
   private baseUrlSelf = config.baseUrlSelf;
   private userInfo = this.$store.state.userInfo;
   private formData = {
-    mobile: "",
+    alias: "",
     email: "",
     oldPassword: "",
     newPassword: "",
@@ -134,6 +134,14 @@ export default class SettingAccount extends Vue {
           "这已经是当前的邮箱了"
         ),
         trigger: "change",
+      },
+    ],
+    alias: [
+      {
+        min: 3,
+        max: 12,
+        message: "合法的个性域名长度为3-12位",
+        trigger: "blur",
       },
     ],
     oldPassword: [
@@ -158,7 +166,7 @@ export default class SettingAccount extends Vue {
   // 按钮文本、是否打开了输入、输入框信息、倒计时时长
   private emailBtn = ["绑定", false, "未绑定", 0];
   // 按钮信息、是否打开输入、输入框信息、是否允许打开输入、绑定提示信息
-  private territoryBtn = [
+  private aliasBtn = [
     "创建",
     false,
     this.userInfo.usernumber,
@@ -175,12 +183,14 @@ export default class SettingAccount extends Vue {
   private initBtns() {
     // 邮箱绑定
     if (this.userInfo.email) {
+      this.formData.email = "";
       this.emailBtn = ["编辑", false, this.userInfo.email + "（已绑定）", 0];
     }
 
     // alias 绑定
     if (this.userInfo.alias) {
-      this.territoryBtn = ["创建", false, this.userInfo.alias, false, "已绑定"];
+      this.formData.alias = "";
+      this.aliasBtn = ["创建", false, this.userInfo.alias, false, "已绑定"];
     }
   }
 
@@ -216,13 +226,25 @@ export default class SettingAccount extends Vue {
       console.log(res);
     }
   }
-  private territoryBtnClick() {
-    if (!this.territoryBtn[1]) {
-      this.$set(this.territoryBtn, 0, "确定");
-      this.$set(this.territoryBtn, 1, true);
-      this.$set(this.territoryBtn, 2, "请输入个性域名");
+  private async aliasBtnClick() {
+    if (!this.aliasBtn[1]) {
+      this.$set(this.aliasBtn, 0, "确定");
+      this.$set(this.aliasBtn, 1, true);
+      this.$set(this.aliasBtn, 2, "请输入个性域名");
     } else {
-      console.log("??");
+      const { alias } = this.formData;
+      if (!isMiddle(alias.length, 3, 12)) return;
+
+      const res = await setAlias(alias);
+      if (!res) return;
+
+      this.$Message.success("设置成功");
+      this.$store.commit("setUserInfo", {
+        key: "alias",
+        val: alias,
+      });
+      this.userInfo.alias = alias;
+      this.initBtns();
     }
   }
   private async passwordBtnClick() {
