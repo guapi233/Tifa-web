@@ -287,6 +287,8 @@ export default class User extends Vue {
   // 监听 $route 变化
   @Watch("$route")
   private onRouteChange() {
+    // 不在这重置usernumber的话在用户页面之间跳转会造成状态更新不及时
+    this.usernumber = "";
     this.setUserInfo();
   }
 }
