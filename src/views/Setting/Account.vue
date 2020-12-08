@@ -41,7 +41,7 @@
       <div class="item-box">
         <FormItem prop="territory" :label="`个性域名（${territoryBtn[4]}）`">
           <div class="flex">
-            <span class="prefix">{{ baseUrl }}/user/</span>
+            <span class="prefix">{{ baseUrlSelf }}/user/</span>
             <i-input
               class="setting-input-reset"
               size="large"
@@ -112,7 +112,7 @@ import config from "@/config";
   components: { CountDownButton },
 })
 export default class SettingAccount extends Vue {
-  private baseUrl = config.baseUrl;
+  private baseUrlSelf = config.baseUrlSelf;
   private userInfo = this.$store.state.userInfo;
   private formData = {
     mobile: "",
