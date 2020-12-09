@@ -11,8 +11,11 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { addGlobalScroll, delGlobalEvent } from "@/utils/index";
 import { getTrendList } from "@/api/public";
 import UpdateItem from "./UpdateItem.vue";
+
+let _scrollCb: any = null;
 
 @Component({
   components: {
@@ -23,6 +26,7 @@ export default class UserUpdate extends Vue {
   @Prop({ default: () => ({}) }) userInfo!: any;
   @Prop({ default: "" }) usernumber!: string;
   private trendList: any = [];
+  private skip = 0;
 
   private get trendVisible() {
     return !(
@@ -34,12 +38,21 @@ export default class UserUpdate extends Vue {
   // 入口
   private created() {
     this.getTrendList();
+
+    // 绑定事件
+    _scrollCb = addGlobalScroll("bottom", this.getTrendList);
+  }
+  private beforeDestory() {
+    // 解绑
+    delGlobalEvent("scroll", _scrollCb);
   }
 
   private async getTrendList() {
-    const res: any = await getTrendList(this.usernumber);
+    const res: any = await getTrendList(this.usernumber, this.skip++);
 
     this.trendList.push(...res);
+
+    if (!res.length) document.removeEventListener("scroll", _scrollCb);
   }
 }
 </script>
