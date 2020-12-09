@@ -1,23 +1,23 @@
 <template>
   <div class="user-item-outermost">
     <div class="user-card">
-      <Avatar size="50" :src="item.author.pic" />
+      <Avatar size="50" :src="item.pic" />
       <div class="nickname">
-        <router-link :to="`/user/${item.author.usernumber}`">{{
-          item.author.name
+        <router-link :to="`/user/${item.usernumber}`">{{
+          item.name
         }}</router-link>
       </div>
       <div class="count">
-        <span class="follow-count">关注 {{ item.author.follow }}</span>
+        <span class="follow-count">关注 {{ item.follow }}</span>
         <span class="followed-count"
-          >粉丝 {{ item.author.followed }}</span
+          >粉丝 {{ item.followed }}</span
         >
         <span class="article-count"
-          >文章 {{ item.author.articleCount }}</span
+          >文章 {{ item.articleCount }}</span
         >
       </div>
       <div class="summary">
-        {{ item.author.summary }}
+        {{ item.summary }}
       </div>
       <Button
         shape="circle"
@@ -51,13 +51,14 @@ export default class ClassName extends Vue{
 
 <style lang="scss">
 .user-item-outermost {
+  width: 254px;
+
+
   .user-card {
-    float: left;
+    height: 260px;
     margin: 10px 9.5px;
     padding: 20px;
     background: #fff;
-    width: 254px;
-    height: 260px;
     text-align: center;
     position: relative;
 

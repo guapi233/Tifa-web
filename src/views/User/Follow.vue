@@ -11,7 +11,7 @@
     <div class="user-follow-box">
       <div class="content">
         <div class="user">
-          <UserItem v-for="item in cardList" :key="item.followId" :item="item" @follow="followUser" />
+          <UserItem v-for="item in cardList" :key="item.followId" :item="item.author" @follow="followUser" />
         </div>
       </div>
     </div>
@@ -139,6 +139,8 @@ export default class UserFollow extends Vue {
         max-width: 822px;
         margin: -10px -9.5px;
         padding-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
       }
     }
   }
