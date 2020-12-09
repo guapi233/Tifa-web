@@ -11,7 +11,7 @@
     <div class="user-follow-box">
       <div class="content">
         <div class="user">
-          <UserItem v-for="item in cardList" :key="item.followId" :item="item" />
+          <UserItem v-for="item in cardList" :key="item.followId" :item="item" @follow="followUser" />
         </div>
       </div>
     </div>

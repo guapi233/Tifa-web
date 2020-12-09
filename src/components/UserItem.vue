@@ -42,6 +42,10 @@ import{ Component, Vue, Prop }from 'vue-property-decorator';
 @Component
 export default class ClassName extends Vue{
   @Prop({ default: () => ({}) }) private item!: any;
+
+  private followUser(item: any) {
+    this.$emit("follow", item);
+  }
 }
 </script>
 
