@@ -214,7 +214,6 @@ export default class ReplyArea extends Vue {
     .img-upload {
       width: 30px;
       height: 30px;
-      background: #f5f5f5;
       display: flex;
       justify-content: center;
       align-items: center;
