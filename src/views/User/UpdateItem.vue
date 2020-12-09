@@ -3,7 +3,7 @@
     <div class="updates">
       <div class="update-item" v-if="type === 'article'">
         <UpdateItemTitle :trend="trend" />
-          <ArticleItem2 :itemObj="trendData" />
+        <ArticleItem2 :itemObj="trendData.oper || trendData" />
       </div>
 
       <div class="update-item" v-else-if="type === 'comment'">
@@ -54,12 +54,17 @@ export default class UpdateItem extends Vue{
 
   private get type() {
     const trendType = this.trend.type;
+    const oper = this.trendData.oper;
+    // 关注（用户卡片）
     if (trendType === 3) return "user";
+    // 文章 （文章卡片）
     else if (trendType === 0) return "article";
-    else {
-      if (this.trendData.commentId) return "comment";
-      else if (this.trendData.articleId) return "article";
-    }
+    // 评论（评论卡片 / 文章卡片）
+    else if (this.trendData.commentId) return "comment";
+    else if (this.trendData.articleId) return "article";
+    else if (trendType === 1 && oper.commentId) return "comment";
+    else if (trendType === 1 && oper.articleId) return "article";
+    
 
     return "";
   }
