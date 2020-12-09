@@ -34,3 +34,15 @@ export const sendMail = async (mailObj: any) => {
     `/public/sendMail?sid=${sid}&usernumber=${usernumber}&email=${email}&type=${type}`
   );
 };
+
+/**
+ * 获取动态列表
+ * @param authorId 动态所有者Id
+ * @param skip 跳过的条目
+ * @param limit 条目数
+ */
+export const getTrendList = async (authorId = "", skip = 0, limit = 20) => {
+  return axios.get(
+    `/public/getTrendList?authorId=${authorId}&skip=${skip}&limit=${limit}`
+  );
+};
