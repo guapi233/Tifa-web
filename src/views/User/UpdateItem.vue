@@ -14,9 +14,13 @@
             <div class="comment-content">
               <div class="txt" v-html="trendData.content"></div>
               <div class="article-title">
-                原文：<router-link :to="`/article/${trendData.oper.articleId}`"
-                  >{{ commentContent }}</router-link
-                >
+                原文：
+                <router-link 
+                  :to="`/article/${trendData.oper.articleId}`" 
+                  v-html="commentContent" 
+                  v-if="trendData.oper.articleId">
+                </router-link>
+                <span v-else v-html="commentContent"></span>
               </div>
             </div>
           </div>
@@ -66,6 +70,8 @@ export default class UpdateItem extends Vue{
 
     if (this.trendData.type === 0) {
       return `《${this.trendData.oper.title}》`;
+    } else if (this.trendData.type === 1) {
+      return `${this.trendData.oper.content}`;
     }
 
     return "";
