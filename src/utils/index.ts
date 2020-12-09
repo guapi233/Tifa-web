@@ -311,3 +311,55 @@ export const isPhone = (str: string) => {
 export const isMiddle = (num: number, smaller: number, bigger: number) => {
   return num >= smaller && num <= bigger;
 };
+
+/**
+ * 设置全局滚动（返回一个函数，用于解绑使用）
+ * @param anchor 操作类型
+ * @param cb 回调函数
+ */
+export const addGlobalScroll = (anchor: string, cb: Function) => {
+  let handler: any = null,
+    _cb: any = null,
+    flag = true;
+
+  if (anchor === "bottom") {
+    _cb = async (
+      scrollTop: number,
+      scrollHeight: number,
+      clientHeight: number
+    ) => {
+      if (scrollTop >= scrollHeight - clientHeight) {
+        flag = false;
+        await cb();
+        flag = true;
+      }
+    };
+  }
+
+  document.addEventListener(
+    "scroll",
+    (handler = () => {
+      if (!flag) return;
+
+      const scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop,
+        clientHeight =
+          document.documentElement.clientHeight || document.body.clientHeight,
+        scrollHeight =
+          document.documentElement.scrollHeight || document.body.scrollHeight;
+
+      _cb(scrollTop, scrollHeight, clientHeight);
+    })
+  );
+
+  return handler;
+};
+
+/**
+ * 全局事件监听解绑
+ * @param event 事件类型
+ * @param cb 回调函数
+ */
+export const delGlobalEvent = (event: any, cb: any) => {
+  document.removeEventListener(event, cb);
+};
