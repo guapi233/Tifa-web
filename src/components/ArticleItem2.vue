@@ -52,7 +52,7 @@ export default class ArticleItem2 extends Vue {
   }
 
   private get author() {
-    return this.itemObj.author;
+    return this.itemObj.authorInfo || this.itemObj.author;
   }
 
   private get pic() {
