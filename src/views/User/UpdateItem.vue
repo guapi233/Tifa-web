@@ -143,7 +143,8 @@ export default class UpdateItem extends Vue {
             }
           }
 
-          .emoji-size-small {
+          .emoji-size-small,
+          .emoji-size-big {
             width: 24px;
             vertical-align: text-bottom;
           }
