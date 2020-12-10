@@ -57,7 +57,9 @@ export default class CommunityFollow extends Vue {
               .update-content {
                 /* box-shadow: 0 2px 2px rgba(10, 16, 20, 0.24),
                   0 0 2px rgba(10, 16, 20, 0.12); */
-                box-shadow: 0 5px 20px rgba(18, 18, 18, 0.1);
+                & > div {
+                  box-shadow: 0 5px 20px rgba(18, 18, 18, 0.1);
+                }
               }
             }
           }
