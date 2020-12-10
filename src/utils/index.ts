@@ -328,7 +328,7 @@ export const addGlobalScroll = (anchor: string, cb: Function) => {
       scrollHeight: number,
       clientHeight: number
     ) => {
-      if (scrollTop >= scrollHeight - clientHeight) {
+      if (Math.abs(scrollTop - scrollHeight + clientHeight) <= 50) {
         flag = false;
         await cb();
         flag = true;
