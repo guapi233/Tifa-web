@@ -3,22 +3,25 @@
     <div class="updates">
       <div class="update-item" v-if="type === 'article'">
         <UpdateItemTitle :trend="trend" />
-        <ArticleItem2 :itemObj="trendData.oper || trendData" />
+        <div class="update-content">
+          <ArticleItem2 :itemObj="trendData.oper || trendData" />
+        </div>
       </div>
 
       <div class="update-item" v-else-if="type === 'comment'">
-       <UpdateItemTitle :trend="trend" />
-        <div class="update-cont">
+        <UpdateItemTitle :trend="trend" />
+        <div class="update-content">
           <div class="comment-box">
             <Icon type="ios-quote" size="28" />
             <div class="comment-content">
               <div class="txt" v-html="trendData.content"></div>
               <div class="article-title">
                 原文：
-                <router-link 
-                  :to="`/article/${trendData.oper.articleId}`" 
-                  v-html="commentContent" 
-                  v-if="trendData.oper.articleId">
+                <router-link
+                  :to="`/article/${trendData.oper.articleId}`"
+                  v-html="commentContent"
+                  v-if="trendData.oper.articleId"
+                >
                 </router-link>
                 <span v-else v-html="commentContent"></span>
               </div>
@@ -29,23 +32,25 @@
 
       <div class="update-item" v-else-if="type === 'user'">
         <UpdateItemTitle :trend="trend" />
-        <UserItem :item="trendData.targetInfo" @follow="followUser" />
+        <div class="update-content">
+          <UserItem :item="trendData.targetInfo" @follow="followUser" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import{ Component, Vue, Prop }from 'vue-property-decorator';
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { followUser } from "@/api/user";
 import ArticleItem2 from "@/components/ArticleItem2.vue";
 import UpdateItemTitle from "./UpdateItemTitle.vue";
 import UserItem from "@/components/UserItem";
 
 @Component({
-  components: { ArticleItem2, UpdateItemTitle, UserItem }
+  components: { ArticleItem2, UpdateItemTitle, UserItem },
 })
-export default class UpdateItem extends Vue{
+export default class UpdateItem extends Vue {
   @Prop({ default: () => ({}) }) private trend!: any;
 
   private get trendData() {
@@ -64,13 +69,12 @@ export default class UpdateItem extends Vue{
     else if (this.trendData.articleId) return "article";
     else if (trendType === 1 && oper.commentId) return "comment";
     else if (trendType === 1 && oper.articleId) return "article";
-    
 
     return "";
   }
 
   // 评论的内容
-  private get commentContent () {
+  private get commentContent() {
     if (this.type !== "comment") return "";
 
     if (this.trendData.type === 0) {
@@ -82,7 +86,7 @@ export default class UpdateItem extends Vue{
     return "";
   }
 
-    // 关注
+  // 关注
   private async followUser(target: any) {
     let res: any = null;
     res = await followUser(target.usernumber);
