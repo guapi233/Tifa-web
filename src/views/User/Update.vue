@@ -2,7 +2,11 @@
   <div class="user-update-outermost">
     <div class="user-updates">
       <div class="container" v-if="trendVisible">
-        <UpdateItem v-for="trend in trendList" :key="trend.trendId" :trend="trend" />
+        <UpdateItem
+          v-for="trend in trendList"
+          :key="trend.trendId"
+          :trend="trend"
+        />
       </div>
       <p class="unvisible-tip" v-else>该用户隐藏了自身的动态</p>
     </div>
@@ -19,7 +23,7 @@ let _scrollCb: any = null;
 
 @Component({
   components: {
-    UpdateItem
+    UpdateItem,
   },
 })
 export default class UserUpdate extends Vue {
@@ -42,9 +46,10 @@ export default class UserUpdate extends Vue {
     // 绑定事件
     _scrollCb = addGlobalScroll("bottom", this.getTrendList);
   }
-  private beforeDestory() {
+  private beforeDestroy() {
     // 解绑
     delGlobalEvent("scroll", _scrollCb);
+    _scrollCb = null;
   }
 
   private async getTrendList() {
