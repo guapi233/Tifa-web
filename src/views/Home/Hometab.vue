@@ -4,14 +4,7 @@
       <div class="top-container">
         <div class="top-show">
           <h1 class="title">TIFA COMMUNITY</h1>
-          <ul class="page-tabs">
-            <router-link tag="li" to="/community" active-class="active"
-              >社区广场</router-link
-            >
-            <router-link tag="li" to="/topic" active-class="active"
-              >话题</router-link
-            >
-          </ul>
+          <Tabs :tabList="tabList" />
         </div>
       </div>
       <router-view />
@@ -21,9 +14,23 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Tabs from "@/components/Tabs.vue";
 
-@Component
-export default class Hometab extends Vue {}
+@Component({
+  components: { Tabs },
+})
+export default class Hometab extends Vue {
+  private tabList = [
+    {
+      to: "/community",
+      name: "社区",
+    },
+    {
+      to: "/topic",
+      name: "话题",
+    },
+  ];
+}
 </script>
 
 <style lang="scss">
@@ -40,43 +47,6 @@ export default class Hometab extends Vue {}
       padding: 30px 0 30px 5px;
       text-align: left;
       color: $titleColor;
-    }
-
-    .page-tabs {
-      margin-left: 5px;
-      list-style: none;
-      display: flex;
-
-      li {
-        min-width: 64px;
-        padding: 8px 0;
-        text-align: center;
-        transition: 0.3s;
-        font-size: 16px;
-        margin-right: 16px;
-        color: #8e8787;
-        cursor: pointer;
-
-        &:hover {
-          color: $primaryColor;
-        }
-      }
-
-      .active {
-        color: $primaryColor;
-        position: relative;
-
-        &::after {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 2px;
-          background: $primaryColor;
-        }
-      }
     }
   }
 }
