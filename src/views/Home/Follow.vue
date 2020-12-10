@@ -10,6 +10,7 @@
       :userInfo="userInfo"
       :usernumber="usernumber"
       class="reset-update-item"
+      type="follow"
     />
   </div>
 </template>
