@@ -104,7 +104,7 @@ export default class ArticleItem2 extends Vue {
         transform: translate(-50%, -50%);
         min-width: 100%;
         width: auto;
-        transition: .2s ease-in-out;
+        transition: 0.2s ease-in-out;
       }
     }
 
@@ -114,12 +114,7 @@ export default class ArticleItem2 extends Vue {
       box-sizing: border-box;
       transition: all 0.2s ease-out;
       display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
       flex-direction: column;
-      -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
       justify-content: space-between;
 
       .title-cont {
@@ -136,11 +131,7 @@ export default class ArticleItem2 extends Vue {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
         justify-content: space-between;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
         align-items: center;
 
         .left {
@@ -183,14 +174,14 @@ export default class ArticleItem2 extends Vue {
           .comment-count {
             display: flex;
             align-items: center;
-            margin-left: 20px;
+            margin-left: 10px;
           }
         }
       }
     }
 
     &:hover .img-box {
-      width: 380px;
+      width: 45%;
     }
 
     &:hover .img-box img {
