@@ -8,7 +8,8 @@
             <span>Tifa</span>
           </a>
           <div class="right" :class="{ 'is-login': token }">
-            <Icon class="search" type="ios-search" size="26" />
+            <!-- <Icon class="search" type="ios-search" size="26" /> -->
+            <SearchInput />
             <router-link to="/login" v-if="!token">
               <Button shape="circle" class="login-btn">登录</Button>
             </router-link>
@@ -165,10 +166,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { slidePage } from "@/utils/index";
-import config from "@/config/index";
 import { delStorage } from "@/utils/index";
+import SearchInput from "@/components/SearchInput";
+import config from "@/config/index";
 
-@Component
+@Component({
+  components: { SearchInput },
+})
 export default class Home extends Vue {
   private toTop = slidePage();
   private userToolsShow = false;
@@ -328,7 +332,7 @@ export default class Home extends Vue {
       }
 
       .is-login {
-        align-items: flex-end;
+        align-items: center;
 
         i {
           margin-top: 0;
