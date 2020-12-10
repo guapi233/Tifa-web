@@ -17,7 +17,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class SearchInput extends Vue {
   private inputVal = "";
-  private visible = true;
+  private visible = false;
 }
 </script>
 
