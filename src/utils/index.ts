@@ -6,7 +6,7 @@ import config from "@/config";
  */
 export const getStorage = (key: string): string | null => {
   try {
-    return JSON.parse(localStorage.getItem(key) || "");
+    return JSON.parse(localStorage.getItem(key) as string);
   } catch (err) {
     return localStorage.getItem(key);
   }
