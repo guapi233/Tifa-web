@@ -55,3 +55,11 @@ export const getTrendList = async (authorId = "", skip = 0, limit = 20) => {
 export const search = async (keyword: string, type: string) => {
   return axios.get(`/public/search?keyword=${keyword}&type=${type}`);
 };
+
+/**
+ * 添加检索记录
+ * @param keyword 关键字
+ */
+export const addSearch = async (keyword: string) => {
+  return axios.get(`/public/addSearch?keyword=${keyword}`);
+};
