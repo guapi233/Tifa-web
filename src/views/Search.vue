@@ -118,6 +118,11 @@ export default class Search extends Vue {
       color: $contentColor;
       font-size: 18px;
     }
+
+    strong {
+      color: red;
+      font-weight: bold;
+    }
   }
 }
 </style>
