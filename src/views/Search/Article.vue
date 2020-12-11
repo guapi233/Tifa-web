@@ -1,13 +1,58 @@
 <template>
-  <div class="search-article-outermost">文章检索</div>
+  <div class="search-article-outermost">
+    <div class="search-article-container">
+      <Lfrp>
+        <template #left>
+          <div class="left">
+            <div
+              class="article-item"
+              v-for="itemObj in articleList"
+              :key="itemObj.articleId"
+            >
+              <ArticleItem2 :itemObj="itemObj" />
+            </div>
+          </div>
+        </template>
+        <template #right>
+          <div class="right">热门推荐...</div>
+        </template>
+      </Lfrp>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { search } from "@/api/public";
+import ArticleItem2 from "@/components/ArticleItem2.vue";
+import Lfrp from "@/layout/Lfrp.vue";
 
-@Component
-export default class SearchArticle extends Vue {}
+@Component({
+  components: { Lfrp, ArticleItem2 },
+})
+export default class SearchArticle extends Vue {
+  @Prop({ default: "" }) private keyword!: string;
+  private articleList: any = [];
+  private skip = 0;
+
+  private created() {
+    this.getArticleList();
+  }
+
+  private async getArticleList() {
+    const { keyword } = this;
+    if (!keyword) return;
+    const res: any = await search(keyword, "article");
+
+    this.articleList.push(...res);
+  }
+}
 </script>
 
 <style lang="scss">
+.search-article-outermost {
+  .article-item {
+    margin: 10px 0;
+  }
+}
 </style>
