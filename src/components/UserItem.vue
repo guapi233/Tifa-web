@@ -3,33 +3,23 @@
     <div class="user-card">
       <Avatar size="50" :src="item.pic" />
       <div class="nickname">
-        <router-link :to="`/user/${item.usernumber}`">{{
-          item.name
-        }}</router-link>
+        <router-link
+          :to="`/user/${item.usernumber}`"
+          v-html="item.name"
+        ></router-link>
       </div>
       <div class="count">
         <span class="follow-count">关注 {{ item.follow }}</span>
-        <span class="followed-count"
-          >粉丝 {{ item.followed }}</span
-        >
-        <span class="article-count"
-          >文章 {{ item.articleCount }}</span
-        >
+        <span class="followed-count">粉丝 {{ item.followed }}</span>
+        <span class="article-count">文章 {{ item.articleCount }}</span>
       </div>
       <div class="summary">
         {{ item.summary }}
       </div>
-      <Button
-        shape="circle"
-        v-if="item.isFollowed"
-        @click="followUser(item)"
+      <Button shape="circle" v-if="item.isFollowed" @click="followUser(item)"
         >取消关注</Button
       >
-      <Button
-        shape="circle"
-        type="primary"
-        v-else
-        @click="followUser(item)"
+      <Button shape="circle" type="primary" v-else @click="followUser(item)"
         >关注</Button
       >
     </div>
@@ -37,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import{ Component, Vue, Prop }from 'vue-property-decorator';
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
-export default class ClassName extends Vue{
+export default class ClassName extends Vue {
   @Prop({ default: () => ({}) }) private item!: any;
 
   private followUser(item: any) {
@@ -52,7 +42,6 @@ export default class ClassName extends Vue{
 <style lang="scss">
 .user-item-outermost {
   width: 254px;
-
 
   .user-card {
     height: 260px;
