@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Tabs from "@/components/Tabs.vue";
-import { addSearch } from "@/api/public";
+import { addSearch, search } from "@/api/public";
 
 @Component({
   components: { Tabs },
@@ -32,18 +32,23 @@ import { addSearch } from "@/api/public";
 export default class Search extends Vue {
   private keyword = "";
   private contentLife = true;
+  private searchCount: any = {
+    articles: 0,
+    users: 0,
+  };
 
   private get tabList() {
+    const { articles, users } = this.searchCount;
     const str = this.keyword ? `?keyword=${this.keyword}` : "";
 
     return [
       {
         to: "/search/article" + str,
-        name: "文章",
+        name: "文章" + `(${articles})`,
       },
       {
         to: "/search/user?" + str,
-        name: "用户",
+        name: "用户" + `(${users})`,
       },
     ];
   }
@@ -52,6 +57,9 @@ export default class Search extends Vue {
     // 获取keyword
     const { keyword } = this.$route.query;
     this.keyword = (keyword as string) || "";
+
+    // 初始化检索的数量
+    this.getSearchCount();
   }
 
   private reload() {
@@ -59,6 +67,7 @@ export default class Search extends Vue {
     const { to } = this.tabList[0],
       { name } = this.$route;
 
+    // 初始化路由 & 如果路由不变，则reload组件状态 & reload检索数量
     this.$router.push(to);
     if (name === "SearchArticle") {
       this.contentLife = false;
@@ -66,9 +75,14 @@ export default class Search extends Vue {
         this.contentLife = true;
       });
     }
+    this.getSearchCount();
 
     // 添加检索记录到远端
     addSearch(this.keyword);
+  }
+
+  private async getSearchCount() {
+    this.searchCount = await search(this.keyword, "count");
   }
 }
 </script>
