@@ -45,7 +45,20 @@ export default class SearchArticle extends Vue {
     if (!keyword) return;
     const res: any = await search(keyword, "article");
 
+    // 给选中的字体上色 & 放入列表
+    this.dyeRed(res);
     this.articleList.push(...res);
+  }
+
+  // 加红处理
+  private dyeRed(list: any) {
+    list.forEach((item: any) => {
+      // 适当声明一些冗余的变量，可以上指令变得更易读
+      const title = item.title,
+        reg = new RegExp(this.keyword, "ig"),
+        dyed = `<strong>${this.keyword}</strong>`;
+      item.title = title.replace(reg, dyed);
+    });
   }
 }
 </script>
