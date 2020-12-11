@@ -7,8 +7,11 @@
         </router-link>
       </div>
       <div class="card-content">
-        <router-link :to="`/article/${article.articleId}`" class="title-cont">
-          {{ article.title }}
+        <router-link
+          :to="`/article/${article.articleId}`"
+          class="title-cont"
+          v-html="article.title"
+        >
         </router-link>
         <div class="card-bottom">
           <div class="left">
