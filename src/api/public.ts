@@ -46,3 +46,12 @@ export const getTrendList = async (authorId = "", skip = 0, limit = 20) => {
     `/public/getTrendList?authorId=${authorId}&skip=${skip}&limit=${limit}`
   );
 };
+
+/**
+ * 检索
+ * @param keyword 关键字
+ * @param type 检索类型
+ */
+export const search = async (keyword: string, type: string) => {
+  return axios.get(`/public/search?keyword=${keyword}&type=${type}`);
+};
