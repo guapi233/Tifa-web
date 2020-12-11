@@ -11,7 +11,7 @@
       @on-search="search"
       @on-focus="dropShow"
       @on-blur="visible = false"
-      @on-change="handleInputChange"
+      @on-change="getSearch"
     />
 
     <DropdownMenu slot="list">
@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getStorage, setStorage } from "@/utils/index";
+import { getStorage, setStorage, debounce } from "@/utils/index";
 import { addSearch, getSearch } from "@/api/public";
 
 @Component
@@ -58,15 +58,16 @@ export default class SearchInput extends Vue {
     if (!this.inputVal) {
       this.searchRecord = this.getLocalSearchRecord();
     } else {
-      //
+      this.getSearch();
     }
 
     if (this.searchRecord.length) {
       this.visible = true;
     }
   }
-  // 处理输入框输入
-  private async handleInputChange() {
+  // 获取检索推荐
+  private getSearch = debounce(this.getSearch_, 300);
+  private async getSearch_() {
     this.searchRecord = await getSearch(this.inputVal);
 
     this.visible = Boolean(this.searchRecord.length);
