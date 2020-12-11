@@ -51,11 +51,14 @@ export default class SearchUser extends Vue {
 
   // 加红处理
   private dyeRed(list: any) {
+    let keyword = this.keyword;
+    keyword = keyword.split(/\s+/).join("|");
+
     list.forEach((item: any) => {
       // 适当声明一些冗余的变量，可以上指令变得更易读
       const name = item.name,
-        reg = new RegExp(this.keyword, "ig"),
-        dyed = `<strong>${this.keyword}</strong>`;
+        reg = new RegExp(keyword, "ig"),
+        dyed = `<strong>$&</strong>`;
       item.name = name.replace(reg, dyed);
     });
   }
