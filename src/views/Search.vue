@@ -24,6 +24,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Tabs from "@/components/Tabs.vue";
+import { addSearch } from "@/api/public";
 
 @Component({
   components: { Tabs },
@@ -64,6 +65,9 @@ export default class Search extends Vue {
         this.contentLife = true;
       });
     }
+
+    // 添加检索记录到远端
+    addSearch(this.keyword);
   }
 }
 </script>

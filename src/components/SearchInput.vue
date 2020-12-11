@@ -27,6 +27,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { getStorage, setStorage } from "@/utils/index";
+import { addSearch } from "@/api/public";
 
 @Component
 export default class SearchInput extends Vue {
@@ -39,13 +40,14 @@ export default class SearchInput extends Vue {
   }
 
   private search(keyword = this.inputVal) {
-    console.log(keyword);
     if (!keyword) return;
 
     this.$router.push(`/search?keyword=${keyword}`);
 
     // 添加检索记录到本地
     this.setLocalSearchRecord(keyword);
+    // 添加检索记录到远端
+    addSearch(keyword);
 
     this.inputVal = "";
   }
