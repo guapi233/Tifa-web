@@ -80,7 +80,8 @@ export default class SearchInput extends Vue {
     return records.slice(0, 10);
   }
   private setLocalSearchRecord(keyword: string) {
-    const [exist] = this.searchRecord.filter((record: any, index: number) => {
+    const localRecords: any = getStorage("searchRecord") || [];
+    const [exist] = localRecords.filter((record: any, index: number) => {
       if (record.content === keyword) {
         record.time = Date.now();
         this.searchRecord.splice(index, 1);
@@ -91,12 +92,12 @@ export default class SearchInput extends Vue {
     });
 
     if (!exist) {
-      this.searchRecord.unshift({
+      localRecords.unshift({
         content: keyword,
         time: Date.now(),
       });
     }
-    setStorage("searchRecord", JSON.stringify(this.searchRecord));
+    setStorage("searchRecord", JSON.stringify(localRecords));
   }
 }
 </script>
