@@ -63,3 +63,11 @@ export const search = async (keyword: string, type: string) => {
 export const addSearch = async (keyword: string) => {
   return axios.get(`/public/addSearch?keyword=${keyword}`);
 };
+
+/**
+ * 获取检索记录
+ * @param keyword 关键字
+ */
+export const getSearch = async (keyword: string) => {
+  return axios.get(`/public/getSearch?keyword=${keyword}`);
+};

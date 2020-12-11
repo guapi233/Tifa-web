@@ -11,12 +11,13 @@
       @on-search="search"
       @on-focus="dropShow"
       @on-blur="visible = false"
+      @on-change="handleInputChange"
     />
 
     <DropdownMenu slot="list">
       <DropdownItem
         v-for="record in searchRecord"
-        :key="record.time"
+        :key="record.time || record.searchId"
         @click.native="search(record.content)"
         >{{ record.content }}</DropdownItem
       >
@@ -27,7 +28,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { getStorage, setStorage } from "@/utils/index";
-import { addSearch } from "@/api/public";
+import { addSearch, getSearch } from "@/api/public";
 
 @Component
 export default class SearchInput extends Vue {
@@ -39,6 +40,7 @@ export default class SearchInput extends Vue {
     return this.$route.path.startsWith("/search");
   }
 
+  // 触发检索动作
   private search(keyword = this.inputVal) {
     if (!keyword) return;
 
@@ -51,7 +53,7 @@ export default class SearchInput extends Vue {
 
     this.inputVal = "";
   }
-
+  // 下拉框出现
   private dropShow() {
     if (!this.inputVal) {
       this.searchRecord = this.getLocalSearchRecord();
@@ -63,7 +65,14 @@ export default class SearchInput extends Vue {
       this.visible = true;
     }
   }
+  // 处理输入框输入
+  private async handleInputChange() {
+    this.searchRecord = await getSearch(this.inputVal);
 
+    this.visible = Boolean(this.searchRecord.length);
+  }
+
+  // 本地检索记录的读写
   private getLocalSearchRecord() {
     const records = getStorage("searchRecord") || [];
 
