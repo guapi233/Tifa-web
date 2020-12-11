@@ -2,7 +2,12 @@
   <div class="search-outermost">
     <div class="search-top">
       <div class="searcher">
-        <Input v-model="keyword" long class="reset-search-input" />
+        <Input
+          v-model="keyword"
+          long
+          class="reset-search-input"
+          @keydown.native.enter="reload"
+        />
       </div>
       <div class="search-tabs">
         <Tabs :tabList="tabList" />
@@ -10,7 +15,7 @@
     </div>
     <div class="search-container">
       <div class="content-container">
-        <router-view :keyword="keyword" />
+        <router-view v-if="contentLife" :keyword="keyword" />
       </div>
     </div>
   </div>
@@ -25,6 +30,7 @@ import Tabs from "@/components/Tabs.vue";
 })
 export default class Search extends Vue {
   private keyword = "";
+  private contentLife = true;
 
   private get tabList() {
     const str = this.keyword ? `?keyword=${this.keyword}` : "";
@@ -45,6 +51,19 @@ export default class Search extends Vue {
     // 获取keyword
     const { keyword } = this.$route.query;
     this.keyword = (keyword as string) || "";
+  }
+
+  private reload() {
+    const { to } = this.tabList[0],
+      { name } = this.$route;
+
+    this.$router.push(to);
+    if (name === "SearchArticle") {
+      this.contentLife = false;
+      this.$nextTick(() => {
+        this.contentLife = true;
+      });
+    }
   }
 }
 </script>
