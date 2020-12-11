@@ -1,6 +1,11 @@
 <template>
-  <Dropdown class="search-input-outermost" trigger="custom" :visible="visible">
-    <Input search v-model="inputVal" />
+  <Dropdown
+    class="search-input-outermost"
+    trigger="custom"
+    :visible="visible"
+    v-if="!atSearchPage"
+  >
+    <Input search v-model="inputVal" @on-search="search" />
     <DropdownMenu slot="list">
       <DropdownItem>驴打滚</DropdownItem>
       <DropdownItem>炸酱面</DropdownItem>
@@ -18,6 +23,17 @@ import { Component, Vue } from "vue-property-decorator";
 export default class SearchInput extends Vue {
   private inputVal = "";
   private visible = false;
+
+  private get atSearchPage() {
+    return this.$route.path.startsWith("/search");
+  }
+
+  private search() {
+    if (!this.inputVal) return;
+
+    this.$router.push(`/search?keyword=${this.inputVal}`);
+    this.inputVal = "";
+  }
 }
 </script>
 
