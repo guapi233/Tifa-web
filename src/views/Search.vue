@@ -2,7 +2,7 @@
   <div class="search-outermost">
     <div class="search-top">
       <div class="searcher">
-        <Input long class="reset-search-input" />
+        <Input v-model="keyword" long class="reset-search-input" />
       </div>
       <div class="search-tabs">
         <Tabs :tabList="tabList" />
@@ -10,7 +10,7 @@
     </div>
     <div class="search-container">
       <div class="content-container">
-        <router-view />
+        <router-view :keyword="keyword" />
       </div>
     </div>
   </div>
@@ -24,16 +24,28 @@ import Tabs from "@/components/Tabs.vue";
   components: { Tabs },
 })
 export default class Search extends Vue {
-  private tabList = [
-    {
-      to: "/search/article",
-      name: "文章",
-    },
-    {
-      to: "/search/user",
-      name: "用户",
-    },
-  ];
+  private keyword = "";
+
+  private get tabList() {
+    const str = this.keyword ? `?keyword=${this.keyword}` : "";
+
+    return [
+      {
+        to: "/search/article" + str,
+        name: "文章",
+      },
+      {
+        to: "/search/user?" + str,
+        name: "用户",
+      },
+    ];
+  }
+
+  private created() {
+    // 获取keyword
+    const { keyword } = this.$route.query;
+    this.keyword = (keyword as string) || "";
+  }
 }
 </script>
 
