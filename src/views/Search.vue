@@ -55,6 +55,7 @@ export default class Search extends Vue {
   }
 
   private reload() {
+    if (this.keyword === this.$route.query.keyword) return;
     const { to } = this.tabList[0],
       { name } = this.$route;
 
