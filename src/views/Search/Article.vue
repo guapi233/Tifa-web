@@ -4,6 +4,7 @@
       <Lfrp>
         <template #left>
           <div class="left">
+            <p class="noop-tip" v-if="!articleList.length">空空如也~</p>
             <div
               class="article-item"
               v-for="itemObj in articleList"

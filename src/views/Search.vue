@@ -113,6 +113,11 @@ export default class Search extends Vue {
       margin: 0 auto;
       padding-top: 40px;
     }
+
+    .noop-tip {
+      color: $contentColor;
+      font-size: 18px;
+    }
   }
 }
 </style>
