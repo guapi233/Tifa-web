@@ -8,7 +8,11 @@
         <Tabs :tabList="tabList" />
       </div>
     </div>
-    <div class="search-container"></div>
+    <div class="search-container">
+      <div class="content-container">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,8 +40,8 @@ export default class Search extends Vue {
 <style lang="scss">
 .search-outermost {
   .search-top {
-    height: 180px;
-    padding: 25px 10px;
+    height: 145px;
+    padding: 25px 10px 0;
 
     .searcher {
       max-width: 810px;
@@ -60,7 +64,18 @@ export default class Search extends Vue {
 
     .search-tabs {
       max-width: 1140px;
-      margin: 20px auto;
+      margin: 20px auto 0;
+    }
+  }
+
+  .search-container {
+    background-color: #f5f7f9;
+    min-height: 663.5px;
+
+    .content-container {
+      width: 1120px;
+      margin: 0 auto;
+      padding-top: 40px;
     }
   }
 }
