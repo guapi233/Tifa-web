@@ -45,7 +45,19 @@ export default class SearchUser extends Vue {
     if (!keyword) return;
     const res: any = await search(keyword, "user");
 
+    this.dyeRed(res);
     this.userList.push(...res);
+  }
+
+  // 加红处理
+  private dyeRed(list: any) {
+    list.forEach((item: any) => {
+      // 适当声明一些冗余的变量，可以上指令变得更易读
+      const name = item.name,
+        reg = new RegExp(this.keyword, "ig"),
+        dyed = `<strong>${this.keyword}</strong>`;
+      item.name = name.replace(reg, dyed);
+    });
   }
 }
 </script>
