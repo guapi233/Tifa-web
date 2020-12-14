@@ -15,5 +15,5 @@ export const FormValidateHandle = (formobj: any) => {
         next();
       }
     });
-  }
-}
+  };
+};
