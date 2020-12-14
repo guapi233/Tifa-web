@@ -244,7 +244,7 @@ export const atViewport = (elm: any) => {
 };
 
 /**
- * 一个元素中是否含有另一个元素（不是父子）
+ * 一个元素中是否含有另一个元素（不仅限父子）
  * @param wrap 外层
  * @param elm 内部元素
  */
