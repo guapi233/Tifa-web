@@ -27,6 +27,7 @@ export const generDeterminInput = (
 /**
  * 生成一个 判断输入值是否已经存在的 validator，默认与usernumber框相匹配
  * @param form 表单对象
+ * @param api 校验账号存在的api接口
  * @param key 匹配目标的属性名
  * @param message 错误提示信息
  */
@@ -77,7 +78,6 @@ export const generUnDeterminInput = (
 
 /**
  * 生成一个 用于判断是一个手机或邮箱 validator
- * @param form 表单对象
  * @param message 错误提示信息
  */
 export const generPhoneOrEmailInput = (message: string) => {
