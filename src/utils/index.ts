@@ -15,7 +15,6 @@ export const getStorage = (key: string): string | null => {
 /**
  * 写入 localStorage
  */
-
 export const setStorage = (key: string, value: string) => {
   localStorage.setItem(key, value);
 };
