@@ -7,6 +7,7 @@ import errorHandle from "./errorHandle";
 import Vue from "vue";
 import { getStorage } from "@/utils/index";
 import config from "@/config";
+import { response } from "@/types";
 // import { isPublicApi } from "@/utils/index";
 
 const instance = axios.create({
@@ -19,7 +20,7 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use(
-  (config: any) => {
+  (config) => {
     // 携带 token
     const token = getStorage("token");
     token && (config.headers.Authorization = `bearer ${token}`);
@@ -37,7 +38,7 @@ instance.interceptors.request.use(
 
 // 响应拦截器
 instance.interceptors.response.use(
-  (res) => {
+  (res: response) => {
     if ((res.status >= 200 && res.status < 300) || res.status === 304) {
       if (res.data.isOk) {
         // 尝试解析 JSON

@@ -11,7 +11,12 @@
     <div class="user-follow-box">
       <div class="content">
         <div class="user">
-          <UserItem v-for="item in cardList" :key="item.followId" :item="item.author" @follow="followUser" />
+          <UserItem
+            v-for="item in cardList"
+            :key="item.followId"
+            :item="item.author"
+            @follow="followUser"
+          />
         </div>
       </div>
     </div>
@@ -25,7 +30,7 @@ import { followUser } from "@/api/user";
 import UserItem from "@/components/UserItem";
 
 @Component({
-  components: { UserItem }
+  components: { UserItem },
 })
 export default class UserFollow extends Vue {
   @Prop({ default: "" }) private usernumber!: string;
