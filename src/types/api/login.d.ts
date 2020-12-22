@@ -1,3 +1,4 @@
+import { register } from "@/api/login";
 import { apiReturn } from "@/types/index";
 
 export interface loginParams {
@@ -33,3 +34,6 @@ export type loginReturn = apiReturn<{
   };
   token: string;
 }>;
+
+export type registerParams = loginParams;
+export type registerReturn = loginReturn;

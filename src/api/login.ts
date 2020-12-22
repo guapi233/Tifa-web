@@ -1,5 +1,10 @@
 import axios from "@/utils/axios";
-import { loginParams, loginReturn } from "@/types/api/login";
+import {
+  loginParams,
+  loginReturn,
+  registerParams,
+  registerReturn,
+} from "@/types/api/login";
 
 /**
  * 登录
@@ -13,6 +18,6 @@ export const login = (data: loginParams): loginReturn => {
  * 注册
  * @param data 参数对象
  */
-export const register = (data: object) => {
+export const register = (data: registerParams): registerReturn => {
   return axios.post("/login/reg", data);
 };

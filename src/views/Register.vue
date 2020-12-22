@@ -123,9 +123,9 @@ export default class Register extends Vue {
       if (valid) {
         this.btnLoading = true;
         // 执行 登录
-        const res: any = await register({
+        const res = await register({
           ...this.formData,
-          sid: getStorage("sid"),
+          sid: getStorage("sid") || "",
         });
 
         this.btnLoading = false;
