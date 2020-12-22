@@ -1,5 +1,4 @@
 import { register } from "@/api/login";
-import { apiReturn } from "@/types/index";
 
 export interface loginParams {
   sid: string;
@@ -7,7 +6,7 @@ export interface loginParams {
   password: string;
   captcha: string;
 }
-export type loginReturn = apiReturn<{
+export interface loginReturn {
   userInfo: {
     name: string;
     pic: string;
@@ -33,7 +32,7 @@ export type loginReturn = apiReturn<{
     alias: string;
   };
   token: string;
-}>;
+}
 
 export type registerParams = loginParams;
 export type registerReturn = loginReturn;

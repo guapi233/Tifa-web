@@ -1,5 +1,5 @@
 <template>
-  <div class="user-outermost">
+  <div class="user-outermost" v-if="userInfo">
     <div class="user-page">
       <div class="user-content">
         <div class="user-info">
@@ -209,13 +209,14 @@ import { followUser, setBlacklisted } from "@/api/user";
 import { addRoom } from "@/api/content";
 import UserTitle from "@/components/UserTitle.vue";
 import ReportModal from "@/components/ReportModal.vue";
+import { getUserInfoReturn } from "@/types/api/public";
 
 @Component({
   components: { UserTitle, ReportModal },
 })
 export default class User extends Vue {
   // 用户信息
-  private userInfo: any = {};
+  private userInfo: getUserInfoReturn | null = null;
   // 用户账号
   private usernumber = "";
   // 举报 & 屏蔽 控件控制变量
@@ -224,14 +225,17 @@ export default class User extends Vue {
 
   // 是否是本人信息
   private get isSelf() {
-    return this.userInfo.usernumber === this.$store.state.userInfo.usernumber;
+    return (
+      this.userInfo &&
+      this.userInfo.usernumber === this.$store.state.userInfo.usernumber
+    );
   }
 
   // 获取用户信息，如果异常跳转至 404 page
   private async setUserInfo() {
     const { usernumber } = this.$route.params;
 
-    const res: any = await getUserInfo(
+    const res = await getUserInfo(
       usernumber,
       this.$store.state.userInfo.usernumber
     );
@@ -256,6 +260,8 @@ export default class User extends Vue {
 
   // 关注用户
   private async followUser() {
+    if (!this.userInfo) return;
+
     const res = await followUser(this.userInfo.usernumber);
 
     if (typeof res === "object") {
@@ -268,6 +274,7 @@ export default class User extends Vue {
   }
   // 发起私信
   private async toWhisper() {
+    if (!this.userInfo) return;
     const res = await addRoom(this.userInfo.usernumber);
 
     if (res) {
@@ -276,6 +283,7 @@ export default class User extends Vue {
   }
   // 拉黑用户
   private async setBlacklisted() {
+    if (!this.userInfo) return;
     const res: any = await setBlacklisted(this.usernumber);
 
     if (!res) return;

@@ -19,6 +19,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { addGlobalScroll, delGlobalEvent } from "@/utils/index";
 import { getTrendList } from "@/api/public";
 import UpdateItem from "./UpdateItem.vue";
+import { getTrendListReturn } from "@/types/api/public";
 
 let _scrollCb: any = null;
 
@@ -31,7 +32,7 @@ export default class UserUpdate extends Vue {
   @Prop({ default: () => ({}) }) private userInfo!: any;
   @Prop({ default: "" }) private usernumber!: string;
   @Prop({ default: "user" }) private type!: string;
-  private trendList: any = [];
+  private trendList: getTrendListReturn | any[] = [];
   private skip = 0;
 
   private get trendVisible() {
@@ -56,7 +57,7 @@ export default class UserUpdate extends Vue {
 
   private async getTrendList() {
     const type = this.type;
-    const res: any =
+    const res =
       type === "follow"
         ? await getTrendList("", this.skip++)
         : await getTrendList(this.usernumber, this.skip++);

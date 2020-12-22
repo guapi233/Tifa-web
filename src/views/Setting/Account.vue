@@ -219,7 +219,7 @@ export default class SettingAccount extends Vue {
       this.$set(this.emailBtn, 3, 60);
 
       const res = await sendMail({
-        type: "0",
+        type: 0,
         email: this.formData.email,
       });
 
