@@ -240,7 +240,6 @@ export default class Home extends Vue {
 
         i {
           color: #655e5e;
-          margin-top: 5px;
         }
 
         .search {
@@ -333,10 +332,6 @@ export default class Home extends Vue {
 
       .is-login {
         align-items: center;
-
-        i {
-          margin-top: 0;
-        }
       }
     }
 
