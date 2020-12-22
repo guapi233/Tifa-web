@@ -101,7 +101,7 @@ export default class Login extends Vue {
         // 执行 登录
         const res: any = await login({
           ...this.formData,
-          sid: getStorage("sid"),
+          sid: getStorage("sid") || "",
         });
 
         this.btnLoading = false;
@@ -111,7 +111,7 @@ export default class Login extends Vue {
             token: res.token,
           });
           // this.$router.replace("/");
-          window.location.replace("/");
+          // window.location.replace("/");
         } else {
           // 登陆失败后重置验证码
           await this.changeCaptcha();
