@@ -184,7 +184,7 @@ export default class Forget extends Vue {
       if (!validated) return;
 
       const res: any = await sendMail({
-        type: "1",
+        type: 1,
         sid: this.sid,
         usernumber: this.formData0.usernumber,
       });

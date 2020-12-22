@@ -31,7 +31,8 @@ export interface getUserInfoReturn {
 
 export interface sendMailParams {
   type: number;
-  email: string;
+  email?: string;
+  sid?: string;
   usernumber?: string;
 }
 

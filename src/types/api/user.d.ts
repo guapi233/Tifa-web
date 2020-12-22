@@ -1,5 +1,5 @@
 export interface editUserInfoParams {
-  usernumber: string;
+  gender: number;
   name: string;
   occupation: string;
   interest: string;
