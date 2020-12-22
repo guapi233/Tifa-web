@@ -1,4 +1,4 @@
-import { response } from "@/types/index";
+import { apiReturn } from "@/types/index";
 
 export interface loginParams {
   sid: string;
@@ -6,7 +6,7 @@ export interface loginParams {
   password: string;
   captcha: string;
 }
-export type loginReturn = response<{
+export type loginReturn = apiReturn<{
   userInfo: {
     name: string;
     pic: string;

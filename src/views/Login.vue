@@ -99,7 +99,7 @@ export default class Login extends Vue {
       if (valid) {
         this.btnLoading = true;
         // 执行 登录
-        const res: any = await login({
+        const res = await login({
           ...this.formData,
           sid: getStorage("sid") || "",
         });
