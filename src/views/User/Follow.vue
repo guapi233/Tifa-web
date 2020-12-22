@@ -87,7 +87,7 @@ export default class UserFollow extends Vue {
 
   // 关注
   private async followUser(target: any) {
-    let res: any = null;
+    let res = null;
 
     // 判断当前类型， 如果是我关注的，那要传我关注的对象，否则传authorId，关注我的
     if (!this.type) {
