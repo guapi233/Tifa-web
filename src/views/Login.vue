@@ -111,7 +111,7 @@ export default class Login extends Vue {
             token: res.token,
           });
           // this.$router.replace("/");
-          // window.location.replace("/");
+          window.location.replace("/");
         } else {
           // 登陆失败后重置验证码
           await this.changeCaptcha();
