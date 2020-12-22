@@ -5,4 +5,4 @@ interface resData<T = any> {
   data: T;
 }
 
-export type response<T = any> = AxiosResponse<resData<T>>;
+export type response<T = any> = Promise<AxiosResponse<resData<T>>>;
