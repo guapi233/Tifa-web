@@ -20,7 +20,7 @@
             </Badge>
             <div class="w-info">
               <div class="w-name">{{ room.opposite.name }}</div>
-              <div class="w-tip">
+              <div class="w-tip" v-if="room.lastMsg">
                 {{
                   room.lastMsg.type === 1
                     ? "[图片]"
