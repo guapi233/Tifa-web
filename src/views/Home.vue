@@ -133,14 +133,7 @@
               >
             </div>
             <div data-v-0908746e="" class="footer-txt-pc">
-              © 2013-2020 少数派 |
-              <a
-                data-v-0908746e=""
-                href="http://www.beian.miit.gov.cn/"
-                target="_blank"
-                >粤ICP备09128966号-4</a
-              >
-              | CC BY-NC 4.0
+              该项目为个人学习练手项目，绝对不会进行任何商业活动
             </div>
           </div>
         </div>
