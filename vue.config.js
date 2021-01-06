@@ -7,13 +7,13 @@ module.exports = {
     loaderOptions: {
       less: {
         lessOptions: {
-          javascriptEnabled: true,
-        },
+          javascriptEnabled: true
+        }
       },
       sass: {
-        prependData: `@import "./src/config/globalTheme.scss";`,
-      },
-    },
+        prependData: `@import "./src/config/globalTheme.scss";`
+      }
+    }
   },
   // 构建 CKEdit5
   // The source of CKEditor is encapsulated in ES6 modules. By default, the code
@@ -29,15 +29,15 @@ module.exports = {
         language: "zh-cn",
 
         // Append translations to the file matching the `app` name.
-        translationsOutputFile: /app/,
-      }),
-    ],
+        translationsOutputFile: /app/
+      })
+    ]
   },
 
   // Vue CLI would normally use its own loader to load .svg and .css files, however:
   //	1. The icons used by CKEditor must be loaded using raw-loader,
   //	2. The CSS used by CKEditor must be transpiled using PostCSS to load properly.
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     // (1.) To handle editor icons, get the default rule for *.svg files first:
     const svgRule = config.module.rule("svg");
 
@@ -73,10 +73,10 @@ module.exports = {
       .tap(() => {
         return styles.getPostCssConfig({
           themeImporter: {
-            themePath: require.resolve("@ckeditor/ckeditor5-theme-lark"),
+            themePath: require.resolve("@ckeditor/ckeditor5-theme-lark")
           },
-          minify: true,
+          minify: true
         });
       });
-  },
+  }
 };
