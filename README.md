@@ -1,5 +1,5 @@
 # Tifa-web
-🛠【v1.0】Tifa是一款兴趣社交平台应用，这里是web端，[后台源码请戳这里]([guapi233/Tifa-api: 🛠[开发中]Tifa是一款兴趣社交平台应用，这里是后台 (github.com)](https://github.com/guapi233/Tifa-api))
+🛠【v1.0】Tifa是一款兴趣社交平台应用，这里是web端，[后台源码请戳这里](https://github.com/guapi233/Tifa-api)
 
 项目以**个人学习用途**进行编写，UI设计仿照了部分线上应用
 
@@ -62,5 +62,5 @@ npm run serve
 
 ## LICENSE
 
-[WTFPL]([Tifa-web/LICENSE at main · guapi233/Tifa-web (github.com)](https://github.com/guapi233/Tifa-web/blob/main/LICENSE))
+[WTFPL](https://github.com/guapi233/Tifa-web/blob/main/LICENSE)
 
