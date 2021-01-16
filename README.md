@@ -7,9 +7,9 @@
 
 ## 效果演示
 
-[查看demo请戳这里（请使用新版Chrome或Edge进行浏览）](42.193.108.7:88)
+~~[查看demo请戳这里（请使用新版Chrome或Edge进行浏览）](42.193.108.7:88)~~
 
-
+查看demo请访问`42.193.108.7:88`（备案出了点问题，域名暂时用不了）
 
 [![sDIfxJ.gif](https://s3.ax1x.com/2021/01/16/sDIfxJ.gif)](https://imgchr.com/i/sDIfxJ)
 
