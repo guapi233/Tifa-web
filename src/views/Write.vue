@@ -22,7 +22,7 @@
             class="release-box"
             @click.stop="1"
           >
-            <Button class="release" @click="openPublish">
+            <Button class="release" @click.stop="openPublish">
               {{ $store.state.isEdit ? "更新" : "发布" }}
               <Icon type="ios-arrow-down" size="18" />
             </Button>
@@ -114,7 +114,10 @@ export default class Write extends Vue {
 
   // 是否可以提交
   private get canPublish() {
-    return !this.$store.state.articleObj["tags"].length;
+    return (
+      this.$store.state.articleObj["tags"] &&
+      this.$store.state.articleObj["tags"].length
+    );
   }
 
   // 文章标签列表
