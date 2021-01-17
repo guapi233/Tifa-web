@@ -94,6 +94,9 @@ export default class ClassName extends Vue {
         font-size: 17px;
         line-height: 1.4;
         text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .card-bottom {
