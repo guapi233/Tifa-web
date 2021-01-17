@@ -79,57 +79,19 @@
           <div class="websit-info">
             <div data-v-0908746e="" class="link">
               <span data-v-0908746e=""
-                ><a
-                  data-v-0908746e=""
-                  target="_blank"
-                  href="https://sspai.com/page/client"
-                >
-                  下载App
-                </a></span
+                ><a data-v-0908746e="" target="_blank"> 下载App </a></span
               ><span data-v-0908746e=""
-                ><a data-v-0908746e="" href="mailto:contact@sspai.com">
-                  联系我们
-                </a></span
+                ><a data-v-0908746e=""> 联系我们 </a></span
               ><span data-v-0908746e=""
-                ><a
-                  data-v-0908746e=""
-                  target="_blank"
-                  href="https://sspai.com/page/bussiness"
-                >
-                  商务合作
-                </a></span
+                ><a data-v-0908746e="" target="_blank"> 商务合作 </a></span
               ><span data-v-0908746e=""
-                ><a
-                  data-v-0908746e=""
-                  target="_blank"
-                  href="https://sspai.com/apply/writing"
-                >
-                  成为作者
-                </a></span
+                ><a data-v-0908746e="" target="_blank"> 成为作者 </a></span
               ><span data-v-0908746e=""
-                ><a
-                  data-v-0908746e=""
-                  target="_blank"
-                  href="https://sspai.com/page/support"
-                >
-                  关于我们
-                </a></span
+                ><a data-v-0908746e="" target="_blank"> 关于我们 </a></span
               ><span data-v-0908746e=""
-                ><a
-                  data-v-0908746e=""
-                  target="_blank"
-                  href="https://sspai.com/post/37739"
-                >
-                  用户协议
-                </a></span
+                ><a data-v-0908746e="" target="_blank"> 用户协议 </a></span
               ><span data-v-0908746e=""
-                ><a
-                  data-v-0908746e=""
-                  target="_blank"
-                  href="https://sspai.com/post/37793"
-                >
-                  常见问题
-                </a></span
+                ><a data-v-0908746e="" target="_blank"> 常见问题 </a></span
               >
             </div>
             <div data-v-0908746e="" class="footer-txt-pc">

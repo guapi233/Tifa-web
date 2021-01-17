@@ -351,6 +351,8 @@ import Comment from "@/components/Comment.vue";
 import config from "@/config/index";
 import user from "@/router/rules/user";
 
+const titleMap = new Map();
+
 @Component({
   components: { ArticleItem3, Comment, ReportModal },
 })
@@ -574,54 +576,53 @@ export default class ArticleDetail extends Vue {
   }
   // 解析文章内容中的标签栏
   private analysisArticleContent() {
-    window.onload = () => {
-      const articleBodyTop = this.articleBody.offsetTop;
-      // 1. 获取所有内容标签
-      const allNodes = this.articleContent.children[0].children;
+    // 1. 获取所有内容标签
+    const allNodes = this.articleContent.children[0].children;
 
-      // 2. 筛选h2、h3标签
-      const titleList = Array.from(allNodes).filter((node: any) => {
-        return node.nodeName === "H2" || node.nodeName === "H3";
-      });
+    // 2. 筛选h2、h3标签
+    const titleList = Array.from(allNodes).filter((node: any) => {
+      return node.nodeName === "H2" || node.nodeName === "H3";
+    });
 
-      // 3. 组件目录结构
-      const h2List: any = [];
-      let current = 0;
-      titleList.forEach((node: any) => {
-        if (node.nodeName === "H2" && !h2List[current]) {
-          h2List[current] = {
-            id: articleBodyTop + node.offsetTop - 84,
-            val: node.textContent,
-            children: [],
-          };
-        } else if (node.nodeName === "H2") {
-          h2List[++current] = {
-            id: articleBodyTop + node.offsetTop - 84,
-            val: node.textContent,
-            children: [],
-          };
-        } else if (node.nodeName === "H3" && !h2List[current]) {
-          h2List[current] = {
-            id: articleBodyTop + node.offsetTop - 84,
-            val: "",
-            children: [
-              {
-                id: articleBodyTop + node.offsetTop - 84,
-                val: node.textContent,
-              },
-            ],
-          };
-        } else if (node.nodeName === "H3") {
-          h2List[current].children.push({
-            id: articleBodyTop + node.offsetTop - 84,
-            val: node.textContent,
-          });
-        }
-      });
+    // 3. 组件目录结构
+    const h2List: any = [];
+    let current = 0;
+    titleList.forEach((node: any) => {
+      if (node.nodeName === "H2" && !h2List[current]) {
+        h2List[current] = {
+          id: node.offsetTop,
+          val: node.textContent,
+          children: [],
+        };
+      } else if (node.nodeName === "H2") {
+        h2List[++current] = {
+          id: node.offsetTop,
+          val: node.textContent,
+          children: [],
+        };
+      } else if (node.nodeName === "H3" && !h2List[current]) {
+        h2List[current] = {
+          id: node.offsetTop,
+          val: "",
+          children: [
+            {
+              id: node.offsetTop,
+              val: node.textContent,
+            },
+          ],
+        };
+      } else if (node.nodeName === "H3") {
+        h2List[current].children.push({
+          id: node.offsetTop,
+          val: node.textContent,
+        });
+      }
 
-      // 4. 渲染至页面
-      this.navList = h2List;
-    };
+      titleMap.set(node.offsetTop, node);
+    });
+
+    // 4. 渲染至页面
+    this.navList = h2List;
   }
   // 移动页面至对应标题处
   private toTitleHere(e: any) {
@@ -634,7 +635,14 @@ export default class ArticleDetail extends Vue {
     if (!current) return;
 
     // 3. 移动页面至 元素身上附带的自定义高度值那里
-    this.slider(Number(current.dataset.top));
+    // 3.1 动态获取当前元素的位置
+    const articleBodyTop = this.articleBody.offsetTop;
+    try {
+      const top = titleMap.get(Number(current.dataset.top)).offsetTop;
+      top && this.slider(articleBodyTop + top - 84);
+    } catch (err) {
+      console.log(err);
+    }
   }
   // 移动至评论区
   private toComment() {
