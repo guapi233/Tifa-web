@@ -128,6 +128,7 @@ export default class ArticleItem2 extends Vue {
         margin-bottom: 20px;
         line-height: 1.4;
         text-align: left;
+        word-break: break-all;
       }
 
       .card-bottom {
